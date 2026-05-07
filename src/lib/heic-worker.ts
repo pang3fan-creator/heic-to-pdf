@@ -4,6 +4,8 @@ import libheif from "libheif-js/wasm-bundle";
 
 let decoder: InstanceType<typeof libheif.HeifDecoder> | null = null;
 let cancelled = false;
+const DISPLAY_TIMEOUT_MS = 30_000;
+const PROGRESS = { parsed: 10, decoded: 40, rendered: 60, exported: 90 } as const;
 
 self.onmessage = async (e: MessageEvent) => {
   const msg = e.data;
@@ -27,13 +29,14 @@ self.onmessage = async (e: MessageEvent) => {
   }
 
   if (msg.type === "decode" && decoder) {
+    cancelled = false;
     if (cancelled) return;
 
     try {
       self.postMessage({
         type: "progress",
         fileIndex: msg.fileIndex,
-        percent: 10,
+        percent: PROGRESS.parsed,
       });
 
       const buffer = msg.buffer as ArrayBuffer;
@@ -53,7 +56,7 @@ self.onmessage = async (e: MessageEvent) => {
       self.postMessage({
         type: "progress",
         fileIndex: msg.fileIndex,
-        percent: 40,
+        percent: PROGRESS.decoded,
       });
 
       const image = images[0];
@@ -65,13 +68,18 @@ self.onmessage = async (e: MessageEvent) => {
       self.postMessage({
         type: "progress",
         fileIndex: msg.fileIndex,
-        percent: 60,
+        percent: PROGRESS.rendered,
       });
 
       const rgbaData = new Uint8Array(width * height * 4);
 
       await new Promise<void>((resolve, reject) => {
+        const timer = setTimeout(
+          () => reject(new Error("display() timed out")),
+          DISPLAY_TIMEOUT_MS,
+        );
         image.display(rgbaData, () => {
+          clearTimeout(timer);
           resolve();
         });
       });
@@ -81,7 +89,7 @@ self.onmessage = async (e: MessageEvent) => {
       self.postMessage({
         type: "progress",
         fileIndex: msg.fileIndex,
-        percent: 90,
+        percent: PROGRESS.exported,
       });
 
       self.postMessage(
