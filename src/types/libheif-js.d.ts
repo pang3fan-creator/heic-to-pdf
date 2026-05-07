@@ -6,7 +6,7 @@ declare module "libheif-js/wasm-bundle" {
   interface HeifImage {
     get_width(): number;
     get_height(): number;
-    display(rgbaData: Uint8Array, callback: () => void): void;
+    display(data: { data: Uint8Array }, callback: (result?: { data: Uint8Array }) => void): void;
   }
 
   declare const _default: {

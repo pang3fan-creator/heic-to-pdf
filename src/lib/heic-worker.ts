@@ -78,7 +78,7 @@ self.onmessage = async (e: MessageEvent) => {
           () => reject(new Error("display() timed out")),
           DISPLAY_TIMEOUT_MS,
         );
-        image.display(rgbaData, () => {
+        image.display({ data: rgbaData }, () => {
           clearTimeout(timer);
           resolve();
         });
