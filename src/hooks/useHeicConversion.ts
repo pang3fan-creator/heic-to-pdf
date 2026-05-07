@@ -37,10 +37,14 @@ export function useHeicConversion() {
   const workerRef = useRef<Worker | null>(null);
   const thumbnailUrlsRef = useRef<string[]>([]);
   const filesRef = useRef<ConversionFile[]>([]);
+  const settingsRef = useRef<ConversionSettings>(DEFAULT_SETTINGS);
+  const cancelledRef = useRef(false);
+  const mountedRef = useRef(true);
 
-  // Cleanup worker and object URLs on unmount
   useEffect(() => {
+    mountedRef.current = true;
     return () => {
+      mountedRef.current = false;
       workerRef.current?.terminate();
       thumbnailUrlsRef.current.forEach(URL.revokeObjectURL);
     };
@@ -48,16 +52,12 @@ export function useHeicConversion() {
 
   const selectFiles = useCallback((fileList: FileList | File[]) => {
     const incoming = Array.from(fileList);
-
-    // Filter valid HEIC files
     const valid = incoming.filter(
       (f) => isHeicFile(f) && f.size <= MAX_FILE_SIZE,
     );
     const truncated = valid.slice(0, MAX_FILES);
-
     const files = truncated.map(createConversionFile);
     filesRef.current = files;
-
     setState({
       status: "selected",
       files,
@@ -66,168 +66,29 @@ export function useHeicConversion() {
   }, []);
 
   const updateSettings = useCallback((settings: ConversionSettings) => {
+    settingsRef.current = settings;
     setState((prev) => {
       if (prev.status !== "selected") return prev;
       return { ...prev, settings };
     });
   }, []);
 
-  const processNextImage = useCallback(
-    async (
-      worker: Worker,
-      files: ConversionFile[],
-      settings: ConversionSettings,
-      startIndex: number,
-      pdfImages: { pngBytes: Uint8Array; width: number; height: number }[],
-    ): Promise<{
-      pdfImages: { pngBytes: Uint8Array; width: number; height: number }[];
-      completedFiles: ConversionFile[];
-    }> => {
-      if (startIndex >= files.length) {
-        return { pdfImages, completedFiles: files };
-      }
-
-      const file = files[startIndex];
-
-      // Update current file status to converting
-      setState({
-        status: "converting",
-        files,
-        settings,
-        progress: Math.round((startIndex / files.length) * 100),
-        currentFileIndex: startIndex,
-      });
-      file.status = "converting";
-
-      const result = await new Promise<{
-        width: number;
-        height: number;
-        rgbaBuffer: Uint8Array;
-      } | null>((resolve) => {
-        const handleMessage = (e: MessageEvent) => {
-          const msg = e.data;
-
-          if (
-            msg.type === "file-done" &&
-            msg.fileIndex === startIndex
-          ) {
-            worker.removeEventListener("message", handleMessage);
-            resolve({
-              width: msg.width,
-              height: msg.height,
-              rgbaBuffer: msg.rgbaBuffer,
-            });
-          } else if (
-            msg.type === "file-error" &&
-            msg.fileIndex === startIndex
-          ) {
-            worker.removeEventListener("message", handleMessage);
-            file.status = "skipped";
-            file.error = msg.error;
-            resolve(null);
-          }
-        };
-        worker.addEventListener("message", handleMessage);
-
-        // Read file as ArrayBuffer
-        file.file
-          .arrayBuffer()
-          .then((buffer) => {
-            const msg: MainToWorker = {
-              type: "decode",
-              fileIndex: startIndex,
-              buffer,
-            };
-            worker.postMessage(msg, [buffer]);
-          })
-          .catch((err) => {
-            worker.removeEventListener("message", handleMessage);
-            file.status = "skipped";
-            file.error = err.message;
-            resolve(null);
-          });
-      });
-
-      if (result) {
-        // Encode RGBA to PNG via Canvas (main thread)
-        const canvas = document.createElement("canvas");
-        canvas.width = result.width;
-        canvas.height = result.height;
-        const ctx = canvas.getContext("2d")!;
-        const imageData = new ImageData(
-          new Uint8ClampedArray(result.rgbaBuffer),
-          result.width,
-          result.height,
-        );
-        ctx.putImageData(imageData, 0, 0);
-
-        // Generate full-size PNG for PDF
-        const pngBlob = await new Promise<Blob | null>((resolve) =>
-          canvas.toBlob((b) => resolve(b), "image/png"),
-        );
-
-        if (pngBlob) {
-          const pngBytes = new Uint8Array(await pngBlob.arrayBuffer());
-          pdfImages.push({
-            pngBytes,
-            width: result.width,
-            height: result.height,
-          });
-        }
-
-        // Generate thumbnail for preview
-        const thumbScale = Math.min(
-          1,
-          THUMB_MAX_WIDTH / Math.max(result.width, result.height),
-        );
-        const tw = Math.round(result.width * thumbScale);
-        const th = Math.round(result.height * thumbScale);
-
-        if (tw > 0 && th > 0) {
-          const thumbCanvas = document.createElement("canvas");
-          thumbCanvas.width = tw;
-          thumbCanvas.height = th;
-          const thumbCtx = thumbCanvas.getContext("2d")!;
-          thumbCtx.drawImage(canvas, 0, 0, tw, th);
-
-          const thumbBlob = await new Promise<Blob | null>((resolve) =>
-            thumbCanvas.toBlob((b) => resolve(b), "image/jpeg", 0.6),
-          );
-
-          if (thumbBlob) {
-            const url = URL.createObjectURL(thumbBlob);
-            thumbnailUrlsRef.current.push(url);
-            file.thumbnailUrl = url;
-          }
-        }
-
-        file.status = "done";
-      }
-
-      // Process next image recursively
-      return processNextImage(worker, files, settings, startIndex + 1, pdfImages);
-    },
-    [],
-  );
-
   const startConversion = useCallback(async () => {
-    setState((prev) => {
-      if (prev.status !== "selected") return prev;
-      return {
-        status: "converting" as const,
-        files: prev.files,
-        settings: prev.settings,
-        progress: 0,
-        currentFileIndex: 0,
-      };
+    const files = filesRef.current.map((f) => ({ ...f }));
+    const settings = settingsRef.current;
+
+    if (files.length === 0) return;
+
+    cancelledRef.current = false;
+
+    setState({
+      status: "converting",
+      files,
+      settings,
+      progress: 0,
+      currentFileIndex: 0,
     });
 
-    // Get current state snapshot
-    const currentState = state as Extract<ConversionState, { status: "selected" }>;
-    const files = [...filesRef.current];
-    const settings = currentState.settings;
-
-    // Start Worker
     const worker = new Worker(
       new URL("@/lib/heic-worker", import.meta.url),
     );
@@ -243,19 +104,159 @@ export function useHeicConversion() {
         worker.postMessage({ type: "init" });
       });
 
-      // Process images serially
-      const result = await processNextImage(worker, files, settings, 0, []);
+      const pdfImages: {
+        pngBytes: Uint8Array;
+        width: number;
+        height: number;
+      }[] = [];
 
-      // Build PDF from collected png bytes
-      const pdfBlob = await buildPdf(result.pdfImages, settings);
+      for (let i = 0; i < files.length; i++) {
+        if (cancelledRef.current) break;
 
-      // Cleanup Worker
+        setState({
+          status: "converting",
+          files,
+          settings,
+          progress: Math.round((i / files.length) * 100),
+          currentFileIndex: i,
+        });
+
+        // Decode via Worker
+        const result = await new Promise<{
+          width: number;
+          height: number;
+          rgbaBuffer: Uint8Array;
+        } | null>((resolve) => {
+          const handleMessage = (e: MessageEvent) => {
+            const msg = e.data;
+            if (msg.type === "file-done" && msg.fileIndex === i) {
+              worker.removeEventListener("message", handleMessage);
+              resolve({
+                width: msg.width,
+                height: msg.height,
+                rgbaBuffer: msg.rgbaBuffer,
+              });
+            } else if (msg.type === "file-error" && msg.fileIndex === i) {
+              worker.removeEventListener("message", handleMessage);
+              files[i] = { ...files[i], status: "skipped", error: msg.error };
+              resolve(null);
+            }
+          };
+          worker.addEventListener("message", handleMessage);
+
+          files[i].file
+            .arrayBuffer()
+            .then((buffer) => {
+              const msg: MainToWorker = {
+                type: "decode",
+                fileIndex: i,
+                buffer,
+              };
+              worker.postMessage(msg, [buffer]);
+            })
+            .catch((err) => {
+              worker.removeEventListener("message", handleMessage);
+              files[i] = {
+                ...files[i],
+                status: "skipped",
+                error: err.message,
+              };
+              resolve(null);
+            });
+        });
+
+        if (cancelledRef.current) break;
+
+        if (!result) continue;
+
+        // Encode RGBA to PNG via Canvas
+        const canvas = document.createElement("canvas");
+        canvas.width = result.width;
+        canvas.height = result.height;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          files[i] = {
+            ...files[i],
+            status: "skipped",
+            error: "Canvas context not available",
+          };
+          continue;
+        }
+        const imageData = new ImageData(
+          new Uint8ClampedArray(result.rgbaBuffer),
+          result.width,
+          result.height,
+        );
+        ctx.putImageData(imageData, 0, 0);
+
+        const pngBlob = await new Promise<Blob | null>((resolve) =>
+          canvas.toBlob((b) => resolve(b), "image/png"),
+        );
+
+        if (!pngBlob) {
+          files[i] = {
+            ...files[i],
+            status: "skipped",
+            error: "Failed to encode PNG",
+          };
+          continue;
+        }
+
+        const pngBytes = new Uint8Array(await pngBlob.arrayBuffer());
+        pdfImages.push({
+          pngBytes,
+          width: result.width,
+          height: result.height,
+        });
+
+        // Generate thumbnail for preview
+        const thumbScale = Math.min(
+          1,
+          THUMB_MAX_WIDTH / Math.max(result.width, result.height),
+        );
+        const tw = Math.round(result.width * thumbScale);
+        const th = Math.round(result.height * thumbScale);
+
+        if (tw > 0 && th > 0) {
+          const thumbCanvas = document.createElement("canvas");
+          thumbCanvas.width = tw;
+          thumbCanvas.height = th;
+          const thumbCtx = thumbCanvas.getContext("2d");
+          if (thumbCtx) {
+            thumbCtx.drawImage(canvas, 0, 0, tw, th);
+            const thumbBlob = await new Promise<Blob | null>((resolve) =>
+              thumbCanvas.toBlob((b) => resolve(b), "image/jpeg", 0.6),
+            );
+            if (thumbBlob) {
+              const url = URL.createObjectURL(thumbBlob);
+              thumbnailUrlsRef.current.push(url);
+              files[i] = { ...files[i], thumbnailUrl: url };
+            }
+          }
+        }
+
+        files[i] = { ...files[i], status: "done" };
+      }
+
+      // Handle cancellation mid-conversion
+      if (cancelledRef.current) {
+        worker.terminate();
+        workerRef.current = null;
+        cancelledRef.current = false;
+        return;
+      }
+
+      // Build PDF
+      const pdfBlob = await buildPdf(pdfImages, settings);
       worker.terminate();
       workerRef.current = null;
+      filesRef.current = files;
+
+      if (!mountedRef.current) return;
 
       setState({
         status: "preview",
-        files: result.completedFiles,
+        files,
         pdfBlob,
         pdfSizeBytes: pdfBlob.size,
       });
@@ -268,17 +269,19 @@ export function useHeicConversion() {
         status: f.status === "pending" ? ("skipped" as const) : f.status,
       }));
 
-      setState({
-        status: "error",
-        files: errorFiles,
-        error: err instanceof Error ? err.message : "Conversion failed",
-      });
+      if (mountedRef.current) {
+        setState({
+          status: "error",
+          files: errorFiles,
+          error: err instanceof Error ? err.message : "Conversion failed",
+        });
+      }
     }
-  }, [state, processNextImage]);
+  }, []);
 
   const download = useCallback(() => {
-    const currentState = state as Extract<ConversionState, { status: "preview" }>;
-    const url = URL.createObjectURL(currentState.pdfBlob);
+    if (state.status !== "preview") return;
+    const url = URL.createObjectURL(state.pdfBlob);
     const a = document.createElement("a");
     a.href = url;
     a.download = PDF_FILENAME;
@@ -289,6 +292,7 @@ export function useHeicConversion() {
   }, [state]);
 
   const reset = useCallback(() => {
+    cancelledRef.current = false;
     workerRef.current?.terminate();
     workerRef.current = null;
     thumbnailUrlsRef.current.forEach(URL.revokeObjectURL);
@@ -298,11 +302,10 @@ export function useHeicConversion() {
   }, []);
 
   const cancel = useCallback(() => {
-    if (workerRef.current) {
-      workerRef.current.postMessage({ type: "cancel" });
-      workerRef.current.terminate();
-      workerRef.current = null;
-    }
+    cancelledRef.current = true;
+    workerRef.current?.postMessage({ type: "cancel" });
+    workerRef.current?.terminate();
+    workerRef.current = null;
     reset();
   }, [reset]);
 
