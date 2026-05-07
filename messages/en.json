@@ -1,0 +1,136 @@
+{
+  "nav": {
+    "brand": "HEIC→PDF",
+    "links": {
+      "converter": "Converter",
+      "howto": "How-to",
+      "about": "About HEIC",
+      "faq": "FAQ"
+    },
+    "themeToggle": "Switch to light mode"
+  },
+  "hero": {
+    "title": "Convert HEIC Photos to PDF",
+    "description": "Drag your HEIC photos from iPhone here. All processing happens in your browser — your files never leave your device.",
+    "dropzone": {
+      "title": "Drag & drop HEIC photos here",
+      "subtitle": "or click the button below to browse",
+      "hint": "Batch upload supported · Up to 20 images · 50MB max per file",
+      "browseBtn": "Select HEIC files",
+      "privacy": "Your files stay in your browser — we never upload them",
+      "filesSelected": "{count} file{count, plural, one {} other {s}} selected",
+      "moreFiles": "+{count} more",
+      "ext": "HEIC"
+    },
+    "converting": "Converting…"
+  },
+  "howto": {
+    "title": "Three steps to convert",
+    "description": "No registration, no installation — just your browser",
+    "steps": [
+      {
+        "num": 1,
+        "title": "Select photos",
+        "desc": "Choose HEIC photos from your iPhone or computer. Supports multi-select and batch drag & drop."
+      },
+      {
+        "num": 2,
+        "title": "Arrange & customize",
+        "desc": "Reorder photos by dragging, choose paper size and margins — everything under your control."
+      },
+      {
+        "num": 3,
+        "title": "Export PDF",
+        "desc": "Click convert, your browser generates the PDF instantly and downloads it automatically."
+      },
+      {
+        "num": 4,
+        "title": "Done ✅",
+        "desc": "PDF saved! Your original HEIC photos remain untouched — no quality loss, no modifications."
+      }
+    ]
+  },
+  "about": {
+    "title": "Why convert HEIC to PDF?",
+    "description": "HEIC (High Efficiency Image Container) is Apple's modern image format introduced with iOS 11. While it offers better compression than JPEG at the same quality, compatibility can be an issue across different platforms and workflows.",
+    "reasons": [
+      "Windows and Android cannot natively preview HEIC files",
+      "PDF is universal — opens and prints on any device, anywhere",
+      "PDF is better for archiving, email attachments, and document management",
+      "Combine multiple HEIC photos into a single PDF for easy sharing"
+    ],
+    "table": {
+      "headers": ["Feature", "HEIC", "JPEG", "PDF"],
+      "rows": [
+        ["Compression", "Best", "Good", "Configurable"],
+        ["Compatibility", "Limited", "Wide", "Universal"],
+        ["Multi-page", "✓", "✗", "✓"],
+        ["Edit-friendly", "✓", "✓", "Limited"],
+        ["Print-friendly", "Limited", "Limited", "Best"],
+        ["File size", "Small", "Medium", "Medium"]
+      ]
+    }
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "description": "Everything you need to know about HEIC to PDF conversion",
+    "items": [
+      {
+        "q": "What is HEIC format?",
+        "a": "HEIC (High Efficiency Image Container) is Apple's efficient image format based on the HEIF (High Efficiency Image File Format) standard. Compared to JPEG, it reduces file size by roughly 50% at the same quality. Since iOS 11, iPhones save photos in HEIC by default."
+      },
+      {
+        "q": "Will image quality degrade after conversion?",
+        "a": "No. The converter embeds your original HEIC images directly into the PDF without recompressing or reducing quality. The resulting PDF contains the same resolution image data as your original HEIC files."
+      },
+      {
+        "q": "Where are my files stored? Is it safe?",
+        "a": "Everything is processed entirely in your browser. Your files are never uploaded to any server — HEIC decoding happens locally using WebAssembly technology. Your photos stay on your own device, ensuring complete privacy."
+      },
+      {
+        "q": "Does it support batch conversion?",
+        "a": "Yes. You can select or drag up to 20 HEIC photos at once. All images will be combined into a single multi-page PDF. You can also reorder photos by dragging before conversion."
+      },
+      {
+        "q": "Do I need to install any software?",
+        "a": "Not at all. This is a pure web tool — open your browser and go. It works on all modern browsers (Chrome, Safari, Edge, Firefox). No registration, no installation required."
+      },
+      {
+        "q": "Why can't I view HEIC photos on Windows?",
+        "a": "HEIC is an Apple-promoted format. Windows does not natively support HEIC thumbnails or previews. While a HEIF extension is available from the Microsoft Store, the most universal solution is converting HEIC to PDF — readable on any device, anywhere."
+      }
+    ]
+  },
+  "footer": {
+    "brand": "HEIC→PDF",
+    "description": "A free online tool that converts HEIC photos to PDF directly in your browser. No uploads, no privacy concerns.",
+    "columns": [
+      {
+        "title": "Tools",
+        "links": [
+          { "label": "HEIC to PDF", "href": "#converter" },
+          { "label": "How-to guide", "href": "#howto" },
+          { "label": "Format info", "href": "#about" }
+        ]
+      },
+      {
+        "title": "Support",
+        "links": [
+          { "label": "FAQ", "href": "#faq" },
+          { "label": "Contact us", "href": "#" },
+          { "label": "Privacy policy", "href": "#" }
+        ]
+      },
+      {
+        "title": "Resources",
+        "links": [
+          { "label": "HEIC format", "href": "#" },
+          { "label": "PDF standard", "href": "#" },
+          { "label": "API docs", "href": "#" }
+        ]
+      }
+    ],
+    "copyright": "© 2026 HEIC→PDF. All rights reserved.",
+    "tagline": "Made with care — processed locally, your privacy respected"
+  }
+}
