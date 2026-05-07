@@ -24,6 +24,16 @@
     },
     "converting": "Converting…"
   },
+  "converter": {
+    "preview": {
+      "title": "PDF Preview",
+      "pageOf": "Page {current} of {total}",
+      "summary": "{files} files converted · {pages} pages · {size}",
+      "skipped": "{count} file skipped (unsupported format)",
+      "download": "Download PDF",
+      "convertMore": "Convert more"
+    }
+  },
   "howto": {
     "title": "Three steps to convert",
     "description": "No registration, no installation — just your browser",
