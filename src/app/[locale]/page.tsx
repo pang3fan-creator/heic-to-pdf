@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import ConversionContainer from "@/components/ConversionContainer";
 import HeroSection from "@/components/HeroSection";
 import HowToSection from "@/components/HowToSection";
 import AboutSection from "@/components/AboutSection";
@@ -10,7 +11,9 @@ export default function HomePage() {
     <>
       <Navbar />
       <main>
-        <HeroSection />
+        <HeroSection>
+          <ConversionContainer />
+        </HeroSection>
         <HowToSection />
         <AboutSection />
         <FaqSection />

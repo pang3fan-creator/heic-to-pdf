@@ -1,9 +1,13 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import DropZone from "./DropZone";
+import type { ReactNode } from "react";
 
-export default function HeroSection() {
+interface Props {
+  children?: ReactNode;
+}
+
+export default function HeroSection({ children }: Props) {
   const t = useTranslations("hero");
 
   return (
@@ -11,7 +15,7 @@ export default function HeroSection() {
       <div className="container">
         <h1>{t("title")}</h1>
         <p>{t("description")}</p>
-        <DropZone />
+        {children}
       </div>
     </section>
   );
