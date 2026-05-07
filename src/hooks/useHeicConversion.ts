@@ -127,9 +127,20 @@ export function useHeicConversion() {
           height: number;
           rgbaBuffer: Uint8Array;
         } | null>((resolve) => {
+          const decodeTimer = setTimeout(() => {
+            worker.removeEventListener("message", handleMessage);
+            files[i] = {
+              ...files[i],
+              status: "skipped",
+              error: "Decode timed out",
+            };
+            resolve(null);
+          }, 60_000);
+
           const handleMessage = (e: MessageEvent) => {
             const msg = e.data;
             if (msg.type === "file-done" && msg.fileIndex === i) {
+              clearTimeout(decodeTimer);
               worker.removeEventListener("message", handleMessage);
               resolve({
                 width: msg.width,
@@ -137,6 +148,7 @@ export function useHeicConversion() {
                 rgbaBuffer: msg.rgbaBuffer,
               });
             } else if (msg.type === "file-error" && msg.fileIndex === i) {
+              clearTimeout(decodeTimer);
               worker.removeEventListener("message", handleMessage);
               files[i] = { ...files[i], status: "skipped", error: msg.error };
               resolve(null);
@@ -155,6 +167,7 @@ export function useHeicConversion() {
               worker.postMessage(msg, [buffer]);
             })
             .catch((err) => {
+              clearTimeout(decodeTimer);
               worker.removeEventListener("message", handleMessage);
               files[i] = {
                 ...files[i],
@@ -306,8 +319,11 @@ export function useHeicConversion() {
     workerRef.current?.postMessage({ type: "cancel" });
     workerRef.current?.terminate();
     workerRef.current = null;
-    reset();
-  }, [reset]);
+    thumbnailUrlsRef.current.forEach(URL.revokeObjectURL);
+    thumbnailUrlsRef.current = [];
+    filesRef.current = [];
+    setState({ status: "idle" });
+  }, []);
 
   return {
     state,
