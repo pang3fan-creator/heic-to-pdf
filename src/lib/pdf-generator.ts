@@ -14,18 +14,30 @@ export interface PageImage {
   height: number; // original pixel height
 }
 
+export interface LayoutResult {
+  pageWidth: number;
+  pageHeight: number;
+  x: number;
+  y: number;
+  drawWidth: number;
+  drawHeight: number;
+}
+
 /** Calculate page dimensions and image placement based on settings. */
-function calculateLayout(
+export function calculateLayout(
   imgWidth: number,
   imgHeight: number,
   settings: ConversionSettings,
-): { pageWidth: number; pageHeight: number; x: number; y: number; drawWidth: number; drawHeight: number } {
+): LayoutResult {
+  if (imgWidth <= 0 || imgHeight <= 0) {
+    throw new Error(`Invalid image dimensions: ${imgWidth}x${imgHeight}`);
+  }
   if (settings.paperSize === "original") {
     // Map pixels to points at 72 DPI, cap long side at ORIGINAL_MAX_PT
     const maxDim = Math.max(imgWidth, imgHeight);
     const scale = maxDim > ORIGINAL_MAX_PT ? ORIGINAL_MAX_PT / maxDim : 1;
-    const w = Math.round(imgWidth * scale);
-    const h = Math.round(imgHeight * scale);
+    const w = Math.min(ORIGINAL_MAX_PT, Math.round(imgWidth * scale));
+    const h = Math.min(ORIGINAL_MAX_PT, Math.round(imgHeight * scale));
     return { pageWidth: w, pageHeight: h, x: 0, y: 0, drawWidth: w, drawHeight: h };
   }
 
@@ -76,8 +88,8 @@ export async function buildPdf(
     let pngImage;
     try {
       pngImage = await pdfDoc.embedPng(img.pngBytes);
-    } catch {
-      // Skip images that fail to embed
+    } catch (err) {
+      console.warn("Failed to embed image in PDF:", err);
       continue;
     }
 
@@ -92,5 +104,5 @@ export async function buildPdf(
   }
 
   const pdfBytes = await pdfDoc.save();
-  return new Blob([pdfBytes.slice()], { type: "application/pdf" });
+  return new Blob([pdfBytes as BlobPart], { type: "application/pdf" });
 }
