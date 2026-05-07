@@ -25,6 +25,31 @@
     "converting": "Converting…"
   },
   "converter": {
+    "settings": {
+      "paperSize": {
+        "label": "Paper Size",
+        "original": "Original",
+        "a4": "A4"
+      },
+      "margins": {
+        "label": "Margins",
+        "none": "None",
+        "narrow": "Narrow",
+        "normal": "Normal"
+      },
+      "orientation": {
+        "label": "Orientation",
+        "portrait": "Portrait",
+        "landscape": "Landscape"
+      }
+    },
+    "button": {
+      "convert": "Convert {count} files →",
+      "cancel": "Cancel"
+    },
+    "progress": {
+      "fileOfTotal": "Photo {current} of {total}"
+    },
     "preview": {
       "title": "PDF Preview",
       "pageOf": "Page {current} of {total}",
