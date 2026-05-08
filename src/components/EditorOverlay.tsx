@@ -23,7 +23,7 @@ interface Props {
 }
 
 type SortMode = "default" | "asc" | "desc";
-type ThumbSize = 0 | 1 | 2; // 0 = small, 1 = medium, 2 = large
+type ThumbSize = 0 | 1 | 2 | 3 | 4; // 0=小, 1=次小, 2=中, 3=次大, 4=大
 
 const PAPER_SIZES: { value: ConversionSettings["paperSize"]; label: string }[] = [
   { value: "original", label: "Original" },
@@ -239,7 +239,7 @@ export default function EditorOverlay({
 }: Props) {
   const t = useTranslations("editor");
   const [sortMode, setSortMode] = useState<SortMode>("default");
-  const [thumbSize, setThumbSize] = useState<ThumbSize>(1);
+  const [thumbSize, setThumbSize] = useState<ThumbSize>(2);
   const [previewFileId, setPreviewFileId] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -344,27 +344,46 @@ export default function EditorOverlay({
                   {t("sortDesc")}
                 </button>
               </div>
-            </div>
-            <div className="editor-main-toolbar-right">
               <span className="size-label">{t("sizeLabel")}</span>
               <div className="size-slider-wrap">
-                <span className={`size-icon${thumbSize === 0 ? " active" : ""}`}>▫</span>
+                <span
+                  className={`size-icon${thumbSize === 0 ? " active" : ""}`}
+                  onClick={() => setThumbSize(Math.max(0, thumbSize - 1) as ThumbSize)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") setThumbSize(Math.max(0, thumbSize - 1) as ThumbSize);
+                  }}
+                  style={{ cursor: "pointer" }}
+                >−</span>
                 <input
                   type="range"
                   className="size-slider"
+                  style={{
+                    background: `linear-gradient(to right, var(--accent), var(--accent) ${(thumbSize / 4) * 100}%, var(--border) ${(thumbSize / 4) * 100}%, var(--border) 100%)`,
+                  }}
                   min={0}
-                  max={2}
+                  max={4}
                   value={thumbSize}
                   step={1}
                   onChange={(e) => setThumbSize(Number(e.target.value) as ThumbSize)}
                 />
-                <span className={`size-icon${thumbSize === 2 ? " active" : ""}`}>▪</span>
+                <span
+                  className={`size-icon${thumbSize === 4 ? " active" : ""}`}
+                  onClick={() => setThumbSize(Math.min(4, thumbSize + 1) as ThumbSize)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") setThumbSize(Math.min(4, thumbSize + 1) as ThumbSize);
+                  }}
+                  style={{ cursor: "pointer" }}
+                >+</span>
               </div>
             </div>
           </div>
 
           <div className="thumb-grid-wrap">
-            <div className={`thumb-grid${thumbSize === 0 ? " size-small" : ""}${thumbSize === 2 ? " size-large" : ""}`}>
+            <div className={`thumb-grid size-${thumbSize}`}>
               {sortedFiles.length === 0 ? (
                 <div className="thumb-empty">
                   <svg width="48" height="48" viewBox="0 0 48 48" fill="none">

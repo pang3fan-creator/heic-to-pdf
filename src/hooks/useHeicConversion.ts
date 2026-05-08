@@ -131,15 +131,25 @@ export function useHeicConversion() {
         if (!mountedRef.current) return;
         if (!result) continue;
 
-        // Scale decoded RGBA down to thumbnail size
-        const MAX_THUMB = 300;
-        const thumbScale = Math.min(
-          1,
-          MAX_THUMB / Math.max(result.width, result.height),
-        );
-        const thumbW = Math.round(result.width * thumbScale);
-        const thumbH = Math.round(result.height * thumbScale);
+        // Helper: scale a canvas and read back RGBA
+        const scaleRgba = (
+          src: HTMLCanvasElement,
+          maxDim: number,
+        ): { data: Uint8Array; w: number; h: number } | null => {
+          const s = Math.min(1, maxDim / Math.max(result.width, result.height));
+          const w = Math.round(result.width * s);
+          const h = Math.round(result.height * s);
+          const c = document.createElement("canvas");
+          c.width = w;
+          c.height = h;
+          const ctx = c.getContext("2d");
+          if (!ctx) return null;
+          ctx.drawImage(src, 0, 0, w, h);
+          const id = ctx.getImageData(0, 0, w, h);
+          return { data: new Uint8Array(id.data), w, h };
+        };
 
+        // Full-res canvas once, reuse for both sizes
         const srcCanvas = document.createElement("canvas");
         srcCanvas.width = result.width;
         srcCanvas.height = result.height;
@@ -153,18 +163,8 @@ export function useHeicConversion() {
           srcCtx.putImageData(srcImageData, 0, 0);
         }
 
-        const dstCanvas = document.createElement("canvas");
-        dstCanvas.width = thumbW;
-        dstCanvas.height = thumbH;
-        const dstCtx = dstCanvas.getContext("2d");
-        if (dstCtx && srcCtx) {
-          dstCtx.drawImage(srcCanvas, 0, 0, thumbW, thumbH);
-        }
-
-        const scaledRgba = dstCtx?.getImageData(0, 0, thumbW, thumbH);
-        const thumbnailData = scaledRgba
-          ? new Uint8Array(scaledRgba.data)
-          : undefined;
+        const thumb = srcCtx ? scaleRgba(srcCanvas, 300) : null;
+        const preview = srcCtx ? scaleRgba(srcCanvas, 800) : null;
 
         decodedFileIdsRef.current.add(currentFiles[i].id);
 
@@ -176,9 +176,12 @@ export function useHeicConversion() {
               ...newFiles[i],
               imageWidth: result.width,
               imageHeight: result.height,
-              thumbnailData,
-              thumbnailDataWidth: scaledRgba ? thumbW : undefined,
-              thumbnailDataHeight: scaledRgba ? thumbH : undefined,
+              thumbnailData: thumb?.data,
+              thumbnailDataWidth: thumb?.w,
+              thumbnailDataHeight: thumb?.h,
+              previewData: preview?.data,
+              previewDataWidth: preview?.w,
+              previewDataHeight: preview?.h,
             };
           }
           return { ...prev, files: newFiles };

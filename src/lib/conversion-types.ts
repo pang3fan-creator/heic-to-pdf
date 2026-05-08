@@ -9,10 +9,14 @@ export interface ConversionFile {
   thumbnailUrl?: string;
   imageWidth?: number;
   imageHeight?: number;
-  /** Scaled RGBA pixel data for canvas rendering (thumbnail preview). */
+  /** Scaled RGBA pixel data for thumbnail grid canvas rendering (300px max). */
   thumbnailData?: Uint8Array;
   thumbnailDataWidth?: number;
   thumbnailDataHeight?: number;
+  /** Larger RGBA pixel data for the preview modal (800px max). */
+  previewData?: Uint8Array;
+  previewDataWidth?: number;
+  previewDataHeight?: number;
   error?: string;
 }
 

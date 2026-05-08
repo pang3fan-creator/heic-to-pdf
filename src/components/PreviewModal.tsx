@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useCallback, useEffect, useRef, type ReactNode } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import {
   type ConversionFile,
@@ -10,7 +10,7 @@ import {
 } from "@/lib/conversion-types";
 import { drawPagePreview } from "@/lib/preview-renderer";
 
-// Viewport for the large preview modal
+// Viewport for the large preview modal (CSS pixels)
 const PREVIEW_VIEWPORT = { width: 500, height: 700 };
 
 interface Props {
@@ -31,55 +31,79 @@ export default function PreviewModal({
   const t = useTranslations("editor");
   const pt = useTranslations("editor.preview");
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const bitmapRef = useRef<ImageBitmap | null>(null);
 
   const currentIndex = files.findIndex((f) => f.id === file.id);
   const prevFile = currentIndex > 0 ? files[currentIndex - 1] : null;
   const nextFile =
     currentIndex < files.length - 1 ? files[currentIndex + 1] : null;
 
-  // Render preview on canvas
+  // Create ImageBitmap from preview RGBA data once per file
   useEffect(() => {
-    const canvas = canvasRef.current;
     if (
-      !canvas ||
-      !file.thumbnailUrl ||
-      !file.imageWidth ||
-      !file.imageHeight
+      !file.previewData ||
+      !file.previewDataWidth ||
+      !file.previewDataHeight
     )
       return;
 
-    const img = new Image();
     let cancelled = false;
 
-    const render = () => {
-      if (cancelled) return;
+    const imageData = new ImageData(
+      new Uint8ClampedArray(file.previewData),
+      file.previewDataWidth,
+      file.previewDataHeight,
+    );
+
+    createImageBitmap(imageData).then((bitmap) => {
+      if (cancelled) {
+        bitmap.close();
+        return;
+      }
+      bitmapRef.current?.close();
+      bitmapRef.current = bitmap;
+
+      // Draw immediately
+      const canvas = canvasRef.current;
+      if (!canvas) return;
       drawPagePreview(
         canvas,
-        img,
-        file.imageWidth!,
-        file.imageHeight!,
+        bitmap,
+        file.previewDataWidth!,
+        file.previewDataHeight!,
         settings,
         PREVIEW_VIEWPORT,
       );
-    };
-
-    img.onload = render;
-    if (img.complete) {
-      render();
-    } else {
-      img.src = file.thumbnailUrl;
-    }
+    });
 
     return () => {
       cancelled = true;
     };
-  }, [
-    file.id,
-    file.thumbnailUrl,
-    file.imageWidth,
-    file.imageHeight,
-    settings,
-  ]);
+    // Only re-run when file data changes (not settings)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [file.id, file.previewData, file.previewDataWidth, file.previewDataHeight]);
+
+  // Redraw when settings change (bitmap is cached in ref)
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const bitmap = bitmapRef.current;
+    if (
+      !canvas ||
+      !bitmap ||
+      !file.previewDataWidth ||
+      !file.previewDataHeight
+    )
+      return;
+    drawPagePreview(
+      canvas,
+      bitmap,
+      file.previewDataWidth,
+      file.previewDataHeight,
+      settings,
+      PREVIEW_VIEWPORT,
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [settings]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -104,23 +128,14 @@ export default function PreviewModal({
     if (nextFile) onNavigate(nextFile.id);
   }, [nextFile, onNavigate]);
 
-  let content: ReactNode;
-
-  if (!file.thumbnailUrl) {
-    content = (
-      <div className="preview-loading">
-        <div className="preview-spinner" />
-        <span>{pt("decoding")}</span>
-      </div>
-    );
-  } else {
-    content = <canvas ref={canvasRef} className="preview-canvas" />;
-  }
+  const hasPreview = Boolean(
+    file.previewData && file.previewDataWidth && file.previewDataHeight,
+  );
 
   return (
-    <div className="preview-overlay" role="dialog" aria-label={pt("close")}>
+    <div className="preview-overlay" role="dialog" aria-label={pt("close")} onClick={onClose}>
       {/* Header */}
-      <div className="preview-header">
+      <div className="preview-header" onClick={(e) => e.stopPropagation()}>
         <div className="preview-header-left">
           <span className="preview-filename">{file.name}</span>
           <span className="preview-pagination">
@@ -145,7 +160,7 @@ export default function PreviewModal({
         {prevFile && (
           <button
             className="preview-nav-btn"
-            onClick={handlePrev}
+            onClick={(e) => { e.stopPropagation(); handlePrev(); }}
             aria-label={pt("prev")}
             type="button"
           >
@@ -156,12 +171,21 @@ export default function PreviewModal({
           </button>
         )}
 
-        <div className="preview-content">{content}</div>
+        <div className="preview-content">
+          {!hasPreview ? (
+            <div className="preview-loading" onClick={(e) => e.stopPropagation()}>
+              <div className="preview-spinner" />
+              <span>{pt("decoding")}</span>
+            </div>
+          ) : (
+            <canvas ref={canvasRef} className="preview-canvas" onClick={(e) => e.stopPropagation()} />
+          )}
+        </div>
 
         {nextFile && (
           <button
             className="preview-nav-btn"
-            onClick={handleNext}
+            onClick={(e) => { e.stopPropagation(); handleNext(); }}
             aria-label={pt("next")}
             type="button"
           >
@@ -174,7 +198,7 @@ export default function PreviewModal({
       </div>
 
       {/* Footer */}
-      <div className="preview-footer">
+      <div className="preview-footer" onClick={(e) => e.stopPropagation()}>
         <span>{t("sidebar.paperSize")}: {settings.paperSize}</span>
         <span>{t("sidebar.orientation")}: {settings.orientation}</span>
         <span>{t("sidebar.margin")}: {settings.margins}</span>

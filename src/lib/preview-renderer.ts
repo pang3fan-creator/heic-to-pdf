@@ -18,7 +18,7 @@ import { calculateLayout } from "@/lib/pdf-generator";
  */
 export function drawPagePreview(
   canvas: HTMLCanvasElement,
-  img: HTMLImageElement,
+  img: HTMLImageElement | ImageBitmap,
   imgWidth: number,
   imgHeight: number,
   settings: ConversionSettings,
