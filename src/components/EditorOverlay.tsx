@@ -150,13 +150,12 @@ function ThumbnailCell({
         bitmap.close();
         return;
       }
-      // Close previous bitmap if any
-      bitmapRef.current?.close();
       bitmapRef.current = bitmap;
       // Redraw with the new bitmap
       const canvas = canvasRef.current;
       if (!canvas) return;
       requestAnimationFrame(() => {
+        if (bitmapRef.current !== bitmap) return;
         drawThumbPage(
           canvas,
           bitmap,
@@ -186,6 +185,7 @@ function ThumbnailCell({
     )
       return;
     requestAnimationFrame(() => {
+      if (bitmapRef.current !== bitmap) return;
       drawThumbPage(
         canvas,
         bitmap,
