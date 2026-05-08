@@ -73,7 +73,7 @@ export default function GlobalDropOverlay({ onFilesDropped }: Props) {
             <line x1="12" y1="37" x2="36" y2="37" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
           </svg>
         </div>
-        <h2>Drop HEIC photos anywhere</h2>
+        <h2>Drop images anywhere</h2>
         <p>Release to start converting — your files never leave your device</p>
       </div>
     </div>

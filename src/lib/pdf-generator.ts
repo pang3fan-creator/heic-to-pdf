@@ -3,16 +3,11 @@
 import { PDFDocument } from "pdf-lib";
 import {
   type ConversionSettings,
+  type PdfImageInput,
   PAGE_SIZES,
   MARGIN_VALUES,
   ORIGINAL_MAX_PT,
 } from "./conversion-types";
-
-export interface PageImage {
-  pngBytes: Uint8Array;
-  width: number; // original pixel width
-  height: number; // original pixel height
-}
 
 export interface LayoutResult {
   pageWidth: number;
@@ -82,15 +77,19 @@ export function calculateLayout(
  * Returns the final PDF as a Blob.
  */
 export async function buildPdf(
-  images: PageImage[],
+  images: PdfImageInput[],
   settings: ConversionSettings,
 ): Promise<Blob> {
   const pdfDoc = await PDFDocument.create();
 
   for (const img of images) {
-    let pngImage;
+    let image;
     try {
-      pngImage = await pdfDoc.embedPng(img.pngBytes);
+      if (img.format === "jpeg") {
+        image = await pdfDoc.embedJpg(img.data);
+      } else {
+        image = await pdfDoc.embedPng(img.data);
+      }
     } catch (err) {
       console.warn("Failed to embed image in PDF:", err);
       continue;
@@ -98,7 +97,7 @@ export async function buildPdf(
 
     const layout = calculateLayout(img.width, img.height, settings);
     const page = pdfDoc.addPage([layout.pageWidth, layout.pageHeight]);
-    page.drawImage(pngImage, {
+    page.drawImage(image, {
       x: layout.x,
       y: layout.y,
       width: layout.drawWidth,

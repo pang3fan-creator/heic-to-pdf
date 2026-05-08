@@ -1,8 +1,8 @@
 // src/lib/__tests__/pdf-generator.test.ts
 
 import { describe, it, expect } from "vitest";
-import { buildPdf, calculateLayout, type PageImage } from "../pdf-generator";
-import type { ConversionSettings } from "../conversion-types";
+import { buildPdf, calculateLayout } from "../pdf-generator";
+import type { ConversionSettings, PdfImageInput } from "../conversion-types";
 
 // Create a minimal valid PNG for testing
 // 1x1 pixel transparent PNG
@@ -29,8 +29,8 @@ const defaultSettings: ConversionSettings = {
 
 describe("buildPdf", () => {
   it("produces a PDF blob from a single image", async () => {
-    const images: PageImage[] = [
-      { pngBytes: createMinimalPng(), width: 100, height: 100 },
+    const images: PdfImageInput[] = [
+      { format: "png", data: createMinimalPng(), width: 100, height: 100 },
     ];
 
     const blob = await buildPdf(images, defaultSettings);
@@ -41,10 +41,10 @@ describe("buildPdf", () => {
   });
 
   it("produces a multi-page PDF from multiple images", async () => {
-    const images: PageImage[] = [
-      { pngBytes: createMinimalPng(), width: 100, height: 100 },
-      { pngBytes: createMinimalPng(), width: 200, height: 200 },
-      { pngBytes: createMinimalPng(), width: 300, height: 300 },
+    const images: PdfImageInput[] = [
+      { format: "png", data: createMinimalPng(), width: 100, height: 100 },
+      { format: "png", data: createMinimalPng(), width: 200, height: 200 },
+      { format: "png", data: createMinimalPng(), width: 300, height: 300 },
     ];
 
     const blob = await buildPdf(images, defaultSettings);
@@ -52,8 +52,8 @@ describe("buildPdf", () => {
   });
 
   it("produces a PDF in original size mode", async () => {
-    const images: PageImage[] = [
-      { pngBytes: createMinimalPng(), width: 100, height: 100 },
+    const images: PdfImageInput[] = [
+      { format: "png", data: createMinimalPng(), width: 100, height: 100 },
     ];
 
     const blob = await buildPdf(images, {

@@ -21,7 +21,25 @@ npm run test:watch   # 监听模式运行测试
 ## 项目结构
 
 ```
-待补充
+src/
+├── app/[locale]/page.tsx     # 主页面
+├── components/
+│   ├── ConversionContainer.tsx # 状态机调度（idle/editor/converting/complete）
+│   ├── EditorOverlay.tsx      # 全屏编辑器（缩略图+排序+预览）
+│   ├── PreviewModal.tsx       # 大图预览弹窗
+│   ├── DropZone.tsx           # 首页拖拽上传区
+│   ├── GlobalDropOverlay.tsx  # 全局拖拽覆盖层
+│   └── HeroSection.tsx        # 首页主视觉
+├── hooks/
+│   ├── useHeicConversion.ts   # 核心状态机（解码/转换/下载）
+│   └── __tests__/
+├── lib/
+│   ├── conversion-types.ts    # 类型定义 + 常量
+│   ├── heic-worker.ts         # libheif Web Worker（HEIC→RGBA）
+│   ├── pdf-generator.ts       # pdf-lib PDF 生成
+│   ├── preview-renderer.ts    # Canvas PDF 页面预览渲染
+│   └── __tests__/
+└── types/libheif-js.d.ts     # libheif 类型声明
 ```
 
 ## 常见坑点
@@ -43,52 +61,32 @@ npm run test:watch   # 监听模式运行测试
 正确: 使用 buildUrl(locale, "/path") 从 @/lib/url 导入
 ```
 
-### Middleware 配置 (关键!)
+### HEIC 图片渲染 (关键!)
 
-- API 路由必须在 matcher 中保留（Clerk auth 需要），但可跳过 intl 中间件处理
-- 使用 `createRouteMatcher` 判断路由类型，对 API 路由直接 return 跳过 intl
-- 示例：`if (isAuthOnlyRoute(req)) return;`
+- HEIC 解码在 Web Worker 中完成，返回 `rgbaBuffer: Uint8Array`
+- 缩略图：Worker → `ImageData` → `createImageBitmap` → Canvas `drawImage`
+- 缩略图尺寸 300px max，预览尺寸 800px max，在 `useHeicConversion.ts` 中缩放
+- Canvas 渲染需处理 `devicePixelRatio`：`canvas.width = displayW * dpr; ctx.scale(dpr, dpr)`
+- **ImageBitmap 守卫**：rAF 回调中必须检查 `bitmapRef.current !== bitmap`，否则 `drawImage` 报 "image source is detached"
+- 用两个 `useEffect` 分别响应文件数据和设置变化，bitmap 通过 `useRef` 缓存
 
-### `CSP` 配置
+### `.next` 缓存损坏
 
-- 在 `next.config.ts` 的 `async headers()` 中配置
-- 开发环境修改后需要重启服务器才能生效
-- 使用浏览器控制台检查被阻止的资源
+- 修改 Web Worker 或 pdf-lib 相关代码后，若出现 `MODULE_NOT_FOUND: vendor-chunks/pdf-lib.js`，需清除缓存
+- 解决方案：`rm -rf .next/cache` 或 `rm -rf .next` 后重新 `npm run build`
 
-### `Vercel Fluid Active CPU` 
+### CSS 模式
 
-- middleware.ts 是 CPU 消耗大户，API 路由应跳过 intl 处理
-- 使用 `import { cache } from "react"` 包装数据库查询函数
+- **毛玻璃**：`background: color-mix(in srgb, var(--surface) 60%, transparent); backdrop-filter: blur(20px)`
+- **竖向 range slider**：`input[type=range] { writing-mode: vertical-lr; direction: rtl; }` 交换宽高语义
+- **CSS tooltip**：`button[title]:hover::after { content: attr(title); position: absolute; left: 100%; ... }`
+- 浮层面板使用 `position: absolute; top: 50%; transform: translateY(-50%)` 实现垂直居中
 
-### 博客系统
+### 主题系统
 
-- 使用 MDX (Markdown + JSX)
-- **next-mdx-remote/rsc 不支持 import**：组件必须通过 `mdx-components.tsx` 注册
-- **静态文件避开动态路由**：`/blog/[slug]` 会捕获 `/blog/image.png`，图片放 `public/images/`
-
-### AdSense 样式注入问题 (关键!)
-
-- AdSense 脚本会向容器注入 `style="height: auto !important;"`，破坏 `h-screen` 布局
-- 内联 `!important` > CSS 类 `!important`，无法用 CSS 覆盖
-- 解决方案：用 MutationObserver 实时移除注入的样式，参考 `components/PageLayout.tsx`
-
-### Vercel Hobby 版超时限制 (关键!)
-
-- **Node.js Runtime**: 10 秒执行时间上限（硬性限制）
-- **Edge Runtime**: 30 秒执行时间
-- 流式响应只能延长响应时间，无法绕过执行时间限制
-- `AI API` 路由应使用 `export const runtime = "edge"` 获取更长执行时间
-
-### `Supabase` 异步操作 (关键!)
-
-- query builder 不支持 `.catch()` 方法链
-- 异步更新需用 `void (async () => { await ... })()` 包装
-- 示例：`void (async () => { await supabase.from('table').update({...}) })()`
-
-### 测试文件位置
-
-- 测试文件放在 `lib/*.test.ts`
-- 使用 Vitest，运行命令 `npm run test`
+- 使用 OKLCH 色彩空间，默认暗色模式，亮色模式通过 `[data-theme="light"]` 切换
+- 主题变量在 `:root` 中定义，通过 JS 切换 `data-theme` 属性
+- 核心变量：`--bg`、`--surface`、`--fg`、`--muted`、`--border`、`--accent`、`--accent-soft`
 
 ## SEO 规范
 
@@ -96,7 +94,6 @@ npm run test:watch   # 监听模式运行测试
 
 - 每个路由使用 Metadata API 动态生成 TDK
 - 结构化数据: WebApplication, FAQPage, HowTo
-- Editorial Policy 页面说明公式来源 (ACOG/NHS)
 
 ### JSON-LD Schema 规范
 

@@ -100,7 +100,35 @@ export const MAX_FILES = 20;
 export const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 export const THUMB_MAX_WIDTH = 300;
 export const ORIGINAL_MAX_PT = 1200;
-export const PDF_FILENAME = "HEIC_Converted.pdf";
+export const PDF_FILENAME = "my-images.pdf";
+
+// Supported image formats
+export type ImageFormat = "heic" | "jpeg" | "png" | "webp";
+
+export const SUPPORTED_EXTENSIONS: Record<ImageFormat, string[]> = {
+  heic: [".heic", ".HEIC", ".heif", ".HEIF"],
+  jpeg: [".jpg", ".jpeg", ".JPG", ".JPEG"],
+  png: [".png", ".PNG"],
+  webp: [".webp", ".WEBP"],
+};
+
+export function getFileType(file: File): ImageFormat | "unsupported" {
+  const name = file.name.toLowerCase();
+  for (const [format, exts] of Object.entries(SUPPORTED_EXTENSIONS)) {
+    if (exts.some((ext) => name.endsWith(ext.toLowerCase()))) {
+      return format as ImageFormat;
+    }
+  }
+  return "unsupported";
+}
+
+/** Input type for buildPdf — carries format info for optimal PDF embedding. */
+export interface PdfImageInput {
+  format: ImageFormat;
+  data: Uint8Array; // JPEG/PNG=raw bytes, HEIC/WebP=Canvas-encoded PNG bytes
+  width: number;
+  height: number;
+}
 
 /** Format bytes to human-readable string. */
 export function formatSize(bytes: number): string {

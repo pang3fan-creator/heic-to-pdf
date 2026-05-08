@@ -7,14 +7,16 @@ import {
   type ConversionFile,
   type ConversionSettings,
   type ConversionState,
-  type MainToWorker,
+  type PdfImageInput,
   MAX_FILES,
   MAX_FILE_SIZE,
   PDF_FILENAME,
   DEFAULT_SETTINGS,
+  getFileType,
   resolveOrientation,
 } from "@/lib/conversion-types";
 import { buildPdf } from "@/lib/pdf-generator";
+import { decodeImage } from "@/lib/image-decoder";
 
 function createConversionFile(file: File): ConversionFile {
   const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -27,11 +29,6 @@ function createConversionFile(file: File): ConversionFile {
   };
 }
 
-function isHeicFile(file: File): boolean {
-  const name = file.name.toLowerCase();
-  return name.endsWith(".heic") || name.endsWith(".heif");
-}
-
 
 export function useHeicConversion() {
   const [state, setState] = useState<ConversionState>({ status: "idle" });
@@ -40,7 +37,7 @@ export function useHeicConversion() {
   const settingsRef = useRef<ConversionSettings>(DEFAULT_SETTINGS);
   const cancelledRef = useRef(false);
   const mountedRef = useRef(true);
-  const decodeWorkerRef = useRef<Worker | null>(null);
+  const isDecodingRef = useRef(false);
   const decodedFileIdsRef = useRef<Set<string>>(new Set());
 
   useEffect(() => {
@@ -48,15 +45,13 @@ export function useHeicConversion() {
     return () => {
       mountedRef.current = false;
       workerRef.current?.terminate();
-      decodeWorkerRef.current?.terminate();
     };
   }, []);
 
-  // Terminate decode worker when leaving editor state
+  // Clear decode flag when leaving editor state
   useEffect(() => {
     if (state.status !== "editor") {
-      decodeWorkerRef.current?.terminate();
-      decodeWorkerRef.current = null;
+      isDecodingRef.current = false;
     }
   }, [state.status]);
 
@@ -65,71 +60,29 @@ export function useHeicConversion() {
   }, []);
 
   const decodePendingFiles = useCallback(async () => {
-    if (decodeWorkerRef.current) return; // already decoding
-    if (typeof Worker === "undefined") return; // SSR / test environment
+    if (isDecodingRef.current) return; // already decoding
 
-    const worker = new Worker(
-      new URL("@/lib/heic-worker", import.meta.url),
-    );
-    decodeWorkerRef.current = worker;
+    isDecodingRef.current = true; // flag as "decoding in progress"
 
     try {
-      // Wait for Worker ready
-      await new Promise<void>((resolve, reject) => {
-        worker.addEventListener("message", (e) => {
-          if (e.data.type === "ready") resolve();
-          if (e.data.type === "error")
-            reject(new Error(e.data.error));
-        });
-        worker.postMessage({ type: "init" });
-      });
-
-      if (!mountedRef.current) {
-        worker.terminate();
-        return;
-      }
-
       const currentFiles = filesRef.current;
 
       for (let i = 0; i < currentFiles.length; i++) {
         const f = currentFiles[i];
-        if (
-          f.thumbnailData ||
-          decodedFileIdsRef.current.has(f.id)
-        )
+        if (f.thumbnailData || decodedFileIdsRef.current.has(f.id))
           continue;
 
-        const buffer = await f.file.arrayBuffer();
-        const result = await new Promise<{
-          width: number;
-          height: number;
-          rgbaBuffer: Uint8Array;
-        } | null>((resolve) => {
-          const handleMsg = (e: MessageEvent) => {
-            const msg = e.data;
-            if (msg.type === "file-done" && msg.fileIndex === i) {
-              worker.removeEventListener("message", handleMsg);
-              resolve({
-                width: msg.width,
-                height: msg.height,
-                rgbaBuffer: msg.rgbaBuffer,
-              });
-            } else if (
-              msg.type === "file-error" &&
-              msg.fileIndex === i
-            ) {
-              worker.removeEventListener("message", handleMsg);
-              resolve(null);
-            }
-          };
-          worker.addEventListener("message", handleMsg);
-          worker.postMessage({ type: "decode", fileIndex: i, buffer }, [
-            buffer,
-          ]);
-        });
+        const format = getFileType(f.file);
+        if (format === "unsupported") continue;
+
+        let result: { width: number; height: number; rgbaBuffer: Uint8Array };
+        try {
+          result = await decodeImage(f.file, format);
+        } catch {
+          continue; // Silently skip decode failures
+        }
 
         if (!mountedRef.current) return;
-        if (!result) continue;
 
         // Helper: scale a canvas and read back RGBA
         const scaleRgba = (
@@ -187,12 +140,9 @@ export function useHeicConversion() {
           return { ...prev, files: newFiles };
         });
       }
-    } catch {
-      // Silently ignore decode errors — thumbnails will show placeholder
     } finally {
-      worker.terminate();
-      if (decodeWorkerRef.current === worker) {
-        decodeWorkerRef.current = null;
+      if (isDecodingRef.current) {
+        isDecodingRef.current = false;
       }
     }
   }, []);
@@ -200,7 +150,7 @@ export function useHeicConversion() {
   const selectFiles = useCallback((fileList: FileList | File[]) => {
     const incoming = Array.from(fileList);
     const valid = incoming.filter(
-      (f) => isHeicFile(f) && f.size <= MAX_FILE_SIZE,
+      (f) => getFileType(f) !== "unsupported" && f.size <= MAX_FILE_SIZE,
     );
     const truncated = valid.slice(0, MAX_FILES);
     const files = truncated.map(createConversionFile);
@@ -226,7 +176,7 @@ export function useHeicConversion() {
   const addMoreFiles = useCallback((fileList: FileList | File[]) => {
     const incoming = Array.from(fileList);
     const valid = incoming.filter(
-      (f) => isHeicFile(f) && f.size <= MAX_FILE_SIZE,
+      (f) => getFileType(f) !== "unsupported" && f.size <= MAX_FILE_SIZE,
     );
     setState((prev) => {
       if (prev.status !== "editor") return prev;
@@ -258,8 +208,7 @@ export function useHeicConversion() {
     cancelledRef.current = false;
     workerRef.current?.terminate();
     workerRef.current = null;
-    decodeWorkerRef.current?.terminate();
-    decodeWorkerRef.current = null;
+    isDecodingRef.current = false;
     cleanupDecodeState();
     filesRef.current = [];
     setState({ status: "idle" });
@@ -281,26 +230,8 @@ export function useHeicConversion() {
       currentFileIndex: 0,
     });
 
-    const worker = new Worker(
-      new URL("@/lib/heic-worker", import.meta.url),
-    );
-    workerRef.current = worker;
-
     try {
-      // Wait for Worker ready
-      await new Promise<void>((resolve, reject) => {
-        worker.addEventListener("message", (e) => {
-          if (e.data.type === "ready") resolve();
-          if (e.data.type === "error") reject(new Error(e.data.error));
-        });
-        worker.postMessage({ type: "init" });
-      });
-
-      const pdfImages: {
-        pngBytes: Uint8Array;
-        width: number;
-        height: number;
-      }[] = [];
+      const pdfImages: PdfImageInput[] = [];
 
       for (let i = 0; i < files.length; i++) {
         if (cancelledRef.current) break;
@@ -313,114 +244,82 @@ export function useHeicConversion() {
           currentFileIndex: i,
         });
 
-        // Decode via Worker
-        const result = await new Promise<{
-          width: number;
-          height: number;
-          rgbaBuffer: Uint8Array;
-        } | null>((resolve) => {
-          const decodeTimer = setTimeout(() => {
-            worker.removeEventListener("message", handleMessage);
+        const file = files[i].file;
+        const format = getFileType(file);
+        if (format === "unsupported") {
+          files[i] = { ...files[i], status: "skipped", error: "Unsupported format" };
+          continue;
+        }
+
+        let width: number, height: number, data: Uint8Array;
+
+        if (format === "jpeg" || format === "png") {
+          // Direct embed: use original bytes + createImageBitmap for dimensions
+          const [buffer, bitmap] = await Promise.all([
+            file.arrayBuffer(),
+            createImageBitmap(file),
+          ]);
+          data = new Uint8Array(buffer);
+          width = bitmap.width;
+          height = bitmap.height;
+          bitmap.close();
+        } else {
+          // HEIC or WebP: decode via image-decoder → Canvas → PNG
+          let rgbaResult;
+          try {
+            rgbaResult = await decodeImage(file, format);
+          } catch (err) {
             files[i] = {
               ...files[i],
               status: "skipped",
-              error: "Decode timed out",
+              error: err instanceof Error ? err.message : "Decode failed",
             };
-            resolve(null);
-          }, 60_000);
+            continue;
+          }
 
-          const handleMessage = (e: MessageEvent) => {
-            const msg = e.data;
-            if (msg.type === "file-done" && msg.fileIndex === i) {
-              clearTimeout(decodeTimer);
-              worker.removeEventListener("message", handleMessage);
-              resolve({
-                width: msg.width,
-                height: msg.height,
-                rgbaBuffer: msg.rgbaBuffer,
-              });
-            } else if (msg.type === "file-error" && msg.fileIndex === i) {
-              clearTimeout(decodeTimer);
-              worker.removeEventListener("message", handleMessage);
-              files[i] = { ...files[i], status: "skipped", error: msg.error };
-              resolve(null);
-            }
-          };
-          worker.addEventListener("message", handleMessage);
+          const canvas = document.createElement("canvas");
+          canvas.width = rgbaResult.width;
+          canvas.height = rgbaResult.height;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) {
+            files[i] = {
+              ...files[i],
+              status: "skipped",
+              error: "Canvas context not available",
+            };
+            continue;
+          }
+          const imageData = new ImageData(
+            new Uint8ClampedArray(rgbaResult.rgbaBuffer),
+            rgbaResult.width,
+            rgbaResult.height,
+          );
+          ctx.putImageData(imageData, 0, 0);
 
-          files[i].file
-            .arrayBuffer()
-            .then((buffer) => {
-              const msg: MainToWorker = {
-                type: "decode",
-                fileIndex: i,
-                buffer,
-              };
-              worker.postMessage(msg, [buffer]);
-            })
-            .catch((err) => {
-              clearTimeout(decodeTimer);
-              worker.removeEventListener("message", handleMessage);
-              files[i] = {
-                ...files[i],
-                status: "skipped",
-                error: err.message,
-              };
-              resolve(null);
-            });
-        });
+          const pngBlob = await new Promise<Blob | null>((resolve) =>
+            canvas.toBlob((b) => resolve(b), "image/png"),
+          );
 
-        if (cancelledRef.current) break;
+          if (!pngBlob) {
+            files[i] = {
+              ...files[i],
+              status: "skipped",
+              error: "Failed to encode PNG",
+            };
+            continue;
+          }
 
-        if (!result) continue;
-
-        // Encode RGBA to PNG via Canvas
-        const canvas = document.createElement("canvas");
-        canvas.width = result.width;
-        canvas.height = result.height;
-        const ctx = canvas.getContext("2d");
-        if (!ctx) {
-          files[i] = {
-            ...files[i],
-            status: "skipped",
-            error: "Canvas context not available",
-          };
-          continue;
-        }
-        const imageData = new ImageData(
-          new Uint8ClampedArray(result.rgbaBuffer),
-          result.width,
-          result.height,
-        );
-        ctx.putImageData(imageData, 0, 0);
-
-        const pngBlob = await new Promise<Blob | null>((resolve) =>
-          canvas.toBlob((b) => resolve(b), "image/png"),
-        );
-
-        if (!pngBlob) {
-          files[i] = {
-            ...files[i],
-            status: "skipped",
-            error: "Failed to encode PNG",
-          };
-          continue;
+          data = new Uint8Array(await pngBlob.arrayBuffer());
+          width = rgbaResult.width;
+          height = rgbaResult.height;
         }
 
-        const pngBytes = new Uint8Array(await pngBlob.arrayBuffer());
-        pdfImages.push({
-          pngBytes,
-          width: result.width,
-          height: result.height,
-        });
-
+        pdfImages.push({ format, data, width, height });
         files[i] = { ...files[i], status: "done" };
       }
 
       // Handle cancellation mid-conversion
       if (cancelledRef.current) {
-        worker.terminate();
-        workerRef.current = null;
         cancelledRef.current = false;
         return;
       }
@@ -433,7 +332,6 @@ export function useHeicConversion() {
           settings,
         );
         return {
-          pngBytes: img.pngBytes,
           width: img.width,
           height: img.height,
           orientation: resolvedOrientation,
@@ -451,8 +349,6 @@ export function useHeicConversion() {
         orientation: perImageSettings[0]?.orientation ?? settings.orientation,
       });
 
-      worker.terminate();
-      workerRef.current = null;
       filesRef.current = files;
 
       if (!mountedRef.current) return;
@@ -482,9 +378,6 @@ export function useHeicConversion() {
         }
       }, 1500);
     } catch (err) {
-      worker.terminate();
-      workerRef.current = null;
-
       const errorFiles = files.map((f) => ({
         ...f,
         status: f.status === "pending" ? ("skipped" as const) : f.status,
@@ -504,8 +397,7 @@ export function useHeicConversion() {
     cancelledRef.current = false;
     workerRef.current?.terminate();
     workerRef.current = null;
-    decodeWorkerRef.current?.terminate();
-    decodeWorkerRef.current = null;
+    isDecodingRef.current = false;
     cleanupDecodeState();
     filesRef.current = [];
     setState({ status: "idle" });
@@ -516,8 +408,7 @@ export function useHeicConversion() {
     workerRef.current?.postMessage({ type: "cancel" });
     workerRef.current?.terminate();
     workerRef.current = null;
-    decodeWorkerRef.current?.terminate();
-    decodeWorkerRef.current = null;
+    isDecodingRef.current = false;
     cleanupDecodeState();
     filesRef.current = [];
     setState({ status: "idle" });

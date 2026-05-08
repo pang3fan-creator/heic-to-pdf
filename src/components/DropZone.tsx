@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useCallback, useRef } from "react";
-import { MAX_FILE_SIZE, formatSize } from "@/lib/conversion-types";
+import { MAX_FILE_SIZE, getFileType } from "@/lib/conversion-types";
 
 interface Props {
   onFilesSelected: (files: FileList | File[]) => void;
@@ -12,11 +12,6 @@ interface Props {
   files?: { name: string; size: number; status: string }[];
   currentFileIndex?: number;
   onCancel?: () => void;
-}
-
-function isHeicFile(name: string): boolean {
-  const lower = name.toLowerCase();
-  return lower.endsWith(".heic") || lower.endsWith(".heif");
 }
 
 export default function DropZone({
@@ -35,7 +30,7 @@ export default function DropZone({
   const handleFiles = useCallback(
     (fileList: FileList) => {
       const filtered = Array.from(fileList).filter(
-        (f) => isHeicFile(f.name) && f.size <= MAX_FILE_SIZE,
+        (f) => getFileType(f) !== "unsupported" && f.size <= MAX_FILE_SIZE,
       );
       if (filtered.length > 0) {
         onFilesSelected(filtered);
@@ -106,7 +101,7 @@ export default function DropZone({
                   {chipStatus === "pending" && (
                     <span className="file-status-icon">⏳</span>
                   )}
-                  {f.name.replace(/\.(heic|heif|HEIC|HEIF)$/, "")}
+                  {f.name.replace(/\.(heic|heif|HEIC|HEIF|jpg|jpeg|JPG|JPEG|png|PNG|webp|WEBP)$/, "")}
                 </span>
               );
             })}
@@ -172,7 +167,7 @@ export default function DropZone({
       <input
         ref={inputRef}
         type="file"
-        accept=".heic,.HEIC,.heif,.HEIF"
+        accept=".heic,.HEIC,.heif,.HEIF,.jpg,.jpeg,.JPEG,.JPG,.png,.PNG,.webp,.WEBP"
         multiple
         style={{ display: "none" }}
         onChange={onInputChange}

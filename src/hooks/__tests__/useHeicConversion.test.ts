@@ -71,21 +71,27 @@ describe("useHeicConversion", () => {
     }
   });
 
-  it("filters non-HEIC files", () => {
+  it("filters unsupported files", () => {
     const { result } = renderHook(() => useHeicConversion());
 
     act(() => {
       result.current.selectFiles([
-        new File(["a"], "photo.heic", { type: "application/octet-stream" }),
-        new File(["b"], "document.pdf", { type: "application/pdf" }),
-        new File(["c"], "image.jpg", { type: "image/jpeg" }),
+        new File(["a"], "photo.heic", { type: "image/heic" }),
+        new File(["b"], "photo.jpg", { type: "image/jpeg" }),
+        new File(["c"], "photo.png", { type: "image/png" }),
+        new File(["d"], "photo.webp", { type: "image/webp" }),
+        new File(["e"], "document.pdf", { type: "application/pdf" }),
+        new File(["f"], "animation.gif", { type: "image/gif" }),
       ]);
     });
 
     expect(result.current.state.status).toBe("editor");
     if (result.current.state.status === "editor") {
-      expect(result.current.state.files).toHaveLength(1);
+      expect(result.current.state.files).toHaveLength(4);
       expect(result.current.state.files[0].name).toBe("photo.heic");
+      expect(result.current.state.files[1].name).toBe("photo.jpg");
+      expect(result.current.state.files[2].name).toBe("photo.png");
+      expect(result.current.state.files[3].name).toBe("photo.webp");
     }
   });
 

@@ -248,7 +248,7 @@ function ThumbnailCell({
       </div>
       <div className="thumb-info">
         <div className="thumb-name" title={file.name}>
-          {file.name.replace(/\.(heic|HEIC|heif|HEIF)$/, "")}
+          {file.name.replace(/\.(heic|heif|HEIC|HEIF|jpg|jpeg|JPG|JPEG|png|PNG|webp|WEBP)$/, "")}
         </div>
         <div className="thumb-size">{formatSize(file.size)}</div>
       </div>
@@ -554,7 +554,7 @@ export default function EditorOverlay({
       <input
         ref={inputRef}
         type="file"
-        accept=".heic,.HEIC,.heif,.HEIF"
+        accept=".heic,.HEIC,.heif,.HEIF,.jpg,.jpeg,.JPEG,.JPG,.png,.PNG,.webp,.WEBP"
         multiple
         style={{ display: "none" }}
         onChange={handleInputChange}
