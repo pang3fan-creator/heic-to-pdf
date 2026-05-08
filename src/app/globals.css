@@ -641,6 +641,18 @@ a:hover {
   transform: translateY(-2px);
   border-color: var(--accent);
 }
+.thumb-item[draggable="true"] {
+  cursor: grab;
+}
+.thumb-item[draggable="true"]:active {
+  cursor: grabbing;
+  opacity: 0.6;
+}
+.thumb-item.drag-over {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+  transform: scale(1.02);
+}
 .thumb-preview {
   width: 100%;
   aspect-ratio: 1;
@@ -687,6 +699,25 @@ a:hover {
   align-items: center;
   justify-content: center;
   box-shadow: 0 1px 4px oklch(0% 0 0 / 30%);
+}
+.thumb-order-x {
+  display: none;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--accent);
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+.thumb-item:hover .thumb-order-num {
+  display: none;
+}
+.thumb-item:hover .thumb-order-x {
+  display: flex;
+}
+.thumb-order-x:hover {
+  background: oklch(62% 0.18 25);
 }
 .thumb-info {
   padding: 10px 12px;

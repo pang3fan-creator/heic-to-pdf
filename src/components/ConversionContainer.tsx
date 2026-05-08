@@ -32,6 +32,7 @@ export default function ConversionContainer() {
           onClose={conversion.closeEditor}
           onConvert={conversion.startConversion}
           onAddFiles={conversion.addMoreFiles}
+          onRemoveFile={conversion.removeFile}
           onSettingsChange={conversion.updateSettings}
         />
       )}

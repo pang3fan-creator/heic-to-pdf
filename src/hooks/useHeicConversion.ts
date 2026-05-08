@@ -241,6 +241,19 @@ export function useHeicConversion() {
     setTimeout(() => decodePendingFiles(), 0);
   }, [decodePendingFiles]);
 
+  const removeFile = useCallback((fileId: string) => {
+    setState((prev) => {
+      if (prev.status !== "editor") return prev;
+      const files = prev.files.filter((f) => f.id !== fileId);
+      if (files.length === 0) {
+        filesRef.current = [];
+        return { status: "idle" };
+      }
+      filesRef.current = files;
+      return { ...prev, files };
+    });
+  }, []);
+
   const closeEditor = useCallback(() => {
     cancelledRef.current = false;
     workerRef.current?.terminate();
@@ -515,6 +528,7 @@ export function useHeicConversion() {
     selectFiles,
     updateSettings,
     addMoreFiles,
+    removeFile,
     closeEditor,
     startConversion,
     reset,

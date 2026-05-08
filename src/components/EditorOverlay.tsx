@@ -19,6 +19,7 @@ interface Props {
   onClose: () => void;
   onConvert: () => void;
   onAddFiles: (files: FileList | File[]) => void;
+  onRemoveFile: (fileId: string) => void;
   onSettingsChange: (settings: ConversionSettings) => void;
 }
 
@@ -119,11 +120,25 @@ function ThumbnailCell({
   index,
   settings,
   onClick,
+  onRemove,
+  className,
+  draggable,
+  onDragStart,
+  onDragOver,
+  onDragLeave,
+  onDrop,
 }: {
   file: ConversionFile;
   index: number;
   settings: ConversionSettings;
   onClick: () => void;
+  onRemove?: (fileId: string) => void;
+  className?: string;
+  draggable?: boolean;
+  onDragStart?: (e: React.DragEvent) => void;
+  onDragOver?: (e: React.DragEvent) => void;
+  onDragLeave?: (e: React.DragEvent) => void;
+  onDrop?: (e: React.DragEvent) => void;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const bitmapRef = useRef<ImageBitmap | null>(null);
@@ -199,16 +214,30 @@ function ThumbnailCell({
 
   return (
     <div
-      className="thumb-item"
+      className={`thumb-item${className ? " " + className : ""}`}
       onClick={onClick}
       role="button"
       tabIndex={0}
+      draggable={draggable}
       onKeyDown={(e) => {
         if (e.key === "Enter") onClick();
       }}
+      onDragStart={onDragStart}
+      onDragOver={onDragOver}
+      onDragLeave={onDragLeave}
+      onDrop={onDrop}
     >
       <div className="thumb-preview">
-        <span className="thumb-order">{index + 1}</span>
+        <span className="thumb-order">
+          <span className="thumb-order-num">{index + 1}</span>
+          <span
+            className="thumb-order-x"
+            onClick={(e) => {
+              e.stopPropagation();
+              onRemove?.(file.id);
+            }}
+          >✕</span>
+        </span>
         {file.thumbnailData ? (
           <canvas ref={canvasRef} className="thumb-canvas" />
         ) : (
@@ -235,12 +264,15 @@ export default function EditorOverlay({
   onClose,
   onConvert,
   onAddFiles,
+  onRemoveFile,
   onSettingsChange,
 }: Props) {
   const t = useTranslations("editor");
   const [sortMode, setSortMode] = useState<SortMode>("default");
   const [thumbSize, setThumbSize] = useState<ThumbSize>(2);
   const [previewFileId, setPreviewFileId] = useState<string | null>(null);
+  const [customOrder, setCustomOrder] = useState<string[] | null>(null);
+  const [dragOverId, setDragOverId] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const previewFile = useMemo(
@@ -250,14 +282,22 @@ export default function EditorOverlay({
   );
 
   const sortedFiles = useMemo(() => {
-    const arr = [...files];
+    let arr = [...files];
+
     if (sortMode === "asc") {
       arr.sort((a, b) => a.name.localeCompare(b.name));
     } else if (sortMode === "desc") {
       arr.sort((a, b) => b.name.localeCompare(a.name));
+    } else if (customOrder) {
+      const idxMap = new Map(customOrder.map((id, i) => [id, i]));
+      arr.sort(
+        (a, b) =>
+          (idxMap.get(a.id) ?? Infinity) - (idxMap.get(b.id) ?? Infinity),
+      );
     }
+
     return arr;
-  }, [files, sortMode]);
+  }, [files, sortMode, customOrder]);
 
   const handleAddClick = useCallback(() => {
     inputRef.current?.click();
@@ -325,21 +365,21 @@ export default function EditorOverlay({
                 <button
                   type="button"
                   className={`sort-btn${sortMode === "default" ? " active" : ""}`}
-                  onClick={() => setSortMode("default")}
+                  onClick={() => { setSortMode("default"); setCustomOrder(null); }}
                 >
                   {t("sortDefault")}
                 </button>
                 <button
                   type="button"
                   className={`sort-btn${sortMode === "asc" ? " active" : ""}`}
-                  onClick={() => setSortMode("asc")}
+                  onClick={() => { setSortMode("asc"); setCustomOrder(null); }}
                 >
                   {t("sortAsc")}
                 </button>
                 <button
                   type="button"
                   className={`sort-btn${sortMode === "desc" ? " active" : ""}`}
-                  onClick={() => setSortMode("desc")}
+                  onClick={() => { setSortMode("desc"); setCustomOrder(null); }}
                 >
                   {t("sortDesc")}
                 </button>
@@ -402,6 +442,34 @@ export default function EditorOverlay({
                     index={i}
                     settings={settings}
                     onClick={() => setPreviewFileId(f.id)}
+                    onRemove={onRemoveFile}
+                    draggable
+                    className={dragOverId === f.id ? "drag-over" : ""}
+                    onDragStart={(e) => {
+                      e.dataTransfer.effectAllowed = "move";
+                      e.dataTransfer.setData("text/plain", f.id);
+                    }}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      e.dataTransfer.dropEffect = "move";
+                      setDragOverId(f.id);
+                    }}
+                    onDragLeave={() => setDragOverId(null)}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      const srcId = e.dataTransfer.getData("text/plain");
+                      if (!srcId || srcId === f.id) return;
+                      const ids = sortedFiles.map((x) => x.id);
+                      const fromIdx = ids.indexOf(srcId);
+                      const toIdx = ids.indexOf(f.id);
+                      if (fromIdx === -1 || toIdx === -1) return;
+                      const reordered = [...ids];
+                      reordered.splice(fromIdx, 1);
+                      reordered.splice(toIdx, 0, srcId);
+                      setCustomOrder(reordered);
+                      setSortMode("default");
+                      setDragOverId(null);
+                    }}
                   />
                 ))
               )}
