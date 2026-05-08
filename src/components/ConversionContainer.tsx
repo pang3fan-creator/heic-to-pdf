@@ -13,10 +13,10 @@ export default function ConversionContainer() {
 
   return (
     <>
-      <GlobalDropOverlay onFilesDropped={conversion.selectFiles} />
+      <GlobalDropOverlay onFilesDropped={s.status === "editor" ? conversion.addMoreFiles : conversion.selectFiles} />
 
       <DropZone
-        onFilesSelected={conversion.selectFiles}
+        onFilesSelected={s.status === "editor" ? conversion.addMoreFiles : conversion.selectFiles}
         isConverting={s.status === "converting"}
         isComplete={s.status === "complete"}
         files={s.status === "converting" || s.status === "complete" || s.status === "error" ? s.files : undefined}
