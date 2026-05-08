@@ -17,50 +17,59 @@
       "subtitle": "or click the button below to browse",
       "hint": "Batch upload supported · Up to 20 images · 50MB max per file",
       "browseBtn": "Select HEIC files",
-      "privacy": "Your files stay in your browser — we never upload them",
-      "filesSelected": "{count} file{count, plural, one {} other {s}} selected",
-      "moreFiles": "+{count} more",
-      "ext": "HEIC"
+      "privacy": "Your files stay in your browser — we never upload them"
     },
     "converting": "Converting…"
   },
-  "converter": {
-    "settings": {
-      "paperSize": {
-        "label": "Paper Size",
-        "original": "Original",
-        "a4": "A4"
-      },
-      "margins": {
-        "label": "Margins",
-        "none": "None",
-        "narrow": "Narrow",
-        "normal": "Normal"
-      },
-      "orientation": {
-        "label": "Orientation",
-        "portrait": "Portrait",
-        "landscape": "Landscape"
-      }
+  "editor": {
+    "title": "Arrange & convert",
+    "back": "Back",
+    "addPhotos": "Add photos",
+    "convertBtn": "Convert to PDF",
+    "sortLabel": "Sort",
+    "sortDefault": "Default",
+    "sortAsc": "A→Z",
+    "sortDesc": "Z→A",
+    "sizeLabel": "Size",
+    "sidebar": {
+      "pageSetup": "Page setup",
+      "paperSize": "Size",
+      "orientation": "Orientation",
+      "margin": "Margin",
+      "orientationPortrait": "Portrait",
+      "orientationLandscape": "Landscape",
+      "orientationAuto": "Auto (match original)",
+      "marginNone": "None (0 mm)",
+      "marginNarrow": "Narrow (6 mm)",
+      "marginNormal": "Normal (12 mm)",
+      "marginWide": "Wide (24 mm)"
     },
+    "fileCount": "{count} file{count, plural, one {} other {s}} selected",
+    "empty": "Select HEIC photos to get started",
+    "preview": {
+      "close": "Close preview",
+      "decoding": "Decoding image...",
+      "pageOf": "{current} / {total}",
+      "prev": "Previous image",
+      "next": "Next image"
+    }
+  },
+  "converter": {
     "button": {
-      "convert": "Convert {count} files →",
       "cancel": "Cancel"
     },
     "progress": {
       "fileOfTotal": "Photo {current} of {total}"
     },
-    "preview": {
-      "title": "PDF Preview",
-      "pageOf": "Page {current} of {total}",
-      "summary": "{files} files converted · {pages} pages · {size}",
-      "skipped": "{count} file skipped (unsupported format)",
-      "download": "Download PDF",
-      "convertMore": "Convert more"
+    "error": {
+      "title": "Conversion Failed",
+      "detail": "Please try again or use a different browser",
+      "back": "← Back",
+      "retry": "↻ Try Again"
     }
   },
   "howto": {
-    "title": "Three steps to convert",
+    "title": "Four steps to convert",
     "description": "No registration, no installation — just your browser",
     "steps": [
       {

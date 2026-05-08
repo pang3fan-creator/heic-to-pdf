@@ -6,7 +6,6 @@ import { useHeicConversion } from "../useHeicConversion";
 
 // Mock Worker
 class MockWorker {
-  onmessage: ((e: MessageEvent) => void) | null = null;
   private handlers: Map<string, (e: MessageEvent) => void> = new Map();
 
   constructor(_url: URL) {}
@@ -15,7 +14,7 @@ class MockWorker {
     const m = msg as { type: string };
     if (m.type === "init") {
       setTimeout(() => {
-        this.trigger({ data: { type: "ready" } });
+        this.trigger({ data: { type: "ready" } } as MessageEvent);
       }, 0);
     }
   }
@@ -54,7 +53,7 @@ describe("useHeicConversion", () => {
     expect(result.current.state.status).toBe("idle");
   });
 
-  it("transitions to selected state when files are added", () => {
+  it("transitions to editor state when files are added", () => {
     const { result } = renderHook(() => useHeicConversion());
 
     const file = new File(["fake-heic-data"], "test.heic", {
@@ -65,8 +64,8 @@ describe("useHeicConversion", () => {
       result.current.selectFiles([file]);
     });
 
-    expect(result.current.state.status).toBe("selected");
-    if (result.current.state.status === "selected") {
+    expect(result.current.state.status).toBe("editor");
+    if (result.current.state.status === "editor") {
       expect(result.current.state.files).toHaveLength(1);
       expect(result.current.state.files[0].name).toBe("test.heic");
     }
@@ -83,8 +82,8 @@ describe("useHeicConversion", () => {
       ]);
     });
 
-    expect(result.current.state.status).toBe("selected");
-    if (result.current.state.status === "selected") {
+    expect(result.current.state.status).toBe("editor");
+    if (result.current.state.status === "editor") {
       expect(result.current.state.files).toHaveLength(1);
       expect(result.current.state.files[0].name).toBe("photo.heic");
     }
@@ -97,13 +96,48 @@ describe("useHeicConversion", () => {
       result.current.selectFiles([new File(["a"], "test.heic", { type: "application/octet-stream" })]);
     });
 
-    expect(result.current.state.status).toBe("selected");
+    expect(result.current.state.status).toBe("editor");
 
     act(() => {
       result.current.reset();
     });
 
     expect(result.current.state.status).toBe("idle");
+  });
+
+  it("closeEditor resets to idle", () => {
+    const { result } = renderHook(() => useHeicConversion());
+
+    act(() => {
+      result.current.selectFiles([new File(["a"], "test.heic", { type: "application/octet-stream" })]);
+    });
+
+    expect(result.current.state.status).toBe("editor");
+
+    act(() => {
+      result.current.closeEditor();
+    });
+
+    expect(result.current.state.status).toBe("idle");
+  });
+
+  it("addMoreFiles appends to existing files in editor", () => {
+    const { result } = renderHook(() => useHeicConversion());
+
+    act(() => {
+      result.current.selectFiles([new File(["a"], "test.heic", { type: "application/octet-stream" })]);
+    });
+
+    expect(result.current.state.status).toBe("editor");
+
+    act(() => {
+      result.current.addMoreFiles([new File(["b"], "photo2.heic", { type: "application/octet-stream" })]);
+    });
+
+    if (result.current.state.status === "editor") {
+      expect(result.current.state.files).toHaveLength(2);
+      expect(result.current.state.files[1].name).toBe("photo2.heic");
+    }
   });
 
   it("filters files exceeding max size", () => {
@@ -121,8 +155,8 @@ describe("useHeicConversion", () => {
       result.current.selectFiles([bigFile, smallFile]);
     });
 
-    expect(result.current.state.status).toBe("selected");
-    if (result.current.state.status === "selected") {
+    expect(result.current.state.status).toBe("editor");
+    if (result.current.state.status === "editor") {
       expect(result.current.state.files).toHaveLength(1);
       expect(result.current.state.files[0].name).toBe("small.heic");
     }
@@ -137,16 +171,16 @@ describe("useHeicConversion", () => {
       ]);
     });
 
-    expect(result.current.state.status).toBe("selected");
-    if (result.current.state.status === "selected") {
+    expect(result.current.state.status).toBe("editor");
+    if (result.current.state.status === "editor") {
       expect(result.current.state.files).toHaveLength(1);
     }
   });
 
-  it("updateSettings only works in selected state", () => {
+  it("updateSettings updates settings in editor state", () => {
     const { result } = renderHook(() => useHeicConversion());
 
-    // Try updating in idle state
+    // Try updating in idle state (should not change state)
     act(() => {
       result.current.updateSettings({
         paperSize: "a4",
@@ -171,10 +205,31 @@ describe("useHeicConversion", () => {
       });
     });
 
-    if (result.current.state.status === "selected") {
+    if (result.current.state.status === "editor") {
       expect(result.current.state.settings.paperSize).toBe("original");
       expect(result.current.state.settings.margins).toBe("none");
       expect(result.current.state.settings.orientation).toBe("landscape");
+    }
+  });
+
+  it("addMoreFiles respects MAX_FILES limit", () => {
+    const { result } = renderHook(() => useHeicConversion());
+
+    // Select 20 files
+    const files = Array.from({ length: 20 }, (_, i) =>
+      new File([`a${i}`], `photo${i}.heic`, { type: "application/octet-stream" })
+    );
+    act(() => {
+      result.current.selectFiles(files);
+    });
+
+    // Try adding more
+    act(() => {
+      result.current.addMoreFiles([new File(["b"], "extra.heic", { type: "application/octet-stream" })]);
+    });
+
+    if (result.current.state.status === "editor") {
+      expect(result.current.state.files).toHaveLength(20);
     }
   });
 });

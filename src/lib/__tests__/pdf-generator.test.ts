@@ -88,14 +88,14 @@ describe("calculateLayout", () => {
 
   it("centers image on A4 page with narrow margins", () => {
     const layout = calculateLayout(100, 200, defaultSettings);
-    // A4 portrait: 595x842, margin=36
-    // content: 523x770, image aspect 0.5 → contained by height: 770
-    // drawWidth = 770 * 0.5 = 385, drawHeight = 770
-    expect(layout.drawHeight).toBeLessThanOrEqual(842 - 72); // content height
-    expect(layout.drawWidth).toBeLessThanOrEqual(595 - 72); // content width
+    // A4 portrait: 595x842, margin=17
+    // content: 561x808, image aspect 0.5 → contained by height: 808
+    // drawWidth = 808 * 0.5 = 404, drawHeight = 808
+    expect(layout.drawHeight).toBeLessThanOrEqual(842 - 34); // content height
+    expect(layout.drawWidth).toBeLessThanOrEqual(595 - 34); // content width
     expect(layout.drawHeight / layout.drawWidth).toBeCloseTo(200 / 100, 1);
-    expect(layout.x).toBeGreaterThanOrEqual(36); // within margins
-    expect(layout.y).toBeGreaterThanOrEqual(36);
+    expect(layout.x).toBeGreaterThanOrEqual(17); // within margins
+    expect(layout.y).toBeGreaterThanOrEqual(17);
   });
 
   it("uses landscape orientation for A4", () => {
@@ -119,8 +119,47 @@ describe("calculateLayout", () => {
     });
 
     expect(noneLayout.x).toBe(0);
-    expect(normalLayout.x).toBe(72);
+    expect(normalLayout.x).toBe(34);
     expect(normalLayout.drawWidth).toBeLessThan(noneLayout.drawWidth);
+  });
+
+  it("supports Letter paper size", () => {
+    const layout = calculateLayout(100, 100, {
+      ...defaultSettings,
+      paperSize: "letter",
+    });
+    // Letter portrait: 612x792
+    expect(layout.pageWidth).toBe(612);
+    expect(layout.pageHeight).toBe(792);
+  });
+
+  it("supports Legal paper size", () => {
+    const layout = calculateLayout(100, 100, {
+      ...defaultSettings,
+      paperSize: "legal",
+    });
+    // Legal portrait: 612x1008
+    expect(layout.pageWidth).toBe(612);
+    expect(layout.pageHeight).toBe(1008);
+  });
+
+  it("supports A3 paper size", () => {
+    const layout = calculateLayout(100, 100, {
+      ...defaultSettings,
+      paperSize: "a3",
+    });
+    // A3 portrait: 842x1191
+    expect(layout.pageWidth).toBe(842);
+    expect(layout.pageHeight).toBe(1191);
+  });
+
+  it("applies wide margin", () => {
+    const layout = calculateLayout(100, 100, {
+      ...defaultSettings,
+      margins: "wide",
+    });
+    // wide = 68pt
+    expect(layout.x).toBe(68);
   });
 
   it("throws on invalid dimensions", () => {

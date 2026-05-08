@@ -41,11 +41,14 @@ export function calculateLayout(
     return { pageWidth: w, pageHeight: h, x: 0, y: 0, drawWidth: w, drawHeight: h };
   }
 
-  // A4 mode
-  const { width: pw, height: ph } = PAGE_SIZES.a4;
+  // Standard paper size mode
+  const ps = PAGE_SIZES[settings.paperSize as keyof typeof PAGE_SIZES];
+  if (!ps) {
+    throw new Error(`Unknown paper size: ${settings.paperSize}`);
+  }
   const landscape = settings.orientation === "landscape";
-  const pageWidth = landscape ? ph : pw;
-  const pageHeight = landscape ? pw : ph;
+  const pageWidth = landscape ? ps.height : ps.width;
+  const pageHeight = landscape ? ps.width : ps.height;
   const margin = MARGIN_VALUES[settings.margins];
 
   const contentWidth = pageWidth - margin * 2;

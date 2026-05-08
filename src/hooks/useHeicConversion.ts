@@ -8,11 +8,11 @@ import {
   type ConversionSettings,
   type ConversionState,
   type MainToWorker,
-  THUMB_MAX_WIDTH,
   MAX_FILES,
   MAX_FILE_SIZE,
   PDF_FILENAME,
   DEFAULT_SETTINGS,
+  resolveOrientation,
 } from "@/lib/conversion-types";
 import { buildPdf } from "@/lib/pdf-generator";
 
@@ -32,22 +32,166 @@ function isHeicFile(file: File): boolean {
   return name.endsWith(".heic") || name.endsWith(".heif");
 }
 
+
 export function useHeicConversion() {
   const [state, setState] = useState<ConversionState>({ status: "idle" });
   const workerRef = useRef<Worker | null>(null);
-  const thumbnailUrlsRef = useRef<string[]>([]);
   const filesRef = useRef<ConversionFile[]>([]);
   const settingsRef = useRef<ConversionSettings>(DEFAULT_SETTINGS);
   const cancelledRef = useRef(false);
   const mountedRef = useRef(true);
+  const decodeWorkerRef = useRef<Worker | null>(null);
+  const decodedFileIdsRef = useRef<Set<string>>(new Set());
 
   useEffect(() => {
     mountedRef.current = true;
     return () => {
       mountedRef.current = false;
       workerRef.current?.terminate();
-      thumbnailUrlsRef.current.forEach(URL.revokeObjectURL);
+      decodeWorkerRef.current?.terminate();
     };
+  }, []);
+
+  // Terminate decode worker when leaving editor state
+  useEffect(() => {
+    if (state.status !== "editor") {
+      decodeWorkerRef.current?.terminate();
+      decodeWorkerRef.current = null;
+    }
+  }, [state.status]);
+
+  const cleanupDecodeState = useCallback(() => {
+    decodedFileIdsRef.current.clear();
+  }, []);
+
+  const decodePendingFiles = useCallback(async () => {
+    if (decodeWorkerRef.current) return; // already decoding
+    if (typeof Worker === "undefined") return; // SSR / test environment
+
+    const worker = new Worker(
+      new URL("@/lib/heic-worker", import.meta.url),
+    );
+    decodeWorkerRef.current = worker;
+
+    try {
+      // Wait for Worker ready
+      await new Promise<void>((resolve, reject) => {
+        worker.addEventListener("message", (e) => {
+          if (e.data.type === "ready") resolve();
+          if (e.data.type === "error")
+            reject(new Error(e.data.error));
+        });
+        worker.postMessage({ type: "init" });
+      });
+
+      if (!mountedRef.current) {
+        worker.terminate();
+        return;
+      }
+
+      const currentFiles = filesRef.current;
+
+      for (let i = 0; i < currentFiles.length; i++) {
+        const f = currentFiles[i];
+        if (
+          f.thumbnailData ||
+          decodedFileIdsRef.current.has(f.id)
+        )
+          continue;
+
+        const buffer = await f.file.arrayBuffer();
+        const result = await new Promise<{
+          width: number;
+          height: number;
+          rgbaBuffer: Uint8Array;
+        } | null>((resolve) => {
+          const handleMsg = (e: MessageEvent) => {
+            const msg = e.data;
+            if (msg.type === "file-done" && msg.fileIndex === i) {
+              worker.removeEventListener("message", handleMsg);
+              resolve({
+                width: msg.width,
+                height: msg.height,
+                rgbaBuffer: msg.rgbaBuffer,
+              });
+            } else if (
+              msg.type === "file-error" &&
+              msg.fileIndex === i
+            ) {
+              worker.removeEventListener("message", handleMsg);
+              resolve(null);
+            }
+          };
+          worker.addEventListener("message", handleMsg);
+          worker.postMessage({ type: "decode", fileIndex: i, buffer }, [
+            buffer,
+          ]);
+        });
+
+        if (!mountedRef.current) return;
+        if (!result) continue;
+
+        // Scale decoded RGBA down to thumbnail size
+        const MAX_THUMB = 300;
+        const thumbScale = Math.min(
+          1,
+          MAX_THUMB / Math.max(result.width, result.height),
+        );
+        const thumbW = Math.round(result.width * thumbScale);
+        const thumbH = Math.round(result.height * thumbScale);
+
+        const srcCanvas = document.createElement("canvas");
+        srcCanvas.width = result.width;
+        srcCanvas.height = result.height;
+        const srcCtx = srcCanvas.getContext("2d");
+        if (srcCtx) {
+          const srcImageData = new ImageData(
+            new Uint8ClampedArray(result.rgbaBuffer),
+            result.width,
+            result.height,
+          );
+          srcCtx.putImageData(srcImageData, 0, 0);
+        }
+
+        const dstCanvas = document.createElement("canvas");
+        dstCanvas.width = thumbW;
+        dstCanvas.height = thumbH;
+        const dstCtx = dstCanvas.getContext("2d");
+        if (dstCtx && srcCtx) {
+          dstCtx.drawImage(srcCanvas, 0, 0, thumbW, thumbH);
+        }
+
+        const scaledRgba = dstCtx?.getImageData(0, 0, thumbW, thumbH);
+        const thumbnailData = scaledRgba
+          ? new Uint8Array(scaledRgba.data)
+          : undefined;
+
+        decodedFileIdsRef.current.add(currentFiles[i].id);
+
+        setState((prev) => {
+          if (prev.status !== "editor") return prev;
+          const newFiles = [...prev.files];
+          if (newFiles[i]) {
+            newFiles[i] = {
+              ...newFiles[i],
+              imageWidth: result.width,
+              imageHeight: result.height,
+              thumbnailData,
+              thumbnailDataWidth: scaledRgba ? thumbW : undefined,
+              thumbnailDataHeight: scaledRgba ? thumbH : undefined,
+            };
+          }
+          return { ...prev, files: newFiles };
+        });
+      }
+    } catch {
+      // Silently ignore decode errors — thumbnails will show placeholder
+    } finally {
+      worker.terminate();
+      if (decodeWorkerRef.current === worker) {
+        decodeWorkerRef.current = null;
+      }
+    }
   }, []);
 
   const selectFiles = useCallback((fileList: FileList | File[]) => {
@@ -58,20 +202,52 @@ export function useHeicConversion() {
     const truncated = valid.slice(0, MAX_FILES);
     const files = truncated.map(createConversionFile);
     filesRef.current = files;
+    settingsRef.current = DEFAULT_SETTINGS;
     setState({
-      status: "selected",
+      status: "editor",
       files,
       settings: DEFAULT_SETTINGS,
     });
-  }, []);
+    // Start background decode after state update
+    setTimeout(() => decodePendingFiles(), 0);
+  }, [decodePendingFiles]);
 
   const updateSettings = useCallback((settings: ConversionSettings) => {
     settingsRef.current = settings;
     setState((prev) => {
-      if (prev.status !== "selected") return prev;
+      if (prev.status !== "editor") return prev;
       return { ...prev, settings };
     });
   }, []);
+
+  const addMoreFiles = useCallback((fileList: FileList | File[]) => {
+    const incoming = Array.from(fileList);
+    const valid = incoming.filter(
+      (f) => isHeicFile(f) && f.size <= MAX_FILE_SIZE,
+    );
+    setState((prev) => {
+      if (prev.status !== "editor") return prev;
+      const remaining = MAX_FILES - prev.files.length;
+      const toAdd = valid.slice(0, remaining).map(createConversionFile);
+      if (toAdd.length === 0) return prev;
+      const files = [...prev.files, ...toAdd];
+      filesRef.current = files;
+      return { ...prev, files };
+    });
+    // Start background decode for any new files
+    setTimeout(() => decodePendingFiles(), 0);
+  }, [decodePendingFiles]);
+
+  const closeEditor = useCallback(() => {
+    cancelledRef.current = false;
+    workerRef.current?.terminate();
+    workerRef.current = null;
+    decodeWorkerRef.current?.terminate();
+    decodeWorkerRef.current = null;
+    cleanupDecodeState();
+    filesRef.current = [];
+    setState({ status: "idle" });
+  }, [cleanupDecodeState]);
 
   const startConversion = useCallback(async () => {
     const files = filesRef.current.map((f) => ({ ...f }));
@@ -222,32 +398,6 @@ export function useHeicConversion() {
           height: result.height,
         });
 
-        // Generate thumbnail for preview
-        const thumbScale = Math.min(
-          1,
-          THUMB_MAX_WIDTH / Math.max(result.width, result.height),
-        );
-        const tw = Math.round(result.width * thumbScale);
-        const th = Math.round(result.height * thumbScale);
-
-        if (tw > 0 && th > 0) {
-          const thumbCanvas = document.createElement("canvas");
-          thumbCanvas.width = tw;
-          thumbCanvas.height = th;
-          const thumbCtx = thumbCanvas.getContext("2d");
-          if (thumbCtx) {
-            thumbCtx.drawImage(canvas, 0, 0, tw, th);
-            const thumbBlob = await new Promise<Blob | null>((resolve) =>
-              thumbCanvas.toBlob((b) => resolve(b), "image/jpeg", 0.6),
-            );
-            if (thumbBlob) {
-              const url = URL.createObjectURL(thumbBlob);
-              thumbnailUrlsRef.current.push(url);
-              files[i] = { ...files[i], thumbnailUrl: url };
-            }
-          }
-        }
-
         files[i] = { ...files[i], status: "done" };
       }
 
@@ -259,8 +409,32 @@ export function useHeicConversion() {
         return;
       }
 
-      // Build PDF
-      const pdfBlob = await buildPdf(pdfImages, settings);
+      // Build PDF — resolve auto orientation per image
+      const imagesWithOrientation = pdfImages.map((img) => {
+        const resolvedOrientation = resolveOrientation(
+          img.width,
+          img.height,
+          settings,
+        );
+        return {
+          pngBytes: img.pngBytes,
+          width: img.width,
+          height: img.height,
+          orientation: resolvedOrientation,
+        };
+      });
+
+      const perImageSettings = imagesWithOrientation.map((img) => ({
+        ...settings,
+        orientation: img.orientation,
+      }));
+
+      // Use the first image's resolved settings for buildPdf (single orientation mode)
+      const pdfBlob = await buildPdf(pdfImages, {
+        ...settings,
+        orientation: perImageSettings[0]?.orientation ?? settings.orientation,
+      });
+
       worker.terminate();
       workerRef.current = null;
       filesRef.current = files;
@@ -268,11 +442,29 @@ export function useHeicConversion() {
       if (!mountedRef.current) return;
 
       setState({
-        status: "preview",
+        status: "complete",
         files,
         pdfBlob,
         pdfSizeBytes: pdfBlob.size,
       });
+
+      // Auto-download
+      const url = URL.createObjectURL(pdfBlob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = PDF_FILENAME;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+      // Reset to idle after brief delay to show completion state
+      setTimeout(() => {
+        if (mountedRef.current) {
+          filesRef.current = [];
+          setState({ status: "idle" });
+        }
+      }, 1500);
     } catch (err) {
       worker.terminate();
       workerRef.current = null;
@@ -292,45 +484,36 @@ export function useHeicConversion() {
     }
   }, []);
 
-  const download = useCallback(() => {
-    if (state.status !== "preview") return;
-    const url = URL.createObjectURL(state.pdfBlob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = PDF_FILENAME;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  }, [state]);
-
   const reset = useCallback(() => {
     cancelledRef.current = false;
     workerRef.current?.terminate();
     workerRef.current = null;
-    thumbnailUrlsRef.current.forEach(URL.revokeObjectURL);
-    thumbnailUrlsRef.current = [];
+    decodeWorkerRef.current?.terminate();
+    decodeWorkerRef.current = null;
+    cleanupDecodeState();
     filesRef.current = [];
     setState({ status: "idle" });
-  }, []);
+  }, [cleanupDecodeState]);
 
   const cancel = useCallback(() => {
     cancelledRef.current = true;
     workerRef.current?.postMessage({ type: "cancel" });
     workerRef.current?.terminate();
     workerRef.current = null;
-    thumbnailUrlsRef.current.forEach(URL.revokeObjectURL);
-    thumbnailUrlsRef.current = [];
+    decodeWorkerRef.current?.terminate();
+    decodeWorkerRef.current = null;
+    cleanupDecodeState();
     filesRef.current = [];
     setState({ status: "idle" });
-  }, []);
+  }, [cleanupDecodeState]);
 
   return {
     state,
     selectFiles,
     updateSettings,
+    addMoreFiles,
+    closeEditor,
     startConversion,
-    download,
     reset,
     cancel,
   };
