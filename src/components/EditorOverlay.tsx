@@ -358,70 +358,56 @@ export default function EditorOverlay({
       <div className="editor-body">
         {/* Main area */}
         <div className="editor-main">
-          <div className="editor-main-toolbar">
-            <div className="editor-main-toolbar-left">
-              <span className="sort-label">{t("sortLabel")}</span>
-              <div className="sort-btn-group" id="sortBtnGroup">
-                <button
-                  type="button"
-                  className={`sort-btn${sortMode === "default" ? " active" : ""}`}
-                  onClick={() => { setSortMode("default"); setCustomOrder(null); }}
-                >
-                  {t("sortDefault")}
-                </button>
-                <button
-                  type="button"
-                  className={`sort-btn${sortMode === "asc" ? " active" : ""}`}
-                  onClick={() => { setSortMode("asc"); setCustomOrder(null); }}
-                >
-                  {t("sortAsc")}
-                </button>
-                <button
-                  type="button"
-                  className={`sort-btn${sortMode === "desc" ? " active" : ""}`}
-                  onClick={() => { setSortMode("desc"); setCustomOrder(null); }}
-                >
-                  {t("sortDesc")}
-                </button>
-              </div>
-              <span className="size-label">{t("sizeLabel")}</span>
-              <div className="size-slider-wrap">
-                <span
-                  className={`size-icon${thumbSize === 0 ? " active" : ""}`}
-                  onClick={() => setThumbSize(Math.max(0, thumbSize - 1) as ThumbSize)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") setThumbSize(Math.max(0, thumbSize - 1) as ThumbSize);
-                  }}
-                  style={{ cursor: "pointer" }}
-                >−</span>
-                <input
-                  type="range"
-                  className="size-slider"
-                  style={{
-                    background: `linear-gradient(to right, var(--accent), var(--accent) ${(thumbSize / 4) * 100}%, var(--border) ${(thumbSize / 4) * 100}%, var(--border) 100%)`,
-                  }}
-                  min={0}
-                  max={4}
-                  value={thumbSize}
-                  step={1}
-                  onChange={(e) => setThumbSize(Number(e.target.value) as ThumbSize)}
-                />
-                <span
-                  className={`size-icon${thumbSize === 4 ? " active" : ""}`}
-                  onClick={() => setThumbSize(Math.min(4, thumbSize + 1) as ThumbSize)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") setThumbSize(Math.min(4, thumbSize + 1) as ThumbSize);
-                  }}
-                  style={{ cursor: "pointer" }}
-                >+</span>
-              </div>
+          {/* Floating tool panel — sort + size */}
+          <div className="editor-floating-tools">
+            <div className="sort-btn-group-vertical">
+              <button
+                type="button"
+                className={`sort-btn-vert${sortMode === "default" ? " active" : ""}`}
+                onClick={() => { setSortMode("default"); setCustomOrder(null); }}
+                title={t("sortDefault")}
+              >↕</button>
+              <button
+                type="button"
+                className={`sort-btn-vert${sortMode === "asc" ? " active" : ""}`}
+                onClick={() => { setSortMode("asc"); setCustomOrder(null); }}
+                title={t("sortAsc")}
+              >↑</button>
+              <button
+                type="button"
+                className={`sort-btn-vert${sortMode === "desc" ? " active" : ""}`}
+                onClick={() => { setSortMode("desc"); setCustomOrder(null); }}
+                title={t("sortDesc")}
+              >↓</button>
+            </div>
+            <div className="size-slider-wrap">
+              <button
+                type="button"
+                className={`size-icon${thumbSize === 4 ? " active" : ""}`}
+                onClick={() => setThumbSize(Math.min(4, thumbSize + 1) as ThumbSize)}
+                title={t("sizeIncrease")}
+              >+</button>
+              <input
+                type="range"
+                className="size-slider-vertical"
+                style={{
+                  background: `linear-gradient(to top, var(--accent), var(--accent) ${(thumbSize / 4) * 100}%, var(--border) ${(thumbSize / 4) * 100}%, var(--border) 100%)`,
+                }}
+                min={0}
+                max={4}
+                value={thumbSize}
+                step={1}
+                onChange={(e) => setThumbSize(Number(e.target.value) as ThumbSize)}
+                title={t("sizeDrag")}
+              />
+              <button
+                type="button"
+                className={`size-icon${thumbSize === 0 ? " active" : ""}`}
+                onClick={() => setThumbSize(Math.max(0, thumbSize - 1) as ThumbSize)}
+                title={t("sizeDecrease")}
+              >−</button>
             </div>
           </div>
-
           <div className="thumb-grid-wrap">
             <div className={`thumb-grid size-${thumbSize}`}>
               {sortedFiles.length === 0 ? (
