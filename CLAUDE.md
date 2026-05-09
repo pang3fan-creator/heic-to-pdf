@@ -31,11 +31,16 @@ src/
 │   ├── DropZone.tsx           # 首页拖拽上传区
 │   ├── GlobalDropOverlay.tsx  # 全局拖拽覆盖层
 │   ├── HeroSection.tsx        # 首页主视觉
-│   └── CompletePage.tsx       # 完成页面（手动下载 + Save to Dropbox）
+│   └── CompletePage.tsx       # 完成页面（手动下载 + Save to Dropbox/Google Drive）
 ├── hooks/
 │   ├── useHeicConversion.ts   # 核心状态机（解码/转换/下载）
 │   └── __tests__/
 ├── lib/
+│   ├── cloud/
+│   │   ├── types.ts             # CloudProvider, OAuthConfig, TokenStore
+│   │   ├── oauth-core.ts        # PKCE生成、popup管理、token管理
+│   │   ├── dropbox/{config,auth}.ts
+│   │   └── google-drive/{config,auth,utils}.ts
 │   ├── conversion-types.ts    # 类型定义 + 常量
 │   ├── heic-worker.ts         # libheif Web Worker（HEIC→RGBA）
 │   ├── image-decoder.ts       # 统一图片解码层（HEIC→Worker, 其他→createImageBitmap）
@@ -110,13 +115,32 @@ src/
 - 计算滚动条宽度 `window.innerWidth - document.documentElement.clientWidth`，补偿到 `paddingRight` 防止页面抖动
 - useEffect cleanup 中恢复原始 overflow 和 paddingRight
 
+### Cloud OAuth 弹窗通信
+
+- 某些 provider（如 Google）的 OAuth 页面设置 `Cross-Origin-Opener-Policy`，破坏弹窗通信
+- 方案：`oauth-core.ts` 实现 BroadcastChannel + localStorage 轮询双备援
+- `notifyOpener()` 同时使用 BroadcastChannel 和 `window.opener.postMessage()`
+- `openOAuthPopup()` 首次检测到 COOP 后不再访问 `popup.closed`，减少 console 噪声
+- **关键坑**：授权成功后需重新调用 `getAccessToken()` 获取新 token（`uploadTo*` 函数容易遗漏）
+
 ### Dropbox 集成
 
-- **环境变量**：`.env.local` 中配置 `NEXT_PUBLIC_DROPBOX_APP_KEY`
-- **导入**：Dropbox Chooser API（`Dropbox.choose()`）直接返回 File 对象
-- **导出**：Saver API 不支持 `blob:` URL，须用 PKCE OAuth + `/files/upload` 直接上传
-- **OAuth 弹窗**：`window.open()` 而非页面跳转，避免丢失内存中的 PDF blob
-- **弹窗通信**：回调页通过 `window.opener.postMessage()` 通知父窗口结果
+- **环境变量**：`.env.local` → `NEXT_PUBLIC_DROPBOX_APP_KEY`
+- **OAuth 层**：通过 `src/lib/cloud/dropbox/auth.ts` 适配，核心在 `oauth-core.ts`
+- **导入**：Dropbox Chooser API（`Dropbox.choose()`）
+- **导出**：PKCE OAuth + `/files/upload`
+- **弹窗**：`window.open()` 弹窗模式
+
+### Google Drive 集成
+
+- **环境变量**：`NEXT_PUBLIC_GOOGLE_CLIENT_ID` + `NEXT_PUBLIC_GOOGLE_CLIENT_SECRET` + `NEXT_PUBLIC_GOOGLE_API_KEY`
+- **OAuth**：使用全页面重定向而非弹窗（Google 的 OAuth 页面设置 COOP 头）
+- **client_secret 必要**：即使使用 PKCE，Google token 端点仍要求传 `client_secret`
+- **导入**：Google Picker API（需启用 Google Picker API + Google Drive API）
+- **API Key 要求**：`NEXT_PUBLIC_GOOGLE_API_KEY` 必须设置，且 Key 的 API 限制须包含以上两个 API
+- **Picker 视图**：使用 `DocsView().setMimeTypes(...)` 过滤文件类型
+- **上传**：multipart 格式（元数据 JSON + 文件 blob）
+- **回调路由**：`/auth/google/callback`（已在 middleware matcher 中排除）
 
 ### Split Button 下拉菜单
 
@@ -127,6 +151,7 @@ src/
 ### CompletePage / Merge 功能
 
 - **完成页**：转换完成后不再自动下载/自动重置，用户手动 Start Over
+- **云存储状态**：使用统一的 `cloudStatus`（`provider + status`）管理各网盘上传状态
 - complete 状态中 `blobType: "pdf" | "zip"` 区分输出类型
 - **Merge 关**：`npm install jszip`，`resolvePdfNames()` 处理同名冲突（1.jpg→1.pdf, 1.png→1-1.pdf）
 - **单张图**：无论 merge 开关如何，直接下载 PDF（不打包 zip）
