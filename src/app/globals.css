@@ -1689,7 +1689,7 @@ a:hover {
   padding: 12px 28px;
   border-radius: 100px 0 0 100px;
   border: none;
-  background: linear-gradient(135deg, #ff8a3d, #ff6b2b);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 85%, white), var(--accent));
   color: #fff;
   font-size: 15px;
   font-weight: 700;
@@ -1697,15 +1697,16 @@ a:hover {
   font-family: var(--font-body);
   letter-spacing: 0.5px;
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 10px;
-  box-shadow: 0 4px 16px rgba(255, 107, 43, 0.35);
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--accent) 40%, transparent);
   transition: transform 0.2s, box-shadow 0.2s;
   line-height: 1.2;
 }
 .split-btn-main:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 24px rgba(255, 107, 43, 0.5);
+  box-shadow: 0 6px 24px color-mix(in srgb, var(--accent) 55%, transparent);
 }
 .split-btn-main:active {
   transform: translateY(0);
@@ -1716,14 +1717,14 @@ a:hover {
   border-radius: 0 100px 100px 0;
   border: none;
   border-left: 1px solid rgba(255, 255, 255, 0.25);
-  background: linear-gradient(135deg, #ff8a3d, #ff6b2b);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 85%, white), var(--accent));
   color: #fff;
   font-size: 18px;
   font-weight: 700;
   cursor: pointer;
   line-height: 1;
   font-family: var(--font-body);
-  box-shadow: 0 4px 16px rgba(255, 107, 43, 0.35);
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--accent) 40%, transparent);
   transition: transform 0.2s, box-shadow 0.2s;
   display: flex;
   align-items: center;
@@ -1731,7 +1732,7 @@ a:hover {
 }
 .split-btn-arrow:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 24px rgba(255, 107, 43, 0.5);
+  box-shadow: 0 6px 24px color-mix(in srgb, var(--accent) 55%, transparent);
 }
 .split-btn-arrow:active {
   transform: translateY(0);
@@ -1749,6 +1750,8 @@ a:hover {
   padding: 6px;
   z-index: 10;
   box-sizing: border-box;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .split-btn-dropdown button {
   display: flex;
