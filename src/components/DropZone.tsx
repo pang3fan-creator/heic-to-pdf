@@ -236,7 +236,7 @@ export default function DropZone({
             {browseOpen && (
               <div className="split-btn-dropdown">
                 <button onClick={() => { setBrowsePinned(false); setBrowseHover(false); onBrowse(); }} type="button">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
                     <line x1="8" y1="21" x2="16" y2="21"/>
                     <line x1="12" y1="17" x2="12" y2="21"/>
@@ -245,21 +245,21 @@ export default function DropZone({
                 </button>
                 <hr aria-hidden="true" />
                 <button onClick={handleFromDropbox} type="button">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <rect x="2" y="2" width="20" height="20" rx="4" fill="#0061FF"/>
-                    <path d="M6 8l4-3 4 3-4 3-4-3z" fill="white"/>
-                    <path d="M10 13l4-3 4 3-4 3-4-3z" fill="white"/>
-                    <path d="M12 17l4-3 2 1.5v1L12 19l-6-3.5v-1L8 14l4 3z" fill="white" opacity="0.6"/>
+                  <svg width="28" height="28" viewBox="0 0 48 48" aria-hidden="true">
+                    <rect x="4" y="4" width="40" height="40" rx="8" fill="#0061FF"/>
+                    <path d="M16 18l8-6 8 6-8 6-8-6z" fill="white"/>
+                    <path d="M16 28l8-6 8 6" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M24 32l8-6v4l-8 6-8-6v-4l8 6z" fill="white" opacity="0.7"/>
                   </svg>
                   {t("fromDropbox")}
                 </button>
                 <hr aria-hidden="true" />
                 <button onClick={handleFromGoogleDrive} type="button">
-                  <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 2L8 9.5h8L12 2z" fill="#4285F4"/>
-                    <path d="M5.5 16L8 9.5l-3.5 6.5H2L4 12.5 2 9.5h5L12 2l5 7.5h5l-2 3 2 3.5h-3.5L16 9.5 13.5 16l-1.5 3-1.5-3z" fill="#34A853"/>
-                    <path d="M12 21l3.5-5h-7L12 21z" fill="#EA4335"/>
-                    <path d="M8 9.5L5.5 16h6L8 9.5z" fill="#FBBC05"/>
+                  <svg width="28" height="28" viewBox="0 0 48 48" aria-hidden="true">
+                    <path d="M24 4L4 28h12.5L24 18l7.5 10H44L24 4z" fill="#4285F4"/>
+                    <path d="M24 4l10 17.3L44 28H31.5L24 18l-7.5 10H4l10-17.3L24 4z" fill="#34A853"/>
+                    <path d="M4 28l10 10h20l10-10H31.5L24 38l-7.5-10H4z" fill="#EA4335"/>
+                    <path d="M14 38l3.5-10h13L34 38H14z" fill="#FBBC05"/>
                   </svg>
                   {t("fromGoogleDrive")}
                 </button>

@@ -1683,7 +1683,7 @@ a:hover {
 /* Split button */
 .split-btn-wrap {
   position: relative;
-  display: flex;
+  display: inline-flex;
 }
 .split-btn-main {
   padding: 12px 28px;
@@ -1756,14 +1756,14 @@ a:hover {
 .split-btn-dropdown button {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   width: 100%;
-  padding: 10px 14px;
+  padding: 12px 16px;
   border: none;
   border-radius: 8px;
   background: transparent;
   color: var(--fg);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   cursor: pointer;
   font-family: var(--font-body);
