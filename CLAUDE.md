@@ -23,22 +23,29 @@ npm run test:watch   # 监听模式运行测试
 ```
 src/
 ├── app/[locale]/page.tsx     # 主页面
+├── app/auth/                 # OAuth 回调页（非 locale 路由，需排除 middleware）
 ├── components/
 │   ├── ConversionContainer.tsx # 状态机调度（idle/editor/converting/complete）
 │   ├── EditorOverlay.tsx      # 全屏编辑器（缩略图+排序+预览）
 │   ├── PreviewModal.tsx       # 大图预览弹窗
 │   ├── DropZone.tsx           # 首页拖拽上传区
 │   ├── GlobalDropOverlay.tsx  # 全局拖拽覆盖层
-│   └── HeroSection.tsx        # 首页主视觉
+│   ├── HeroSection.tsx        # 首页主视觉
+│   └── CompletePage.tsx       # 完成页面（手动下载 + Save to Dropbox）
 ├── hooks/
 │   ├── useHeicConversion.ts   # 核心状态机（解码/转换/下载）
 │   └── __tests__/
 ├── lib/
 │   ├── conversion-types.ts    # 类型定义 + 常量
 │   ├── heic-worker.ts         # libheif Web Worker（HEIC→RGBA）
+│   ├── image-decoder.ts       # 统一图片解码层（HEIC→Worker, 其他→createImageBitmap）
 │   ├── pdf-generator.ts       # pdf-lib PDF 生成
 │   ├── preview-renderer.ts    # Canvas PDF 页面预览渲染
+│   ├── zip-utils.ts           # JSZip 打包 + 冲突安全命名
+│   ├── dropbox-utils.ts       # Dropbox Chooser（导入）
+│   ├── dropbox-auth.ts        # PKCE OAuth + 直接上传 API
 │   └── __tests__/
+├── middleware.ts             # next-intl 路由中间件（matcher 排除 /auth/ 等）
 └── types/libheif-js.d.ts     # libheif 类型声明
 ```
 
@@ -49,9 +56,9 @@ src/
 - `/` → 英文首页，直接展示
 - `/en` → 英文首页，重定向到 `/`
 - 不要在 `[locale]` 目录下直接创建 `en/` 文件夹
-
 - `usePathname()` 返回的路径包含语言前缀（如 `/es/about`），解析时需过滤
 - 过滤语言段: `segments.filter((s, i) => i !== 0 || !SUPPORTED_LOCALES.includes(s))`
+- **非 locale 路径**（如 `/auth/*`）需要在 `middleware.ts` 的 matcher 中显式排除，且需要自己的 layout（含 `<html>`/`<body>` 标签）
 
 ### 多语言 URL 拼接
 
@@ -61,14 +68,22 @@ src/
 正确: 使用 buildUrl(locale, "/path") 从 @/lib/url 导入
 ```
 
-### HEIC 图片渲染 (关键!)
+### 图片格式与解码
 
-- HEIC 解码在 Web Worker 中完成，返回 `rgbaBuffer: Uint8Array`
-- 缩略图：Worker → `ImageData` → `createImageBitmap` → Canvas `drawImage`
+- 支持格式：`.heic/.heif`、`.jpg/.jpeg`、`.png`、`.webp`
+- HEIC → libheif Web Worker 解码，返回 RGBA Uint8Array
+- JPEG/PNG/WebP → 浏览器 `createImageBitmap` + Canvas 解码，返回同样 RGBA 格式
+- 解码层统一入口在 `src/lib/image-decoder.ts`
 - 缩略图尺寸 300px max，预览尺寸 800px max，在 `useHeicConversion.ts` 中缩放
 - Canvas 渲染需处理 `devicePixelRatio`：`canvas.width = displayW * dpr; ctx.scale(dpr, dpr)`
 - **ImageBitmap 守卫**：rAF 回调中必须检查 `bitmapRef.current !== bitmap`，否则 `drawImage` 报 "image source is detached"
-- 用两个 `useEffect` 分别响应文件数据和设置变化，bitmap 通过 `useRef` 缓存
+
+### PDF 生成
+
+- HEIC/WebP → Canvas 编码 PNG → `embedPng()`
+- JPEG → 直接嵌入原始字节 → `embedJpg()`（无损，无需重编）
+- PNG → 直接嵌入原始字节 → `embedPng()`（无损）
+- 用 `pdf-lib` 库，纯浏览器端生成
 
 ### `.next` 缓存损坏
 
@@ -87,6 +102,35 @@ src/
 - 使用 OKLCH 色彩空间，默认暗色模式，亮色模式通过 `[data-theme="light"]` 切换
 - 主题变量在 `:root` 中定义，通过 JS 切换 `data-theme` 属性
 - 核心变量：`--bg`、`--surface`、`--fg`、`--muted`、`--border`、`--accent`、`--accent-soft`
+
+### 全屏覆盖层滚动锁定
+
+- EditorOverlay / CompletePage 等全屏 fixed 覆盖层打开时，需锁定 body 滚动
+- `document.body.style.overflow = 'hidden'`
+- 计算滚动条宽度 `window.innerWidth - document.documentElement.clientWidth`，补偿到 `paddingRight` 防止页面抖动
+- useEffect cleanup 中恢复原始 overflow 和 paddingRight
+
+### Dropbox 集成
+
+- **环境变量**：`.env.local` 中配置 `NEXT_PUBLIC_DROPBOX_APP_KEY`
+- **导入**：Dropbox Chooser API（`Dropbox.choose()`）直接返回 File 对象
+- **导出**：Saver API 不支持 `blob:` URL，须用 PKCE OAuth + `/files/upload` 直接上传
+- **OAuth 弹窗**：`window.open()` 而非页面跳转，避免丢失内存中的 PDF blob
+- **弹窗通信**：回调页通过 `window.opener.postMessage()` 通知父窗口结果
+
+### Split Button 下拉菜单
+
+- 三个位置使用：DropZone（Browse）、EditorOverlay（Add Photos）、CompletePage（Download）
+- 交互：鼠标悬停展开（`onMouseEnter`）、150ms 延迟关闭（`onMouseLeave` + `setTimeout`）
+- 点击 ▾ 箭头切换 pinned 状态，锁定后鼠标移出不收起
+
+### CompletePage / Merge 功能
+
+- **完成页**：转换完成后不再自动下载/自动重置，用户手动 Start Over
+- complete 状态中 `blobType: "pdf" | "zip"` 区分输出类型
+- **Merge 关**：`npm install jszip`，`resolvePdfNames()` 处理同名冲突（1.jpg→1.pdf, 1.png→1-1.pdf）
+- **单张图**：无论 merge 开关如何，直接下载 PDF（不打包 zip）
+- Merge 开关通过 `settingsRef.merge` 持久化，跨编辑器会话保持
 
 ## SEO 规范
 

@@ -6,6 +6,7 @@ import { useHeicConversion } from "@/hooks/useHeicConversion";
 import DropZone from "./DropZone";
 import EditorOverlay from "./EditorOverlay";
 import GlobalDropOverlay from "./GlobalDropOverlay";
+import CompletePage from "./CompletePage";
 
 export default function ConversionContainer() {
   const conversion = useHeicConversion();
@@ -18,8 +19,7 @@ export default function ConversionContainer() {
       <DropZone
         onFilesSelected={s.status === "editor" ? conversion.addMoreFiles : conversion.selectFiles}
         isConverting={s.status === "converting"}
-        isComplete={s.status === "complete"}
-        files={s.status === "converting" || s.status === "complete" || s.status === "error" ? s.files : undefined}
+        files={s.status === "converting" || s.status === "error" ? s.files : undefined}
         currentFileIndex={s.status === "converting" ? s.currentFileIndex : undefined}
         progress={s.status === "converting" ? s.progress : undefined}
         onCancel={conversion.cancel}
@@ -34,6 +34,16 @@ export default function ConversionContainer() {
           onAddFiles={conversion.addMoreFiles}
           onRemoveFile={conversion.removeFile}
           onSettingsChange={conversion.updateSettings}
+        />
+      )}
+
+      {s.status === "complete" && (
+        <CompletePage
+          files={s.files}
+          blob={s.blob}
+          blobType={s.blobType}
+          sizeBytes={s.sizeBytes}
+          onReset={conversion.reset}
         />
       )}
 

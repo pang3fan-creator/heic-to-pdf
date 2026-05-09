@@ -1,13 +1,12 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { MAX_FILE_SIZE, getFileType } from "@/lib/conversion-types";
 
 interface Props {
   onFilesSelected: (files: FileList | File[]) => void;
   isConverting?: boolean;
-  isComplete?: boolean;
   progress?: number;
   files?: { name: string; size: number; status: string }[];
   currentFileIndex?: number;
@@ -17,7 +16,6 @@ interface Props {
 export default function DropZone({
   onFilesSelected,
   isConverting,
-  isComplete,
   progress,
   files,
   currentFileIndex,
@@ -25,7 +23,43 @@ export default function DropZone({
 }: Props) {
   const t = useTranslations("hero.dropzone");
   const inputRef = useRef<HTMLInputElement>(null);
-  const showProcessing = isConverting || isComplete;
+  const [browsePinned, setBrowsePinned] = useState(false);
+  const [browseHover, setBrowseHover] = useState(false);
+  const browseRef = useRef<HTMLDivElement>(null);
+  const browseCloseTimer = useRef<number | undefined>(undefined);
+  const browseOpen = browseHover || browsePinned;
+
+  const scheduleBrowseClose = () => {
+    if (browseCloseTimer.current !== undefined) clearTimeout(browseCloseTimer.current);
+    browseCloseTimer.current = window.setTimeout(() => {
+      setBrowseHover(false);
+      setBrowsePinned(false);
+    }, 150);
+  };
+
+  const cancelBrowseClose = () => {
+    if (browseCloseTimer.current !== undefined) {
+      clearTimeout(browseCloseTimer.current);
+      browseCloseTimer.current = undefined;
+    }
+  };
+
+  const handleFromDropbox = useCallback(async () => {
+    cancelBrowseClose();
+    setBrowsePinned(false);
+    setBrowseHover(false);
+    try {
+      const { pickFromDropbox } = await import("@/lib/dropbox-utils");
+      const files = await pickFromDropbox();
+      if (files.length > 0) {
+        onFilesSelected(files);
+      }
+    } catch {
+      // Dropbox SDK not configured or user cancelled — silently ignore
+    }
+  }, [onFilesSelected]);
+
+  const showProcessing = isConverting;
 
   const handleFiles = useCallback(
     (fileList: FileList) => {
@@ -115,7 +149,7 @@ export default function DropZone({
             <span className="progress-current">
               Photo {currentFileIndex !== undefined ? currentFileIndex + 1 : files.length} of {files.length}
             </span>
-            <span>{isComplete ? "Complete!" : `${progress ?? 0}%`}</span>
+            <span>{progress ?? 0}%</span>
           </div>
           <div className="progress-track accent">
             <div className="progress-bar" style={{ width: `${progress ?? 0}%` }} />
@@ -154,7 +188,36 @@ export default function DropZone({
           <h2>{t("title")}</h2>
           <p>{t("subtitle")}</p>
           <div className="hint">{t("hint")}</div>
-          <button className="browse-btn" onClick={onBrowse} type="button">{t("browseBtn")}</button>
+          <div style={{ textAlign: "center" }}>
+          <div
+            className="split-btn-wrap"
+            ref={browseRef}
+            onMouseEnter={() => { cancelBrowseClose(); setBrowseHover(true); }}
+            onMouseLeave={scheduleBrowseClose}
+          >
+            <button className="split-btn-main" onClick={onBrowse} type="button">
+              {t("browseBtn")}
+            </button>
+            <button
+              className="split-btn-arrow"
+              onClick={() => setBrowsePinned((v) => !v)}
+              type="button"
+              aria-label="More options"
+            >
+              ▾
+            </button>
+            {browseOpen && (
+              <div className="split-btn-dropdown">
+                <button onClick={() => { setBrowsePinned(false); setBrowseHover(false); onBrowse(); }} type="button">
+                  {t("fromDevice")}
+                </button>
+                <button onClick={handleFromDropbox} type="button">
+                  {t("fromDropbox")}
+                </button>
+              </div>
+            )}
+          </div>
+          </div>
           <div className="privacy-note">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />

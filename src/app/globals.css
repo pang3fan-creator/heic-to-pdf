@@ -1578,3 +1578,195 @@ a:hover {
   font-size: 13px;
   color: var(--muted);
 }
+
+/* ========== Complete Page ========== */
+.complete-page {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.complete-page-content {
+  max-width: 480px;
+  width: 100%;
+  padding: 40px 24px;
+  text-align: center;
+}
+.complete-icon-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+.complete-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+.complete-file-list {
+  text-align: left;
+  margin-bottom: 20px;
+}
+.complete-file-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--surface);
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+.complete-file-row.done .complete-file-icon {
+  color: var(--accent);
+}
+.complete-file-row.skipped .complete-file-icon {
+  color: #e44;
+}
+.complete-file-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.complete-file-size {
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.complete-file-error {
+  color: #e44;
+  font-size: 12px;
+}
+.complete-output-info {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+.complete-output-name {
+  font-weight: 500;
+}
+.complete-output-size {
+  color: var(--muted);
+}
+.complete-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+.complete-start-over {
+  padding: 10px 20px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  cursor: pointer;
+}
+.complete-start-over:hover {
+  background: var(--surface);
+}
+
+/* Split button */
+.split-btn-wrap {
+  position: relative;
+  display: flex;
+}
+.split-btn-main {
+  padding: 10px 24px;
+  border-radius: 100px 0 0 100px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: opacity 0.2s, transform 0.15s;
+}
+.split-btn-main:hover {
+  opacity: 0.9;
+}
+.split-btn-arrow {
+  padding: 10px 12px;
+  border-radius: 0 100px 100px 0;
+  border: none;
+  border-left: 1px solid oklch(0% 0 0 / 15%);
+  background: var(--accent);
+  color: #fff;
+  font-size: 10px;
+  cursor: pointer;
+  line-height: 1;
+  font-family: var(--font-body);
+  transition: opacity 0.2s;
+}
+.split-btn-arrow:hover {
+  opacity: 0.9;
+}
+.split-btn-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px oklch(0% 0 0 / 20%);
+  overflow: hidden;
+  z-index: 10;
+  white-space: nowrap;
+}
+.split-btn-dropdown button {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: transparent;
+  color: var(--fg);
+  font-size: 13px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  text-align: left;
+  transition: background 0.15s;
+}
+.split-btn-dropdown button:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* Editor split button overrides */
+.split-btn-editor {
+  border-radius: 8px 0 0 8px !important;
+  border-right: none !important;
+}
+.split-btn-editor:hover {
+  background: var(--accent-soft) !important;
+}
+.split-btn-editor-arrow {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 0 8px 8px 0;
+  background: var(--surface);
+  color: var(--fg);
+  font-size: 12px;
+  cursor: pointer;
+  line-height: 1;
+  font-family: var(--font-body);
+  transition: background 0.2s, border-color 0.2s;
+}
+.split-btn-editor-arrow:hover {
+  background: var(--accent-soft);
+}

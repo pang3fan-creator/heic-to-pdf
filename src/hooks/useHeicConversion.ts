@@ -10,7 +10,6 @@ import {
   type PdfImageInput,
   MAX_FILES,
   MAX_FILE_SIZE,
-  PDF_FILENAME,
   DEFAULT_SETTINGS,
   getFileType,
   resolveOrientation,
@@ -351,7 +350,6 @@ export function useHeicConversion() {
 
       let blob: Blob;
       let blobType: "pdf" | "zip";
-      let downloadName: string;
 
       if (settings.merge || pdfImages.length <= 1) {
         // Single image or merge mode: direct PDF download
@@ -360,7 +358,6 @@ export function useHeicConversion() {
           orientation: perImageSettings[0]?.orientation ?? settings.orientation,
         });
         blobType = "pdf";
-        downloadName = PDF_FILENAME;
       } else {
         // Non-merge mode: individual PDFs → zip
         const names = resolvePdfNames(
@@ -377,7 +374,6 @@ export function useHeicConversion() {
 
         blob = await createZip(pdfBlobs);
         blobType = "zip";
-        downloadName = "images.zip";
       }
 
       if (!mountedRef.current) return;
@@ -390,24 +386,7 @@ export function useHeicConversion() {
         sizeBytes: blob.size,
       });
 
-      // Auto-download
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = downloadName;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-
-      // Reset to idle after brief delay to show completion state
-      setTimeout(() => {
-        if (mountedRef.current) {
-          filesRef.current = [];
-          setState({ status: "idle" });
-        }
-      }, 1500);
-    } catch (err) {
+	    } catch (err) {
       const errorFiles = files.map((f) => ({
         ...f,
         status: f.status === "pending" ? ("skipped" as const) : f.status,

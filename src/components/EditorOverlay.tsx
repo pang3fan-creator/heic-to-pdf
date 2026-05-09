@@ -314,6 +314,42 @@ export default function EditorOverlay({
     [onAddFiles],
   );
 
+  const [addPinned, setAddPinned] = useState(false);
+  const [addHover, setAddHover] = useState(false);
+  const addRef = useRef<HTMLDivElement>(null);
+  const addCloseTimer = useRef<number | undefined>(undefined);
+  const addOpen = addHover || addPinned;
+
+  const scheduleAddClose = () => {
+    if (addCloseTimer.current !== undefined) clearTimeout(addCloseTimer.current);
+    addCloseTimer.current = window.setTimeout(() => {
+      setAddHover(false);
+      setAddPinned(false);
+    }, 150);
+  };
+
+  const cancelAddClose = () => {
+    if (addCloseTimer.current !== undefined) {
+      clearTimeout(addCloseTimer.current);
+      addCloseTimer.current = undefined;
+    }
+  };
+
+  const handleAddFromDropbox = useCallback(async () => {
+    cancelAddClose();
+    setAddPinned(false);
+    setAddHover(false);
+    try {
+      const { pickFromDropbox } = await import("@/lib/dropbox-utils");
+      const files = await pickFromDropbox();
+      if (files.length > 0) {
+        onAddFiles(files);
+      }
+    } catch {
+      // Dropbox SDK not configured or user cancelled
+    }
+  }, [onAddFiles]);
+
   // Ctrl/Cmd + scroll wheel to zoom thumbnail size
   useEffect(() => {
     const el = thumbGridWrapRef.current;
@@ -375,13 +411,38 @@ export default function EditorOverlay({
           <span className="editor-title">{t("title")}</span>
         </div>
         <div className="editor-header-right">
-          <button className="editor-add-btn" onClick={handleAddClick} type="button">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M12 5v14" />
-              <path d="M5 12h14" />
-            </svg>
-            {t("addPhotos")}
-          </button>
+          <div
+            className="split-btn-wrap"
+            ref={addRef}
+            onMouseEnter={() => { cancelAddClose(); setAddHover(true); }}
+            onMouseLeave={scheduleAddClose}
+          >
+            <button className="editor-add-btn split-btn-editor" onClick={handleAddClick} type="button">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <path d="M12 5v14" />
+                <path d="M5 12h14" />
+              </svg>
+              {t("addPhotos")}
+            </button>
+            <button
+              className="split-btn-editor-arrow"
+              onClick={() => setAddPinned((v) => !v)}
+              type="button"
+              aria-label="More options"
+            >
+              ▾
+            </button>
+            {addOpen && (
+              <div className="split-btn-dropdown">
+                <button onClick={() => { setAddPinned(false); setAddHover(false); handleAddClick(); }} type="button">
+                  {t("fromDevice")}
+                </button>
+                <button onClick={handleAddFromDropbox} type="button">
+                  {t("fromDropbox")}
+                </button>
+              </div>
+            )}
+          </div>
           <button className="editor-convert-btn" onClick={handleConvert} type="button">
             {t("convertBtn")}
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
