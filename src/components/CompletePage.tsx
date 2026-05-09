@@ -7,6 +7,8 @@ import { useTranslations } from "next-intl";
 import type { ConversionFile } from "@/lib/conversion-types";
 import { formatSize, PDF_FILENAME } from "@/lib/conversion-types";
 import { saveToDropbox } from "@/lib/dropbox-utils";
+import { saveToGoogleDrive } from "@/lib/cloud/google-drive/utils";
+import { saveToOneDrive } from "@/lib/cloud/onedrive/utils";
 
 interface Props {
   files: ConversionFile[];
@@ -63,6 +65,8 @@ export default function CompletePage({
   }, []);
 
   const [dropboxStatus, setDropboxStatus] = useState<"idle" | "authorizing" | "uploading" | "success" | "error">("idle");
+  const [googleDriveStatus, setGoogleDriveStatus] = useState<"idle" | "authorizing" | "uploading" | "success" | "error">("idle");
+  const [oneDriveStatus, setOneDriveStatus] = useState<"idle" | "authorizing" | "uploading" | "success" | "error">("idle");
 
   const filename = blobType === "pdf" ? PDF_FILENAME : "images.zip";
   const succeededFiles = files.filter((f) => f.status === "done");
@@ -93,6 +97,30 @@ export default function CompletePage({
     setDropboxStatus(ok ? "success" : "error");
     if (ok) {
       setTimeout(() => setDropboxStatus("idle"), 3000);
+    }
+  }, [blob, filename]);
+
+  const handleSaveToGoogleDrive = useCallback(async () => {
+    cancelDownloadClose();
+    setDownloadPinned(false);
+    setDownloadHover(false);
+    setGoogleDriveStatus("authorizing");
+    const ok = await saveToGoogleDrive(blob, filename);
+    setGoogleDriveStatus(ok ? "success" : "error");
+    if (ok) {
+      setTimeout(() => setGoogleDriveStatus("idle"), 3000);
+    }
+  }, [blob, filename]);
+
+  const handleSaveToOneDrive = useCallback(async () => {
+    cancelDownloadClose();
+    setDownloadPinned(false);
+    setDownloadHover(false);
+    setOneDriveStatus("authorizing");
+    const ok = await saveToOneDrive(blob, filename);
+    setOneDriveStatus(ok ? "success" : "error");
+    if (ok) {
+      setTimeout(() => setOneDriveStatus("idle"), 3000);
     }
   }, [blob, filename]);
 
@@ -157,6 +185,12 @@ export default function CompletePage({
                 <button onClick={handleSaveToDropbox} type="button">
                   {t("toDropbox")}
                 </button>
+                <button onClick={handleSaveToGoogleDrive} type="button">
+                  {t("toGoogleDrive")}
+                </button>
+                <button onClick={handleSaveToOneDrive} type="button">
+                  {t("toOneDrive")}
+                </button>
               </div>
             )}
           </div>
@@ -179,6 +213,36 @@ export default function CompletePage({
         {dropboxStatus === "error" && (
           <p className="dropbox-status" style={{ color: "#e44", marginTop: 16, fontSize: 13 }}>
             ✕ Failed to save to Dropbox
+          </p>
+        )}
+        {googleDriveStatus === "authorizing" && (
+          <p className="dropbox-status" style={{ color: "var(--muted)", marginTop: 16, fontSize: 13 }}>
+            Authorizing Google Drive...
+          </p>
+        )}
+        {googleDriveStatus === "success" && (
+          <p className="dropbox-status" style={{ color: "var(--accent)", marginTop: 16, fontSize: 13 }}>
+            ✓ Saved to Google Drive!
+          </p>
+        )}
+        {googleDriveStatus === "error" && (
+          <p className="dropbox-status" style={{ color: "#e44", marginTop: 16, fontSize: 13 }}>
+            ✕ Failed to save to Google Drive
+          </p>
+        )}
+        {oneDriveStatus === "authorizing" && (
+          <p className="dropbox-status" style={{ color: "var(--muted)", marginTop: 16, fontSize: 13 }}>
+            Authorizing OneDrive...
+          </p>
+        )}
+        {oneDriveStatus === "success" && (
+          <p className="dropbox-status" style={{ color: "var(--accent)", marginTop: 16, fontSize: 13 }}>
+            ✓ Saved to OneDrive!
+          </p>
+        )}
+        {oneDriveStatus === "error" && (
+          <p className="dropbox-status" style={{ color: "#e44", marginTop: 16, fontSize: 13 }}>
+            ✕ Failed to save to OneDrive
           </p>
         )}
       </div>

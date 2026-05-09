@@ -350,6 +350,36 @@ export default function EditorOverlay({
     }
   }, [onAddFiles]);
 
+  const handleAddFromGoogleDrive = useCallback(async () => {
+    cancelAddClose();
+    setAddPinned(false);
+    setAddHover(false);
+    try {
+      const { pickFromGoogleDrive } = await import("@/lib/cloud/google-drive/utils");
+      const files = await pickFromGoogleDrive();
+      if (files.length > 0) {
+        onAddFiles(files);
+      }
+    } catch {
+      // silently ignore
+    }
+  }, [onAddFiles]);
+
+  const handleAddFromOneDrive = useCallback(async () => {
+    cancelAddClose();
+    setAddPinned(false);
+    setAddHover(false);
+    try {
+      const { pickFromOneDrive } = await import("@/lib/cloud/onedrive/utils");
+      const files = await pickFromOneDrive();
+      if (files.length > 0) {
+        onAddFiles(files);
+      }
+    } catch {
+      // silently ignore
+    }
+  }, [onAddFiles]);
+
   // Ctrl/Cmd + scroll wheel to zoom thumbnail size
   useEffect(() => {
     const el = thumbGridWrapRef.current;
@@ -439,6 +469,12 @@ export default function EditorOverlay({
                 </button>
                 <button onClick={handleAddFromDropbox} type="button">
                   {t("fromDropbox")}
+                </button>
+                <button onClick={handleAddFromGoogleDrive} type="button">
+                  {t("fromGoogleDrive")}
+                </button>
+                <button onClick={handleAddFromOneDrive} type="button">
+                  {t("fromOneDrive")}
                 </button>
               </div>
             )}

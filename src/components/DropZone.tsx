@@ -59,6 +59,36 @@ export default function DropZone({
     }
   }, [onFilesSelected]);
 
+  const handleFromGoogleDrive = useCallback(async () => {
+    cancelBrowseClose();
+    setBrowsePinned(false);
+    setBrowseHover(false);
+    try {
+      const { pickFromGoogleDrive } = await import("@/lib/cloud/google-drive/utils");
+      const files = await pickFromGoogleDrive();
+      if (files.length > 0) {
+        onFilesSelected(files);
+      }
+    } catch {
+      // silently ignore
+    }
+  }, [onFilesSelected]);
+
+  const handleFromOneDrive = useCallback(async () => {
+    cancelBrowseClose();
+    setBrowsePinned(false);
+    setBrowseHover(false);
+    try {
+      const { pickFromOneDrive } = await import("@/lib/cloud/onedrive/utils");
+      const files = await pickFromOneDrive();
+      if (files.length > 0) {
+        onFilesSelected(files);
+      }
+    } catch {
+      // silently ignore
+    }
+  }, [onFilesSelected]);
+
   const showProcessing = isConverting;
 
   const handleFiles = useCallback(
@@ -213,6 +243,12 @@ export default function DropZone({
                 </button>
                 <button onClick={handleFromDropbox} type="button">
                   {t("fromDropbox")}
+                </button>
+                <button onClick={handleFromGoogleDrive} type="button">
+                  {t("fromGoogleDrive")}
+                </button>
+                <button onClick={handleFromOneDrive} type="button">
+                  {t("fromOneDrive")}
                 </button>
               </div>
             )}

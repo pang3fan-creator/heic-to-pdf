@@ -19,6 +19,8 @@
       "browseBtn": "Select HEIC files",
       "fromDevice": "From your device",
       "fromDropbox": "From Dropbox",
+      "fromGoogleDrive": "From Google Drive",
+      "fromOneDrive": "From OneDrive",
       "privacy": "Your files stay in your browser — we never upload them"
     },
     "converting": "Converting…"
@@ -29,6 +31,8 @@
     "addPhotos": "Add photos",
     "fromDevice": "From your device",
     "fromDropbox": "From Dropbox",
+    "fromGoogleDrive": "From Google Drive",
+    "fromOneDrive": "From OneDrive",
     "convertBtn": "Convert to PDF",
     "sortLabel": "Sort",
     "sortDefault": "Default order",
@@ -60,6 +64,8 @@
       "download": "Download",
       "toDevice": "Download to device",
       "toDropbox": "Save to Dropbox",
+      "toGoogleDrive": "Save to Google Drive",
+      "toOneDrive": "Save to OneDrive",
       "startOver": "← Start Over",
       "skipped": "Skipped"
     },
