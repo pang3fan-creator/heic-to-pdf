@@ -1538,3 +1538,43 @@ a:hover {
     font-size: 12px;
   }
 }
+
+/* Merge toggle */
+.sidebar-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.sidebar-toggle input {
+  display: none;
+}
+.sidebar-toggle-track {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  background: var(--border);
+  border-radius: 11px;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.sidebar-toggle input:checked + .sidebar-toggle-track {
+  background: var(--accent);
+}
+.sidebar-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+.sidebar-toggle input:checked + .sidebar-toggle-track .sidebar-toggle-thumb {
+  transform: translateX(18px);
+}
+.sidebar-toggle-label {
+  font-size: 13px;
+  color: var(--muted);
+}

@@ -45,7 +45,10 @@
       "marginNone": "None (0 mm)",
       "marginNarrow": "Narrow (6 mm)",
       "marginNormal": "Normal (12 mm)",
-      "marginWide": "Wide (24 mm)"
+      "marginWide": "Wide (24 mm)",
+      "merge": "Merge PDFs",
+      "mergeOn": "Combined",
+      "mergeOff": "Separate"
     },
     "fileCount": "{count} file{count, plural, one {} other {s}} selected",
     "empty": "Select HEIC photos to get started",

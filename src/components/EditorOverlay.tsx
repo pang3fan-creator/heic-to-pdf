@@ -274,6 +274,7 @@ export default function EditorOverlay({
   const [customOrder, setCustomOrder] = useState<string[] | null>(null);
   const [dragOverId, setDragOverId] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const thumbGridWrapRef = useRef<HTMLDivElement>(null);
 
   const previewFile = useMemo(
     () =>
@@ -312,6 +313,43 @@ export default function EditorOverlay({
     },
     [onAddFiles],
   );
+
+  // Ctrl/Cmd + scroll wheel to zoom thumbnail size
+  useEffect(() => {
+    const el = thumbGridWrapRef.current;
+    if (!el) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        setThumbSize((prev) => {
+          if (e.deltaY < 0) return Math.min(4, prev + 1) as ThumbSize;
+          if (e.deltaY > 0) return Math.max(0, prev - 1) as ThumbSize;
+          return prev;
+        });
+      }
+    };
+
+    el.addEventListener("wheel", handleWheel, { passive: false });
+    return () => el.removeEventListener("wheel", handleWheel);
+  }, []);
+
+  // Lock body scroll when editor is open
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    const originalPaddingRight = document.body.style.paddingRight;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+    document.body.style.overflow = "hidden";
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.style.paddingRight = originalPaddingRight;
+    };
+  }, []);
 
   const handleConvert = useCallback(() => {
     onConvert();
@@ -408,7 +446,7 @@ export default function EditorOverlay({
               >−</button>
             </div>
           </div>
-          <div className="thumb-grid-wrap">
+          <div ref={thumbGridWrapRef} className="thumb-grid-wrap">
             <div className={`thumb-grid size-${thumbSize}`}>
               {sortedFiles.length === 0 ? (
                 <div className="thumb-empty">
@@ -535,6 +573,29 @@ export default function EditorOverlay({
                 ))}
               </select>
             </div>
+            <div className="sidebar-field">
+              <div className="sidebar-field-label">{t("sidebar.merge")}</div>
+              <label className="sidebar-toggle">
+                <input
+                  type="checkbox"
+                  checked={settings.merge}
+                  onChange={(e) =>
+                    onSettingsChange({
+                      ...settings,
+                      merge: e.target.checked,
+                    })
+                  }
+                />
+                <span className="sidebar-toggle-track">
+                  <span className="sidebar-toggle-thumb" />
+                </span>
+                <span className="sidebar-toggle-label">
+                  {settings.merge
+                    ? t("sidebar.mergeOn")
+                    : t("sidebar.mergeOff")}
+                </span>
+              </label>
+            </div>
           </div>
           <div className="sidebar-footer">
             <div className="sidebar-file-count">
@@ -543,7 +604,9 @@ export default function EditorOverlay({
                 <polyline points="13 2 13 9 20 9" />
               </svg>
               <span>
-                {files.length} file{files.length !== 1 ? "s" : ""} selected
+                {settings.merge
+                  ? t("fileCount", { count: files.length })
+                  : `${files.length} files → ${files.length} PDFs in .zip`}
               </span>
             </div>
           </div>

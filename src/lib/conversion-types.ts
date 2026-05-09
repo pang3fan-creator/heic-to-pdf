@@ -24,12 +24,14 @@ export interface ConversionSettings {
   paperSize: "original" | "a4" | "letter" | "legal" | "a3";
   margins: "none" | "narrow" | "normal" | "wide";
   orientation: "portrait" | "landscape" | "auto";
+  merge: boolean;
 }
 
 export const DEFAULT_SETTINGS: ConversionSettings = {
   paperSize: "a4",
   margins: "narrow",
   orientation: "portrait",
+  merge: true,
 };
 
 export type ConversionState =
@@ -49,8 +51,9 @@ export type ConversionState =
   | {
       status: "complete";
       files: ConversionFile[];
-      pdfBlob: Blob;
-      pdfSizeBytes: number;
+      blob: Blob;
+      blobType: "pdf" | "zip";
+      sizeBytes: number;
     }
   | { status: "error"; files: ConversionFile[]; error: string };
 

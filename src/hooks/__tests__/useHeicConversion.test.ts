@@ -192,6 +192,7 @@ describe("useHeicConversion", () => {
         paperSize: "a4",
         margins: "normal",
         orientation: "landscape",
+        merge: true,
       });
     });
 
@@ -208,6 +209,7 @@ describe("useHeicConversion", () => {
         paperSize: "original",
         margins: "none",
         orientation: "landscape",
+        merge: true,
       });
     });
 

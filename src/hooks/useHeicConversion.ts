@@ -17,6 +17,7 @@ import {
 } from "@/lib/conversion-types";
 import { buildPdf } from "@/lib/pdf-generator";
 import { decodeImage } from "@/lib/image-decoder";
+import { resolvePdfNames, createZip } from "@/lib/zip-utils";
 
 function createConversionFile(file: File): ConversionFile {
   const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -155,11 +156,13 @@ export function useHeicConversion() {
     const truncated = valid.slice(0, MAX_FILES);
     const files = truncated.map(createConversionFile);
     filesRef.current = files;
-    settingsRef.current = DEFAULT_SETTINGS;
+    const prevMerge = settingsRef.current.merge;
+    const newSettings = { ...DEFAULT_SETTINGS, merge: prevMerge };
+    settingsRef.current = newSettings;
     setState({
       status: "editor",
       files,
-      settings: DEFAULT_SETTINGS,
+      settings: newSettings,
     });
     // Start background decode after state update
     setTimeout(() => decodePendingFiles(), 0);
@@ -343,28 +346,55 @@ export function useHeicConversion() {
         orientation: img.orientation,
       }));
 
-      // Use the first image's resolved settings for buildPdf (single orientation mode)
-      const pdfBlob = await buildPdf(pdfImages, {
-        ...settings,
-        orientation: perImageSettings[0]?.orientation ?? settings.orientation,
-      });
-
       filesRef.current = files;
+      if (!mountedRef.current) return;
+
+      let blob: Blob;
+      let blobType: "pdf" | "zip";
+      let downloadName: string;
+
+      if (settings.merge || pdfImages.length <= 1) {
+        // Single image or merge mode: direct PDF download
+        blob = await buildPdf(pdfImages, {
+          ...settings,
+          orientation: perImageSettings[0]?.orientation ?? settings.orientation,
+        });
+        blobType = "pdf";
+        downloadName = PDF_FILENAME;
+      } else {
+        // Non-merge mode: individual PDFs → zip
+        const names = resolvePdfNames(
+          pdfImages.map((_, i) => files[i]),
+        );
+        const pdfBlobs: { name: string; blob: Blob }[] = [];
+
+        for (let i = 0; i < pdfImages.length; i++) {
+          pdfBlobs.push({
+            name: names[i],
+            blob: await buildPdf([pdfImages[i]], perImageSettings[i]),
+          });
+        }
+
+        blob = await createZip(pdfBlobs);
+        blobType = "zip";
+        downloadName = "images.zip";
+      }
 
       if (!mountedRef.current) return;
 
       setState({
         status: "complete",
         files,
-        pdfBlob,
-        pdfSizeBytes: pdfBlob.size,
+        blob,
+        blobType,
+        sizeBytes: blob.size,
       });
 
       // Auto-download
-      const url = URL.createObjectURL(pdfBlob);
+      const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = PDF_FILENAME;
+      a.download = downloadName;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);

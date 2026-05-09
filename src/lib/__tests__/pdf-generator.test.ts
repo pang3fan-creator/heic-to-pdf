@@ -25,6 +25,7 @@ const defaultSettings: ConversionSettings = {
   paperSize: "a4",
   margins: "narrow",
   orientation: "portrait",
+  merge: true,
 };
 
 describe("buildPdf", () => {
