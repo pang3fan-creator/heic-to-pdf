@@ -88,52 +88,20 @@ src/lib/cloud/
 - 新增 `src/app/auth/google/callback/page.tsx`
 - 新增 `.env.local`：`NEXT_PUBLIC_GOOGLE_CLIENT_ID`
 
-## OneDrive 集成
-
-### OAuth 配置
-
-| 参数 | 值 |
-|------|-----|
-| authUrl | `login.microsoftonline.com/common/oauth2/v2.0/authorize` |
-| tokenUrl / refreshUrl | `login.microsoftonline.com/common/oauth2/v2.0/token` |
-| scope | `offline_access Files.ReadWrite.All` |
-| redirectUri | `{origin}/auth/onedrive/callback` |
-| tokenLifetime | 3600000（1小时） |
-
-注意：`offline_access` 是 Microsoft Identity Platform 获取 refresh_token 的必需 scope。
-
-### 上传
-
-- 使用 Microsoft Graph API，PUT raw body
-- 端点为 `graph.microsoft.com/v1.0/me/drive/root:/{filename}:/content`
-
-### 导入
-
-- 加载 OneDrive File Picker SDK（`js.live.net/v7.0/OneDrive.js`）
-- 与 Dropbox Chooser 模式一致
-
-### 路由
-
-- 新增 `src/app/auth/onedrive/callback/page.tsx`
-- 新增 `.env.local`：`NEXT_PUBLIC_ONEDRIVE_CLIENT_ID`
-
 ## UI 集成
 
-三个 Split Button 各新增两个菜单项，顺序：Device → Dropbox → Google Drive → OneDrive。
+两个 Split Button 各新增一个菜单项，顺序：Device → Dropbox → Google Drive。
 
 | 位置 | 翻译 key | 值 |
 |------|----------|-----|
 | DropZone | `hero.dropzone.fromGoogleDrive` | "From Google Drive" |
-| DropZone | `hero.dropzone.fromOneDrive` | "From OneDrive" |
 | EditorOverlay | `editor.fromGoogleDrive` | "From Google Drive" |
-| EditorOverlay | `editor.fromOneDrive` | "From OneDrive" |
 | CompletePage | `editor.complete.toGoogleDrive` | "Save to Google Drive" |
-| CompletePage | `editor.complete.toOneDrive` | "Save to OneDrive" |
 
 转换后文件的上传状态使用与 Dropbox 一致的 `dropboxStatus` 模式（`idle → authorizing → uploading → success / error`）。
 
 ## 不做的事情
 
-- 不创建抽象的通用 Picker 层（三个 provider 的 SDK 差异太大，抽象收益低）
+- 不创建抽象的通用 Picker 层（两个 provider 的 SDK 差异太大，抽象收益低）
 - 不改变现有的 conversion state machine
 - 不添加任何付费/限制功能（文件大小限制等）

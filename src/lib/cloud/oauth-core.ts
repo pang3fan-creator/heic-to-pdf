@@ -54,13 +54,19 @@ export function openOAuthPopup(
     };
     window.addEventListener("message", handler);
 
+    let coopDetected = false;
+
     const poll = setInterval(() => {
-      try {
-        if (popup.closed) done(false);
-      } catch {
-        // COOP blocks popup.closed — fallback: poll localStorage for token
-        if (tokenKey && localStorage.getItem(tokenKey)) done(true);
+      if (!coopDetected) {
+        try {
+          if (popup.closed) done(false);
+          return;
+        } catch {
+          coopDetected = true;
+          // COOP detected — stop accessing popup.closed, rely on BroadcastChannel/localStorage
+        }
       }
+      if (tokenKey && localStorage.getItem(tokenKey)) done(true);
     }, 500);
   });
 }

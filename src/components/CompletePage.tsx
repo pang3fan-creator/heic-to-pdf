@@ -63,8 +63,12 @@ export default function CompletePage({
     };
   }, []);
 
-  const [dropboxStatus, setDropboxStatus] = useState<"idle" | "authorizing" | "uploading" | "success" | "error">("idle");
-  const [googleDriveStatus, setGoogleDriveStatus] = useState<"idle" | "authorizing" | "uploading" | "success" | "error">("idle");
+  type CloudStatus = {
+    provider: "dropbox" | "google-drive" | null;
+    status: "idle" | "authorizing" | "uploading" | "success" | "error";
+  };
+
+  const [cloudStatus, setCloudStatus] = useState<CloudStatus>({ provider: null, status: "idle" });
 
   const filename = blobType === "pdf" ? PDF_FILENAME : "images.zip";
   const succeededFiles = files.filter((f) => f.status === "done");
@@ -90,24 +94,20 @@ export default function CompletePage({
     cancelDownloadClose();
     setDownloadPinned(false);
     setDownloadHover(false);
-    setDropboxStatus("authorizing");
+    setCloudStatus({ provider: "dropbox", status: "authorizing" });
     const ok = await saveToDropbox(blob, filename);
-    setDropboxStatus(ok ? "success" : "error");
-    if (ok) {
-      setTimeout(() => setDropboxStatus("idle"), 3000);
-    }
+    setCloudStatus({ provider: "dropbox", status: ok ? "success" : "error" });
+    if (ok) setTimeout(() => setCloudStatus({ provider: null, status: "idle" }), 3000);
   }, [blob, filename]);
 
   const handleSaveToGoogleDrive = useCallback(async () => {
     cancelDownloadClose();
     setDownloadPinned(false);
     setDownloadHover(false);
-    setGoogleDriveStatus("authorizing");
+    setCloudStatus({ provider: "google-drive", status: "authorizing" });
     const ok = await saveToGoogleDrive(blob, filename);
-    setGoogleDriveStatus(ok ? "success" : "error");
-    if (ok) {
-      setTimeout(() => setGoogleDriveStatus("idle"), 3000);
-    }
+    setCloudStatus({ provider: "google-drive", status: ok ? "success" : "error" });
+    if (ok) setTimeout(() => setCloudStatus({ provider: null, status: "idle" }), 3000);
   }, [blob, filename]);
 
   return (
@@ -183,34 +183,19 @@ export default function CompletePage({
           </button>
         </div>
 
-        {dropboxStatus === "authorizing" && (
+        {cloudStatus.status === "authorizing" && (
           <p className="dropbox-status" style={{ color: "var(--muted)", marginTop: 16, fontSize: 13 }}>
-            Authorizing Dropbox...
+            {cloudStatus.provider === "dropbox" ? "Authorizing Dropbox..." : "Authorizing Google Drive..."}
           </p>
         )}
-        {dropboxStatus === "success" && (
+        {cloudStatus.status === "success" && (
           <p className="dropbox-status" style={{ color: "var(--accent)", marginTop: 16, fontSize: 13 }}>
-            ✓ Saved to Dropbox!
+            ✓ Saved to {cloudStatus.provider === "dropbox" ? "Dropbox" : "Google Drive"}!
           </p>
         )}
-        {dropboxStatus === "error" && (
+        {cloudStatus.status === "error" && (
           <p className="dropbox-status" style={{ color: "#e44", marginTop: 16, fontSize: 13 }}>
-            ✕ Failed to save to Dropbox
-          </p>
-        )}
-        {googleDriveStatus === "authorizing" && (
-          <p className="dropbox-status" style={{ color: "var(--muted)", marginTop: 16, fontSize: 13 }}>
-            Authorizing Google Drive...
-          </p>
-        )}
-        {googleDriveStatus === "success" && (
-          <p className="dropbox-status" style={{ color: "var(--accent)", marginTop: 16, fontSize: 13 }}>
-            ✓ Saved to Google Drive!
-          </p>
-        )}
-        {googleDriveStatus === "error" && (
-          <p className="dropbox-status" style={{ color: "#e44", marginTop: 16, fontSize: 13 }}>
-            ✕ Failed to save to Google Drive
+            ✕ Failed to save to {cloudStatus.provider === "dropbox" ? "Dropbox" : "Google Drive"}
           </p>
         )}
       </div>

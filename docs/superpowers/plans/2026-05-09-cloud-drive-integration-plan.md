@@ -23,11 +23,7 @@
 | `src/lib/cloud/google-drive/config.ts` | Google Drive OAuth 配置 |
 | `src/lib/cloud/google-drive/auth.ts` | Google Drive OAuth 适配 |
 | `src/lib/cloud/google-drive/utils.ts` | Google Drive 上传 + Picker 导入 |
-| `src/lib/cloud/onedrive/config.ts` | OneDrive OAuth 配置 |
-| `src/lib/cloud/onedrive/auth.ts` | OneDrive OAuth 适配 |
-| `src/lib/cloud/onedrive/utils.ts` | OneDrive 上传 + Picker 导入 |
 | `src/app/auth/google/callback/page.tsx` | Google OAuth 回调 |
-| `src/app/auth/onedrive/callback/page.tsx` | OneDrive OAuth 回调 |
 
 ### 修改文件
 
@@ -36,11 +32,11 @@
 | `src/lib/dropbox-auth.ts` | 移除旧 auth 函数，改用 cloud 层 |
 | `src/lib/dropbox-utils.ts` | 更新 import 路径 |
 | `src/app/auth/dropbox/callback/page.tsx` | 更新 import 路径 |
-| `.env.local` | 添加 GOOGLE_CLIENT_ID / ONEDRIVE_CLIENT_ID |
-| `messages/en.json` | 添加 6 个翻译键 |
-| `src/components/DropZone.tsx` | 添加 Google Drive + OneDrive 菜单项 |
-| `src/components/EditorOverlay.tsx` | 添加 Google Drive + OneDrive 菜单项 |
-| `src/components/CompletePage.tsx` | 添加 Google Drive + OneDrive 保存 + 状态 |
+| `.env.local` | 添加 GOOGLE_CLIENT_ID |
+| `messages/en.json` | 添加 3 个翻译键 |
+| `src/components/DropZone.tsx` | 添加 Google Drive 菜单项 |
+| `src/components/EditorOverlay.tsx` | 添加 Google Drive 菜单项 |
+| `src/components/CompletePage.tsx` | 添加 Google Drive 保存 + 状态 |
 
 ---
 
@@ -148,28 +144,9 @@ const [cloudStatus, setCloudStatus] = useState<{
 
 ---
 
-## 阶段三：OneDrive 集成
-
-### Task 3.1-3.4: OneDrive 文件（config + auth + utils + callback）
-
-- 作用域需 `offline_access`（Microsoft 必需） + `Files.ReadWrite.All`
-- 上传: PUT raw body → `graph.microsoft.com/v1.0/me/drive/root:/{filename}:/content`
-- 配置与 Google Drive 同模式
-
-### Task 3.5: 环境变量 — `NEXT_PUBLIC_ONEDRIVE_CLIENT_ID`
-
-### Task 3.6: 翻译键 — 对称的 3 个 key
-
-### Task 3.7: UI 集成 — 三个组件各加一条菜单项
-
-最终 Split Button 菜单顺序：Device → Dropbox → Google Drive → OneDrive
-
----
-
 ## 验证
 
 1. **每个阶段结束时**: `npm run build` 保证无编译错误
 2. **UI 验证**: 启动 dev server，确认三组件中新增菜单项可见
-3. **回调路由**: 访问 `/auth/google/callback` 和 `/auth/onedrive/callback` 确认不返回 404
+3. **回调路由**: 访问 `/auth/google/callback` 确认不返回 404
 4. **Google OAuth 端到端**: 配置有效 Client ID 后，测试授权弹窗 + 上传到 Google Drive
-5. **OneDrive OAuth 端到端**: 配置有效 Client ID 后，测试授权弹窗 + 上传到 OneDrive
