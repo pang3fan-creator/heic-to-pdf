@@ -25,6 +25,7 @@ export async function generatePKCE(): Promise<{
 export function openOAuthPopup(
   url: string,
   eventType: string,
+  tokenKey?: string,
 ): Promise<boolean> {
   const popup = window.open(url, `${eventType}-auth`, "width=800,height=700");
   if (!popup) {
@@ -33,25 +34,47 @@ export function openOAuthPopup(
   }
 
   return new Promise<boolean>((resolve) => {
+    let settled = false;
+    const done = (ok: boolean) => {
+      if (settled) return;
+      settled = true;
+      bc.close();
+      window.removeEventListener("message", handler);
+      clearInterval(poll);
+      resolve(ok);
+    };
+
+    // BroadcastChannel works even when COOP isolates the popup window
+    const bc = new BroadcastChannel(eventType);
+    bc.onmessage = (e) => done(e.data.success === true);
+
+    // postMessage is the primary channel (faster, direct)
     const handler = (e: MessageEvent) => {
-      if (e.data?.type === eventType) {
-        window.removeEventListener("message", handler);
-        resolve(e.data.success === true);
-      }
+      if (e.data?.type === eventType) done(e.data.success === true);
     };
     window.addEventListener("message", handler);
 
     const poll = setInterval(() => {
-      if (popup.closed) {
-        clearInterval(poll);
-        window.removeEventListener("message", handler);
-        resolve(false);
+      try {
+        if (popup.closed) done(false);
+      } catch {
+        // COOP blocks popup.closed — fallback: poll localStorage for token
+        if (tokenKey && localStorage.getItem(tokenKey)) done(true);
       }
     }, 500);
   });
 }
 
 export function notifyOpener(type: string, success: boolean): void {
+  // BroadcastChannel is the reliable path for COOP-isolated popups
+  try {
+    const bc = new BroadcastChannel(type);
+    bc.postMessage({ success });
+    bc.close();
+  } catch {
+    // BroadcastChannel not available — fall through to postMessage
+  }
+  // Direct postMessage for non-isolated popups
   if (window.opener) {
     window.opener.postMessage({ type, success }, window.origin);
   }
@@ -101,15 +124,23 @@ export function createTokenManager(prefix: string) {
       const resp = await fetch(config.tokenUrl, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          code,
-          grant_type: "authorization_code",
-          client_id: config.clientId,
-          redirect_uri: config.redirectUri,
-          code_verifier: verifier,
-        }),
+        body: (() => {
+          const p = new URLSearchParams({
+            code,
+            grant_type: "authorization_code",
+            client_id: config.clientId,
+            redirect_uri: config.redirectUri,
+            code_verifier: verifier,
+          });
+          if (config.clientSecret) p.set("client_secret", config.clientSecret);
+          return p;
+        })(),
       });
-      if (!resp.ok) return false;
+      if (!resp.ok) {
+        const text = await resp.text();
+        console.warn(`[${config.storagePrefix}] Token exchange failed (${resp.status}):`, text);
+        return false;
+      }
       const data = await resp.json();
       saveTokens({
         accessToken: data.access_token,
@@ -131,13 +162,21 @@ export function createTokenManager(prefix: string) {
       const resp = await fetch(config.refreshUrl, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          grant_type: "refresh_token",
-          refresh_token: tokens.refreshToken,
-          client_id: config.clientId,
-        }),
+        body: (() => {
+          const p = new URLSearchParams({
+            grant_type: "refresh_token",
+            refresh_token: tokens.refreshToken,
+            client_id: config.clientId,
+          });
+          if (config.clientSecret) p.set("client_secret", config.clientSecret);
+          return p;
+        })(),
       });
-      if (!resp.ok) return false;
+      if (!resp.ok) {
+        const text = await resp.text();
+        console.warn(`[${config.storagePrefix}] Token exchange failed (${resp.status}):`, text);
+        return false;
+      }
       const data = await resp.json();
       saveTokens({
         accessToken: data.access_token,

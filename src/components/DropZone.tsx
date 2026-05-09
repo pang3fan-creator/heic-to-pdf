@@ -74,20 +74,13 @@ export default function DropZone({
     }
   }, [onFilesSelected]);
 
-  const handleFromOneDrive = useCallback(async () => {
-    cancelBrowseClose();
-    setBrowsePinned(false);
-    setBrowseHover(false);
-    try {
-      const { pickFromOneDrive } = await import("@/lib/cloud/onedrive/utils");
-      const files = await pickFromOneDrive();
-      if (files.length > 0) {
-        onFilesSelected(files);
-      }
-    } catch {
-      // silently ignore
+  // Detect return from Google OAuth redirect — auto-open Picker
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.location.search.includes("gauth=1")) {
+      window.history.replaceState(null, "", "/");
+      handleFromGoogleDrive();
     }
-  }, [onFilesSelected]);
+  }, [handleFromGoogleDrive]);
 
   const showProcessing = isConverting;
 
@@ -246,9 +239,6 @@ export default function DropZone({
                 </button>
                 <button onClick={handleFromGoogleDrive} type="button">
                   {t("fromGoogleDrive")}
-                </button>
-                <button onClick={handleFromOneDrive} type="button">
-                  {t("fromOneDrive")}
                 </button>
               </div>
             )}

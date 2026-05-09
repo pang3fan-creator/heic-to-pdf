@@ -3,6 +3,7 @@ export interface OAuthConfig {
   tokenUrl: string;
   refreshUrl: string;
   clientId: string;
+  clientSecret?: string;
   redirectUri: string;
   scope: string;
   storagePrefix: string;

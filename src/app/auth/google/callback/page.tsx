@@ -8,17 +8,15 @@ export default function GoogleDriveCallbackPage() {
   useEffect(() => {
     (async () => {
       const { googleDriveAuth } = await import("@/lib/cloud/google-drive/auth");
+      const { notifyOpener } = await import("@/lib/cloud/oauth-core");
       const ok = await googleDriveAuth.handleCallback();
+      notifyOpener("google-drive-auth-complete", ok);
 
       if (window.opener) {
-        window.opener.postMessage(
-          { type: "google-drive-auth-complete", success: ok },
-          window.origin,
-        );
         window.close();
       } else {
         setStatus(ok ? "Authorized! Redirecting..." : "Authorization failed.");
-        setTimeout(() => { window.location.href = "/"; }, 1500);
+        setTimeout(() => { window.location.href = ok ? "/?gauth=1" : "/"; }, 1500);
       }
     })();
   }, []);

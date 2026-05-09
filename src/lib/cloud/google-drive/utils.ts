@@ -1,6 +1,12 @@
 import { googleDriveAuth } from "./auth";
 
 const UPLOAD_URL = "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart";
+const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "";
+
+const SUPPORTED_IMAGE_TYPES = [
+  "image/heic", "image/heif",
+  "image/jpeg", "image/png", "image/webp",
+];
 
 export async function uploadToGoogleDrive(
   blob: Blob,
@@ -49,9 +55,98 @@ export async function saveToGoogleDrive(
   return ok;
 }
 
-// Google Picker import — requires Google API Key + Picker API enabled in GCP
-// For now, returns empty array (export-only MVP). Full Picker integration
-// can be added when an API Key is configured.
-export function pickFromGoogleDrive(): Promise<File[]> {
-  return Promise.resolve([]);
+// ── Google Picker (Import) ─────────────────────────────
+
+let pickerLoaded: Promise<void> | null = null;
+
+async function ensurePickerSdk(): Promise<void> {
+  if ((window as any).google?.picker) return;
+  if (pickerLoaded) return pickerLoaded;
+
+  pickerLoaded = new Promise<void>((resolve) => {
+    const script = document.createElement("script");
+    script.src = "https://apis.google.com/js/api.js";
+    script.async = true;
+    script.onload = () => {
+      (window as any).gapi?.load("picker", () => resolve());
+    };
+    document.body.appendChild(script);
+  });
+
+  return pickerLoaded;
+}
+
+/**
+ * Open Google Picker to select image files from Google Drive.
+ * Uses OAuth token for authentication and API Key for Picker access.
+ * Returns selected files as File[] (empty if cancelled).
+ */
+export async function pickFromGoogleDrive(): Promise<File[]> {
+  if (!API_KEY) return [];
+
+  // Check if we just returned from the OAuth redirect flow
+  const pendingPicker = sessionStorage.getItem("google_picker_pending");
+
+  // Ensure we have a valid access token
+  let token = await googleDriveAuth.getAccessToken();
+  if (!token) {
+    if (!pendingPicker) {
+      // First visit — save flag and redirect to Google auth
+      sessionStorage.setItem("google_picker_pending", "true");
+      await googleDriveAuth.authorize(); // this does location.href redirect
+    }
+    // Returning from auth redirect with token now available
+    sessionStorage.removeItem("google_picker_pending");
+    token = await googleDriveAuth.getAccessToken();
+    if (!token) return [];
+  }
+
+  await ensurePickerSdk();
+
+  const gp = (window as any).google.picker;
+
+  return new Promise<File[]>((resolve) => {
+    let resolved = false;
+
+    const picker = new gp.PickerBuilder()
+      .addView(
+        new gp.DocsView()
+          .setMimeTypes("image/png,image/jpeg,image/webp,image/heic,image/heif")
+          .setIncludeFolders(false),
+      )
+      .enableFeature(gp.Feature.MULTISELECT_ENABLED)
+      .setOAuthToken(token)
+      .setDeveloperKey(API_KEY)
+      .setCallback(async (data: any) => {
+        if (resolved) return;
+        const action = data[gp.Response.ACTION];
+        if (action === gp.Action.PICKED) {
+          resolved = true;
+          const docs = data[gp.Response.DOCUMENTS] as any[];
+          const results = await Promise.allSettled(
+            docs
+              .filter((d) => SUPPORTED_IMAGE_TYPES.includes(d.mimeType))
+              .map(async (d) => {
+                const resp = await fetch(
+                  `https://www.googleapis.com/drive/v3/files/${d.id}?alt=media&supportsAllDrives=true&acknowledgeAbuse=true`,
+                  { headers: { Authorization: `Bearer ${token}` } },
+                );
+                if (!resp.ok) throw new Error(`Download failed: ${resp.status}`);
+                const blob = await resp.blob();
+                return new File([blob], d.name, { type: blob.type });
+              }),
+          );
+          resolve(
+            results
+              .filter((r) => r.status === "fulfilled")
+              .map((r: any) => r.value),
+          );
+        } else if (action === gp.Action.CANCEL) {
+          resolved = true;
+          resolve([]);
+        }
+      })
+      .build();
+    picker.setVisible(true);
+  });
 }

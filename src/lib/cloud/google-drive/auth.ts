@@ -24,10 +24,10 @@ export const googleDriveAuth: CloudAuthAdapter = {
       prompt: "consent",
     });
 
-    return openOAuthPopup(
-      `${googleDriveConfig.authUrl}?${params}`,
-      "google-drive-auth-complete",
-    );
+    // Google's OAuth page sets Cross-Origin-Opener-Policy which breaks popup
+    // communication. Use full-page redirect instead.
+    location.href = `${googleDriveConfig.authUrl}?${params}`;
+    return false;
   },
 
   async handleCallback(): Promise<boolean> {

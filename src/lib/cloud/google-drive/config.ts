@@ -5,10 +5,11 @@ export const googleDriveConfig: OAuthConfig = {
   tokenUrl: "https://oauth2.googleapis.com/token",
   refreshUrl: "https://oauth2.googleapis.com/token",
   clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "",
+  clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET || "",
   redirectUri: typeof window !== "undefined"
     ? `${window.location.origin}/auth/google/callback`
     : "",
-  scope: "https://www.googleapis.com/auth/drive.file",
+  scope: "https://www.googleapis.com/auth/drive",
   storagePrefix: "google_drive_",
   tokenLifetimeMs: 3600000,
 };

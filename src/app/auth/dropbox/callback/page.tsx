@@ -8,17 +8,13 @@ export default function DropboxCallbackPage() {
   useEffect(() => {
     (async () => {
       const { dropboxAuth } = await import("@/lib/cloud/dropbox/auth");
+      const { notifyOpener } = await import("@/lib/cloud/oauth-core");
       const ok = await dropboxAuth.handleCallback();
+      notifyOpener("dropbox-auth-complete", ok);
 
       if (window.opener) {
-        // Popup mode — send result to parent window and close
-        window.opener.postMessage(
-          { type: "dropbox-auth-complete", success: ok },
-          window.origin,
-        );
         window.close();
       } else {
-        // Direct navigation fallback — redirect to home
         setStatus(ok ? "Authorized! Redirecting..." : "Authorization failed.");
         setTimeout(() => { window.location.href = "/"; }, 1500);
       }
@@ -27,13 +23,9 @@ export default function DropboxCallbackPage() {
 
   return (
     <div style={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      height: "100vh",
-      fontFamily: "sans-serif",
-      color: "#e0e0e0",
-      background: "#0f0f0f",
+      display: "flex", alignItems: "center", justifyContent: "center",
+      height: "100vh", fontFamily: "sans-serif",
+      color: "#e0e0e0", background: "#0f0f0f",
     }}>
       <p>{status}</p>
     </div>
