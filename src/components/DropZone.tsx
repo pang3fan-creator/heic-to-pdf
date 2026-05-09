@@ -219,7 +219,7 @@ export default function DropZone({
             onMouseLeave={scheduleBrowseClose}
           >
             <button className="split-btn-main" onClick={onBrowse} type="button">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" aria-hidden="true">
                 <line x1="12" y1="5" x2="12" y2="19"/>
                 <line x1="5" y1="12" x2="19" y2="12"/>
               </svg>
@@ -236,16 +236,16 @@ export default function DropZone({
             {browseOpen && (
               <div className="split-btn-dropdown">
                 <button onClick={() => { setBrowsePinned(false); setBrowseHover(false); onBrowse(); }} type="button">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
                     <line x1="8" y1="21" x2="16" y2="21"/>
                     <line x1="12" y1="17" x2="12" y2="21"/>
                   </svg>
                   {t("fromDevice")}
                 </button>
-                <hr />
+                <hr aria-hidden="true" />
                 <button onClick={handleFromDropbox} type="button">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <rect x="2" y="2" width="20" height="20" rx="4" fill="#0061FF"/>
                     <path d="M6 8l4-3 4 3-4 3-4-3z" fill="white"/>
                     <path d="M10 13l4-3 4 3-4 3-4-3z" fill="white"/>
@@ -253,9 +253,9 @@ export default function DropZone({
                   </svg>
                   {t("fromDropbox")}
                 </button>
-                <hr />
+                <hr aria-hidden="true" />
                 <button onClick={handleFromGoogleDrive} type="button">
-                  <svg width="20" height="20" viewBox="0 0 24 24">
+                  <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M12 2L8 9.5h8L12 2z" fill="#4285F4"/>
                     <path d="M5.5 16L8 9.5l-3.5 6.5H2L4 12.5 2 9.5h5L12 2l5 7.5h5l-2 3 2 3.5h-3.5L16 9.5 13.5 16l-1.5 3-1.5-3z" fill="#34A853"/>
                     <path d="M12 21l3.5-5h-7L12 21z" fill="#EA4335"/>
