@@ -16,7 +16,7 @@
       "title": "Drag & drop HEIC photos here",
       "subtitle": "or click the button below to browse",
       "hint": "Batch upload supported · Up to 20 images · 50MB max per file",
-      "browseBtn": "Select HEIC files",
+      "browseBtn": "SELECT HEIC FILE(S)",
       "fromDevice": "From your device",
       "fromDropbox": "From Dropbox",
       "fromGoogleDrive": "From Google Drive",
