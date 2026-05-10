@@ -3,6 +3,8 @@
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { MAX_FILE_SIZE, getFileType } from "@/lib/conversion-types";
+import { FaDropbox } from "react-icons/fa";
+import { SiGoogledrive } from "react-icons/si";
 
 interface Props {
   onFilesSelected: (files: FileList | File[]) => void;
@@ -245,22 +247,12 @@ export default function DropZone({
                 </button>
                 <hr aria-hidden="true" />
                 <button onClick={handleFromDropbox} type="button">
-                  <svg width="28" height="28" viewBox="0 0 48 48" aria-hidden="true">
-                    <rect x="4" y="4" width="40" height="40" rx="8" fill="#0061FF"/>
-                    <path d="M16 18l8-6 8 6-8 6-8-6z" fill="white"/>
-                    <path d="M16 28l8-6 8 6" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M24 32l8-6v4l-8 6-8-6v-4l8 6z" fill="white" opacity="0.7"/>
-                  </svg>
+                  <FaDropbox size={28} aria-hidden="true" />
                   {t("fromDropbox")}
                 </button>
                 <hr aria-hidden="true" />
                 <button onClick={handleFromGoogleDrive} type="button">
-                  <svg width="28" height="28" viewBox="0 0 48 48" aria-hidden="true">
-                    <path d="M24 4L4 28h12.5L24 18l7.5 10H44L24 4z" fill="#4285F4"/>
-                    <path d="M24 4l10 17.3L44 28H31.5L24 18l-7.5 10H4l10-17.3L24 4z" fill="#34A853"/>
-                    <path d="M4 28l10 10h20l10-10H31.5L24 38l-7.5-10H4z" fill="#EA4335"/>
-                    <path d="M14 38l3.5-10h13L34 38H14z" fill="#FBBC05"/>
-                  </svg>
+                  <SiGoogledrive size={28} aria-hidden="true" />
                   {t("fromGoogleDrive")}
                 </button>
               </div>
