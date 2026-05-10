@@ -14,6 +14,7 @@ import { calculateLayout } from "@/lib/pdf-generator";
 import PreviewModal from "./PreviewModal";
 import { FaDropbox } from "react-icons/fa";
 import { SiGoogledrive } from "react-icons/si";
+import { FiMonitor } from "react-icons/fi";
 
 interface Props {
   files: ConversionFile[];
@@ -452,11 +453,7 @@ export default function EditorOverlay({
             {addOpen && (
               <div className="split-btn-dropdown">
                 <button onClick={() => { setAddPinned(false); setAddHover(false); handleAddClick(); }} type="button">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                    <line x1="8" y1="21" x2="16" y2="21"/>
-                    <line x1="12" y1="17" x2="12" y2="21"/>
-                  </svg>
+                  <FiMonitor size={28} aria-hidden="true" />
                   {t("fromDevice")}
                 </button>
                 <hr aria-hidden="true" />
