@@ -14,7 +14,7 @@ import { calculateLayout } from "@/lib/pdf-generator";
 import PreviewModal from "./PreviewModal";
 import { FaDropbox } from "react-icons/fa";
 import { SiGoogledrive } from "react-icons/si";
-import { FiMonitor } from "react-icons/fi";
+import { HiOutlineComputerDesktop } from "react-icons/hi2";
 
 interface Props {
   files: ConversionFile[];
@@ -453,7 +453,7 @@ export default function EditorOverlay({
             {addOpen && (
               <div className="split-btn-dropdown">
                 <button onClick={() => { setAddPinned(false); setAddHover(false); handleAddClick(); }} type="button">
-                  <FiMonitor size={28} aria-hidden="true" />
+                  <HiOutlineComputerDesktop size={28} aria-hidden="true" />
                   {t("fromDevice")}
                 </button>
                 <hr aria-hidden="true" />

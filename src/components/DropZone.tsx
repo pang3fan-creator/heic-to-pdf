@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { MAX_FILE_SIZE, getFileType } from "@/lib/conversion-types";
 import { FaDropbox } from "react-icons/fa";
 import { SiGoogledrive } from "react-icons/si";
-import { FiMonitor } from "react-icons/fi";
+import { HiOutlineComputerDesktop } from "react-icons/hi2";
 
 interface Props {
   onFilesSelected: (files: FileList | File[]) => void;
@@ -239,7 +239,7 @@ export default function DropZone({
             {browseOpen && (
               <div className="split-btn-dropdown">
                 <button onClick={() => { setBrowsePinned(false); setBrowseHover(false); onBrowse(); }} type="button">
-                  <FiMonitor size={28} aria-hidden="true" />
+                  <HiOutlineComputerDesktop size={28} aria-hidden="true" />
                   {t("fromDevice")}
                 </button>
                 <hr aria-hidden="true" />
