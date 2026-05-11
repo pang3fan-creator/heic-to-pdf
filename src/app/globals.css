@@ -245,7 +245,7 @@ a:hover {
   position: relative;
   max-width: 680px;
   margin: 0 auto;
-  padding: 60px 40px;
+  padding: 80px 48px;
   border-radius: var(--radius);
   border: 2px dashed var(--border);
   background: var(--surface);
@@ -267,14 +267,14 @@ a:hover {
   box-shadow: 0 0 24px var(--accent-soft), 0 0 60px var(--accent-soft);
 }
 .drop-zone-icon {
-  margin-bottom: 16px;
+  margin-bottom: 22px;
   color: var(--accent);
 }
 .drop-zone h2 {
   font-family: var(--font-display);
   font-size: 20px;
   font-weight: 500;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 .drop-zone > p {
   font-size: 14px;
@@ -285,7 +285,7 @@ a:hover {
   font-size: 13px;
   color: var(--muted);
   opacity: 0.7;
-  margin-top: 12px;
+  margin-top: 16px;
 }
 .drop-zone .browse-btn {
   display: inline-block;
@@ -310,7 +310,7 @@ a:hover {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  margin-top: 18px;
+  margin-top: 22px;
   font-size: 13px;
   color: var(--muted);
 }
@@ -1485,7 +1485,7 @@ a:hover {
     padding-bottom: 40px;
   }
   .drop-zone {
-    padding: 40px 24px;
+    padding: 56px 24px;
   }
   .steps-grid {
     grid-template-columns: 1fr;
