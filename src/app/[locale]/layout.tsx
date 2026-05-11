@@ -22,6 +22,7 @@ export async function generateMetadata({
     title: "HEIC to PDF — Free Online Converter",
     description:
       "Convert iPhone HEIC photos to PDF instantly in your browser. Batch conversion supported. 100% private — your files never leave your device.",
+    icons: "/heicpdf-logo.svg",
     alternates: buildAlternates(locale, ""),
   };
 }

@@ -2,23 +2,29 @@
 
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
+import { FiSun, FiMoon } from "react-icons/fi";
 
 export default function Navbar() {
   const t = useTranslations("nav");
   const [menuOpen, setMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
 
   useEffect(() => {
     setMounted(true);
+    const stored = localStorage.getItem("theme") as "dark" | "light" | null;
+    if (stored && (stored === "dark" || stored === "light")) {
+      setTheme(stored);
+      document.documentElement.setAttribute("data-theme", stored);
+    }
   }, []);
 
   const toggleTheme = useCallback(() => {
-    const html = document.documentElement;
-    const cur = html.getAttribute("data-theme");
-    const next = cur === "dark" ? "light" : "dark";
-    html.setAttribute("data-theme", next);
+    const next = theme === "dark" ? "light" : "dark";
+    setTheme(next);
+    document.documentElement.setAttribute("data-theme", next);
     localStorage.setItem("theme", next);
-  }, []);
+  }, [theme]);
 
   const closeMenu = useCallback(() => {
     setMenuOpen(false);
@@ -28,8 +34,8 @@ export default function Navbar() {
     <nav className="navbar" role="navigation" aria-label="Main navigation">
       <div className="navbar-brand">
         <svg
-          width="28"
-          height="28"
+          width="36"
+          height="36"
           viewBox="0 0 28 28"
           fill="none"
           aria-hidden="true"
@@ -39,34 +45,34 @@ export default function Navbar() {
             y="2"
             width="24"
             height="24"
-            rx="6"
+            rx="7"
             stroke="currentColor"
             strokeWidth="1.5"
           />
           <path
-            d="M8 18L12 10L16 18"
+            d="M8.5 8v12"
             stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M10 15H14"
-            stroke="currentColor"
-            strokeWidth="1.5"
+            strokeWidth="2.2"
             strokeLinecap="round"
           />
           <path
-            d="M19 12L22 16"
+            d="M8.5 14h6.5"
             stroke="currentColor"
-            strokeWidth="1.5"
+            strokeWidth="2.2"
             strokeLinecap="round"
           />
           <path
-            d="M22 12L19 16"
-            stroke="currentColor"
-            strokeWidth="1.5"
+            d="M15 8v12"
+            stroke="var(--accent)"
+            strokeWidth="2.2"
             strokeLinecap="round"
+          />
+          <path
+            d="M15 8C19 8 20.5 9.5 20.5 11C20.5 12.5 19 14 15 14"
+            stroke="var(--accent)"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            fill="none"
           />
         </svg>
         {t("brand")}
@@ -87,12 +93,15 @@ export default function Navbar() {
           className="theme-toggle"
           onClick={toggleTheme}
           aria-label={t("themeToggle")}
+          data-theme={mounted ? theme : "dark"}
         >
-          {mounted
-            ? document.documentElement.getAttribute("data-theme") === "dark"
-              ? "☀️"
-              : "🌙"
-            : "☀️"}
+          <span className="theme-toggle-knob">
+            {mounted && theme === "light" ? (
+              <FiSun size={12} />
+            ) : (
+              <FiMoon size={12} />
+            )}
+          </span>
         </button>
         <button
           className="mobile-menu-btn"
