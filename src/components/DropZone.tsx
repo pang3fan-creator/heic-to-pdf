@@ -134,6 +134,10 @@ export default function DropZone({
           handleFiles(e.dataTransfer.files);
         }
       }}
+      onClick={(e) => {
+        if ((e.target as HTMLElement).closest('.split-btn-wrap')) return;
+        onBrowse();
+      }}
     >
       {showProcessing && files ? (
         <>
