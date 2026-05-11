@@ -73,26 +73,13 @@ export default function Navbar() {
       </div>
 
       <ul className={`nav-links${menuOpen ? " open" : ""}`}>
-        <li>
-          <a href="#converter" onClick={closeMenu}>
-            {t("links.converter")}
-          </a>
-        </li>
-        <li>
-          <a href="#howto" onClick={closeMenu}>
-            {t("links.howto")}
-          </a>
-        </li>
-        <li>
-          <a href="#about" onClick={closeMenu}>
-            {t("links.about")}
-          </a>
-        </li>
-        <li>
-          <a href="#faq" onClick={closeMenu}>
-            {t("links.faq")}
-          </a>
-        </li>
+        {(t.raw("links") as Array<{ label: string; href: string }>).map((link, i) => (
+          <li key={i}>
+            <a href={link.href} onClick={closeMenu}>
+              {link.label}
+            </a>
+          </li>
+        ))}
       </ul>
 
       <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>

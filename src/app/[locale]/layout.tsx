@@ -3,6 +3,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import { buildAlternates } from "@/lib/url";
 import "../globals.css";
 
 export function generateStaticParams() {
@@ -21,9 +22,7 @@ export async function generateMetadata({
     title: "HEIC to PDF — Free Online Converter",
     description:
       "Convert iPhone HEIC photos to PDF instantly in your browser. Batch conversion supported. 100% private — your files never leave your device.",
-    alternates: {
-      canonical: "/",
-    },
+    alternates: buildAlternates(locale, ""),
   };
 }
 

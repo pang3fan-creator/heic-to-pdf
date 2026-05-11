@@ -1,12 +1,11 @@
 {
   "nav": {
-    "brand": "HEIC→PDF",
-    "links": {
-      "converter": "Converter",
-      "howto": "How-to",
-      "about": "About HEIC",
-      "faq": "FAQ"
-    },
+    "brand": "HEICPDF.TO",
+    "links": [
+      { "label": "Home", "href": "/" },
+      { "label": "Privacy", "href": "/privacy" },
+      { "label": "Terms", "href": "/terms" }
+    ],
     "themeToggle": "Switch to light mode"
   },
   "hero": {
@@ -110,7 +109,7 @@
       },
       {
         "num": 4,
-        "title": "Done ✅",
+        "title": "Done",
         "desc": "PDF saved! Your original HEIC photos remain untouched — no quality loss, no modifications."
       }
     ]
@@ -167,35 +166,139 @@
     ]
   },
   "footer": {
-    "brand": "HEIC→PDF",
+    "brand": "HEICPDF.TO",
     "description": "A free online tool that converts HEIC photos to PDF directly in your browser. No uploads, no privacy concerns.",
     "columns": [
       {
         "title": "Tools",
         "links": [
-          { "label": "HEIC to PDF", "href": "#converter" },
-          { "label": "How-to guide", "href": "#howto" },
-          { "label": "Format info", "href": "#about" }
+          { "label": "Home", "href": "/" }
         ]
       },
       {
         "title": "Support",
         "links": [
-          { "label": "FAQ", "href": "#faq" },
-          { "label": "Contact us", "href": "#" },
-          { "label": "Privacy policy", "href": "#" }
-        ]
-      },
-      {
-        "title": "Resources",
-        "links": [
-          { "label": "HEIC format", "href": "#" },
-          { "label": "PDF standard", "href": "#" },
-          { "label": "API docs", "href": "#" }
+          { "label": "Contact us", "href": "mailto:support@heicpdf.to" },
+          { "label": "Privacy policy", "href": "/privacy" },
+          { "label": "Terms of Service", "href": "/terms" }
         ]
       }
     ],
-    "copyright": "© 2026 HEIC→PDF. All rights reserved.",
+    "copyright": "© 2026 HEICPDF.TO. All rights reserved.",
     "tagline": "Made with care — processed locally, your privacy respected"
+  },
+  "privacy": {
+    "pageTitle": "Privacy Policy",
+    "pageDescription": "Privacy policy for HEICPDF.TO. Learn how we protect your data — all file processing happens in your browser, nothing is uploaded to our servers.",
+    "lastUpdated": "Last updated: May 11, 2026",
+    "sections": [
+      {
+        "id": "introduction",
+        "heading": "1. Introduction",
+        "body": "<p>HEICPDF.TO (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) operates the website at <strong>heicpdf.to</strong> (the &ldquo;Service&rdquo;). This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data.</p><p>We take your privacy seriously. This tool is designed around a core principle: <strong>your files never leave your device</strong>. All HEIC-to-PDF conversion is performed entirely in your browser using WebAssembly — no images are uploaded to any server, and we have no ability to access, store, or share your files.</p><p>We use your data only to operate and improve the Service. By using the Service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used have the same meanings as in our Terms of Service.</p><div class=\"emph-box\"><strong>In plain language:</strong> We process files in your browser, not on our servers. We don&rsquo;t see your photos, we don&rsquo;t store them, and we don&rsquo;t share them.</div>"
+      },
+      {
+        "id": "data-collection",
+        "heading": "2. Information We Collect",
+        "body": "<p>We collect only the minimum information necessary to provide and improve the Service. The table below describes the categories of data we may process:</p><table class=\"data-table\"><thead><tr><th>Category</th><th>What we collect</th><th>Purpose</th></tr></thead><tbody><tr><td>Usage data</td><td>Pages visited, feature usage (conversion count, paper size selections), referral source, browser type and version, device type, operating system</td><td>Analytics and service improvement — we use aggregated, anonymized data to understand how the tool is used</td></tr><tr><td>Device data</td><td>IP address (anonymized), browser language preference, screen resolution, approximate geographic region (country-level only)</td><td>Security, analytics, localization</td></tr><tr><td>File data</td><td><strong>None.</strong> Your HEIC photos are processed locally in your browser. We never receive, transmit, or store your image files.</td><td>Your files remain on your device at all times</td></tr><tr><td>Cookies</td><td>Theme preference (dark/light mode), analytics session identifier</td><td>Functionality and analytics (see Section 5)</td></tr></tbody></table><p>We do <strong>not</strong> collect: your name, email address, phone number, postal address, payment information, or any personally identifiable information beyond what is listed above. We do not use fingerprinting techniques, track you across third-party sites, or sell your data.</p>"
+      },
+      {
+        "id": "local-processing",
+        "heading": "3. Local Processing — Your Files Stay Private",
+        "body": "<p>This is the most important part of this policy. Every HEIC-to-PDF conversion performed on our website happens <strong>entirely within your browser</strong>. Your photos:</p><ul><li><strong>Are never uploaded</strong> to any server — not ours, not a third-party&rsquo;s.</li><li><strong>Are never stored</strong> in our databases, logs, or caches.</li><li><strong>Are never transmitted</strong> over the network. The conversion engine (HEIC decoding + PDF generation) runs as a WebAssembly binary inside your browser tab.</li><li><strong>Remain on your device</strong> until you choose to download the result or close the tab.</li></ul><p>Once you close the browser tab, <strong>all processed data is gone</strong>. We have no mechanism to retrieve, recover, or access any file you convert. This architecture is deliberate: it eliminates the most common privacy risk in file-conversion services.</p><div class=\"emph-box\"><strong>Architecture note:</strong> Our WebAssembly HEIC decoder was compiled from the open-source <em>libheif</em> library. The PDF is generated client-side using a lightweight JavaScript PDF library. No data exfiltration path exists in the application code.</div>"
+      },
+      {
+        "id": "analytics",
+        "heading": "4. Analytics &amp; Usage Tracking",
+        "body": "<p>We do <strong>not</strong> use analytics services, tracking scripts, cookies, or any form of usage monitoring on our website. We do not use Google Analytics, Facebook Pixel, Plausible, or any other analytics provider.</p><p>We have designed the Service to operate without collecting information about how you use it. The only data processed is the HEIC-to-PDF conversion itself, which happens entirely in your browser using WebAssembly — no data is transmitted to any server.</p>"
+      },
+      {
+        "id": "cookies",
+        "heading": "5. Cookies",
+        "body": "<p>We use a minimal set of cookies to make the Service work properly:</p><table class=\"data-table\"><thead><tr><th>Cookie</th><th>Purpose</th><th>Duration</th></tr></thead><tbody><tr><td><code>theme</code></td><td>Stores your dark/light mode preference so it persists across visits</td><td>1 year</td></tr></tbody></table><p>The <code>theme</code> cookie is strictly functional — without it, the site would default to dark mode on every visit. You can disable cookies in your browser settings; the Service will still function, though your theme preference will not persist between sessions.</p><p>We do not use tracking cookies, advertising cookies, or third-party cookies of any kind.</p>"
+      },
+      {
+        "id": "third-party",
+        "heading": "6. Third-Party Services",
+        "body": "<p>The Service does not integrate any third-party analytics, advertising, or data collection services. All HEIC-to-PDF conversion is processed entirely within your browser using open-source WebAssembly libraries (libheif) and client-side JavaScript (pdf-lib, JSZip).</p><p>When you choose to save files to cloud storage (Dropbox, Google Drive), those services are accessed directly from your browser using their official SDKs, subject to their respective privacy policies. We do not receive, store, or process your cloud storage credentials or files on our servers.</p>"
+      },
+      {
+        "id": "data-retention",
+        "heading": "7. Data Retention",
+        "body": "<p>Because the Service does not upload or store your files, there is nothing to retain on our end. For the limited analytics data we collect:</p><ul><li><strong>Usage statistics</strong> are retained in anonymized, aggregated form indefinitely. Individual session data is retained for 24 months, after which it is permanently deleted.</li><li><strong>Anonymized IP addresses</strong> are stripped of the last octet immediately upon collection and are not linked to individual sessions.</li><li><strong>Log data</strong> (server access logs) is retained for 30 days for security monitoring, then automatically rotated and deleted.</li></ul>"
+      },
+      {
+        "id": "your-rights",
+        "heading": "8. Your Rights (GDPR &amp; CCPA)",
+        "body": "<p>If you are a resident of the European Economic Area (EEA), the United Kingdom, or California, you have the following rights under applicable data protection law:</p><h3>Right to Access</h3><p>You may request a copy of the personal data we hold about you. Since we collect minimal data (see Section 2), this is typically limited to analytics-related information. To make a request, contact us using the details in Section 12.</p><h3>Right to Rectification</h3><p>You have the right to have inaccurate personal data corrected. Because we do not maintain user accounts or profiles, there is little personal data to correct — but if you believe any data we hold is inaccurate, we will investigate and correct it promptly.</p><h3>Right to Erasure (&ldquo;Right to be Forgotten&rdquo;)</h3><p>You may request deletion of your personal data. As we do not store files or retain persistent personal identifiers, erasure is generally straightforward. Contact us and we will confirm deletion within 30 days.</p><h3>Right to Restrict Processing</h3><p>You may request that we restrict the processing of your personal data. Since we process only anonymized analytics, this right is generally satisfied by the fact that we do not engage in profiling or automated decision-making.</p><h3>Right to Data Portability</h3><p>You have the right to receive your personal data in a structured, commonly used format. Contact us to exercise this right.</p><h3>CCPA — California Residents</h3><p>Under the California Consumer Privacy Act (CCPA), California residents have the additional right to:</p><ul><li><strong>Know</strong> what personal information is collected, used, shared, or sold.</li><li><strong>Opt out</strong> of the sale of personal information. We do <strong>not</strong> sell personal information.</li><li><strong>Non-discrimination</strong> — we will not discriminate against you for exercising your CCPA rights.</li></ul><p>To exercise any of these rights, please contact us. We will respond within the timeframe required by applicable law.</p>"
+      },
+      {
+        "id": "security",
+        "heading": "9. Data Security",
+        "body": "<p>Because your files never leave your device, the primary security risk — data interception during transmission or server-side breach — is eliminated by design. For the data we do process:</p><ul><li>All site traffic is served over HTTPS (TLS 1.3).</li><li>Analytics data is transmitted over encrypted connections.</li><li>Our deployment uses Content Security Policy (CSP) headers to prevent data exfiltration and XSS attacks.</li><li>We regularly audit our dependencies for known vulnerabilities.</li></ul><p>No security system is impenetrable. However, our architecture means that even in the event of a server compromise, an attacker would gain access to <strong>no user files, no user accounts, and no personal information</strong>.</p>"
+      },
+      {
+        "id": "children",
+        "heading": "10. Children&rsquo;s Privacy",
+        "body": "<p>Our Service is not directed to persons under the age of 13 (or the equivalent age of majority in your jurisdiction). We do not knowingly collect personal information from children. If you become aware that a child has provided us with personal data, please contact us — we will take steps to delete that information as soon as possible.</p>"
+      },
+      {
+        "id": "changes",
+        "heading": "11. Changes to This Policy",
+        "body": "<p>We may update this Privacy Policy from time to time. When we do, we will revise the &ldquo;Last updated&rdquo; date at the top of this page. Material changes will be communicated via a notice on our website.</p><p>We encourage you to review this Privacy Policy periodically for any changes. Continued use of the Service after changes take effect constitutes your acceptance of the updated policy.</p>"
+      },
+      {
+        "id": "contact",
+        "heading": "12. Contact Us",
+        "body": "<p>If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us at <a href=\"mailto:support@heicpdf.to\">support@heicpdf.to</a>.</p><p>We aim to respond to all privacy inquiries within 48 hours and to resolve any issues within 30 days.</p><div class=\"emph-box\"><strong>Summary:</strong> We built HEICPDF.TO so you never have to trust us with your files. Processing happens in your browser. Nothing is uploaded. Nothing is stored. Nothing is shared. This is not a marketing claim — it is an architectural guarantee.</div>"
+      }
+    ]
+  },
+  "terms": {
+    "pageTitle": "Terms of Service",
+    "pageDescription": "Terms of Service for HEICPDF.TO. Learn about the terms governing your use of our free online HEIC to PDF converter.",
+    "lastUpdated": "Last updated: May 11, 2026",
+    "sections": [
+      {
+        "id": "overview",
+        "heading": "1. Service Overview",
+        "body": "<p>HEICPDF.TO (accessible at <strong>heicpdf.to</strong>) is a free online tool that converts HEIC/HEIF photos to PDF format. The Service is provided &ldquo;as is&rdquo; and is intended for personal and non-commercial use unless otherwise authorized.</p><p>All file processing is performed <strong>entirely within your browser</strong> using WebAssembly technology. No images, documents, or files you use with the Service are uploaded to our servers, transmitted over the network, or stored by us. The Service does not require registration or account creation.</p><p>By accessing or using the Service, you agree to be bound by these Terms. If you do not agree to these Terms, please do not use the Service.</p><div class=\"emph-box\"><strong>Architecture note:</strong> Because all conversion happens locally in your browser, we never have access to your photos. This architectural choice shapes many of the Terms below — we simply cannot access, modify, or delete files that never leave your device.</div>"
+      },
+      {
+        "id": "eligibility",
+        "heading": "2. User Eligibility",
+        "body": "<p>By using the Service, you represent and warrant that:</p><ul><li>You are at least 13 years of age (or the equivalent age of digital consent in your jurisdiction).</li><li>You have the legal capacity to enter into these Terms.</li><li>You are not located in a country that is subject to a U.S. government embargo or that has been designated as a &ldquo;terrorist-supporting&rdquo; country.</li><li>You are not listed on any U.S. government list of prohibited or restricted parties.</li></ul><p>If you are using the Service on behalf of an organization, you represent and warrant that you have the authority to bind that organization to these Terms.</p>"
+      },
+      {
+        "id": "responsibilities",
+        "heading": "3. User Responsibilities",
+        "body": "<p>You agree to use the Service only for lawful purposes and in accordance with these Terms. You agree not to:</p><ul><li>Use the Service to convert, store, or distribute illegal, infringing, or harmful content.</li><li>Attempt to reverse engineer, decompile, or extract the source code of the WebAssembly conversion engine or any client-side library.</li><li>Interfere with or disrupt the operation of the Service, including submitting an excessive number of conversion requests in an attempt to degrade performance.</li><li>Use automated scripts, bots, or scrapers to interact with the Service.</li><li>Misrepresent the origin of files processed through the Service or claim endorsement by us without permission.</li></ul><p>You are solely responsible for the content of the files you process using the Service and for ensuring that your use complies with all applicable laws and regulations.</p>"
+      },
+      {
+        "id": "intellectual-property",
+        "heading": "4. Intellectual Property",
+        "body": "<h3>Our IP</h3><p>The Service, including its code, design, branding, and the HEICPDF.TO name and logo, is owned by us or our licensors and is protected by copyright, trademark, and other intellectual property laws. You may not reproduce, modify, distribute, or create derivative works of the Service or any part of it without our express written permission.</p><h3>Your IP</h3><p>You retain all rights to any files, images, or documents you process using the Service. Because files are processed entirely in your browser and never transmitted to our servers, we do not claim any ownership over, nor do we have any access to, the content you convert. Your files remain your property at all times.</p><h3>Open Source</h3><p>Certain components of the Service are open-source software. The HEIC decoding engine is based on <em>libheif</em>, an open-source library released under the LGPL license. The PDF generation uses <em>pdf-lib</em>, released under the MIT license. Use of these libraries is governed by their respective licenses.</p>"
+      },
+      {
+        "id": "disclaimer",
+        "heading": "5. Disclaimer",
+        "body": "<p>THE SERVICE IS PROVIDED &ldquo;AS IS&rdquo; AND &ldquo;AS AVAILABLE&rdquo; WITHOUT ANY WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.</p><p>WE DO NOT WARRANT THAT:</p><ul><li>The Service will meet your specific requirements or expectations.</li><li>The Service will be uninterrupted, timely, secure, or error-free.</li><li>The results obtained from using the Service will be accurate, reliable, or suitable for your intended purpose.</li><li>Any errors or defects in the Service will be corrected.</li></ul><p>No advice or information obtained by you from us or through the Service shall create any warranty not expressly stated in these Terms.</p>"
+      },
+      {
+        "id": "liability",
+        "heading": "6. Limitation of Liability",
+        "body": "<p>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL WE BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING OUT OF OR RELATING TO YOUR USE OF THE SERVICE. THIS INCLUDES, WITHOUT LIMITATION, DAMAGES FOR LOSS OF PROFITS, GOODWILL, DATA, OR OTHER INTANGIBLE LOSSES.</p><p>OUR TOTAL LIABILITY TO YOU FOR ALL CLAIMS ARISING FROM OR RELATING TO THESE TERMS OR YOUR USE OF THE SERVICE SHALL NOT EXCEED THE AMOUNT YOU HAVE PAID TO USE THE SERVICE (WHICH IS NIL — THE SERVICE IS FREE) OR, IF NO AMOUNT HAS BEEN PAID, TEN U.S. DOLLARS ($10.00).</p><p>BECAUSE THE SERVICE PROCESSES FILES LOCALLY IN YOUR BROWSER AND WE DO NOT HAVE ACCESS TO YOUR DATA, WE CANNOT BE HELD LIABLE FOR DATA LOSS, CORRUPTION, OR UNAUTHORIZED ACCESS RESULTING FROM YOUR USE OF THE SERVICE. YOU ARE RESPONSIBLE FOR MAINTAINING BACKUPS OF YOUR ORIGINAL FILES.</p>"
+      },
+      {
+        "id": "governing-law",
+        "heading": "7. Governing Law",
+        "body": "<p>These Terms shall be governed by and construed in accordance with the laws of the State of California, United States, without regard to its conflict of law provisions. Any legal action or proceeding arising out of or relating to these Terms or the Service shall be brought exclusively in the federal or state courts located in San Francisco County, California.</p><p>If you are accessing the Service from outside the United States, you do so on your own initiative and are responsible for compliance with local laws.</p><p>The failure to enforce any right or provision of these Terms shall not constitute a waiver of that right or provision. If any provision of these Terms is found to be unenforceable or invalid, that provision shall be limited or eliminated to the minimum extent necessary so that the remaining Terms remain in full force and effect.</p>"
+      },
+      {
+        "id": "contact",
+        "heading": "8. Contact",
+        "body": "<p>If you have any questions, concerns, or requests regarding these Terms, please contact us at <a href=\"mailto:support@heicpdf.to\">support@heicpdf.to</a>.</p><p>We aim to respond to all inquiries within 48 hours.</p>"
+      }
+    ]
   }
 }
