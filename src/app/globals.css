@@ -117,10 +117,13 @@ a:hover {
   font-size: 18px;
   font-weight: 600;
   color: var(--fg);
+  text-decoration: none;
 }
 .navbar-brand svg {
   flex-shrink: 0;
 }
+.brand-accent { color: var(--accent); }
+.brand-muted { color: var(--muted); }
 .nav-links {
   display: flex;
   align-items: center;
@@ -1547,6 +1550,8 @@ a:hover {
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 8px;
+  text-decoration: none;
+  color: var(--fg);
 }
 .footer-desc {
   font-size: 14px;

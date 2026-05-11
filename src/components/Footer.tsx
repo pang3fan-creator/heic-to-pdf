@@ -12,7 +12,7 @@ export default function Footer() {
       <div className="container">
         <div className="footer-grid">
           <div>
-            <div className="footer-brand">
+            <a href="/" className="footer-brand" aria-label="Home">
               <svg
                 width="32"
                 height="32"
@@ -26,8 +26,8 @@ export default function Footer() {
                 <path d="M15 8v12" stroke="var(--accent)" strokeWidth="2.2" strokeLinecap="round" />
                 <path d="M15 8C19 8 20.5 9.5 20.5 11C20.5 12.5 19 14 15 14" stroke="var(--accent)" strokeWidth="2.2" strokeLinecap="round" fill="none" />
               </svg>
-              {t("brand")}
-            </div>
+              <span>HEIC<span className="brand-accent">PDF</span><span className="brand-muted">.TO</span></span>
+            </a>
             <p className="footer-desc">{t("description")}</p>
           </div>
           {columns.map((col, i) => (

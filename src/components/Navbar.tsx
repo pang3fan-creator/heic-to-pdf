@@ -32,7 +32,7 @@ export default function Navbar() {
 
   return (
     <nav className="navbar" role="navigation" aria-label="Main navigation">
-      <div className="navbar-brand">
+      <a href="/" className="navbar-brand" aria-label="Home">
         <svg
           width="36"
           height="36"
@@ -75,8 +75,8 @@ export default function Navbar() {
             fill="none"
           />
         </svg>
-        {t("brand")}
-      </div>
+        <span>HEIC<span className="brand-accent">PDF</span><span className="brand-muted">.TO</span></span>
+      </a>
 
       <ul className={`nav-links${menuOpen ? " open" : ""}`}>
         {(t.raw("links") as Array<{ label: string; href: string }>).map((link, i) => (
