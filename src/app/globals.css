@@ -267,14 +267,14 @@ a:hover {
   box-shadow: 0 0 24px var(--accent-soft), 0 0 60px var(--accent-soft);
 }
 .drop-zone-icon {
-  margin-bottom: 22px;
+  margin-bottom: 28px;
   color: var(--accent);
 }
 .drop-zone h2 {
   font-family: var(--font-display);
   font-size: 20px;
   font-weight: 500;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 .drop-zone > p {
   font-size: 14px;
@@ -285,7 +285,7 @@ a:hover {
   font-size: 13px;
   color: var(--muted);
   opacity: 0.7;
-  margin-top: 16px;
+  margin-top: 24px;
 }
 .drop-zone .browse-btn {
   display: inline-block;
@@ -305,12 +305,15 @@ a:hover {
   opacity: 0.9;
   transform: translateY(-1px);
 }
+.drop-zone .split-btn-wrap {
+  margin-top: 24px;
+}
 .privacy-note {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  margin-top: 22px;
+  margin-top: 28px;
   font-size: 13px;
   color: var(--muted);
 }
