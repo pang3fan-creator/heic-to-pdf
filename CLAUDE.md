@@ -97,6 +97,7 @@ src/
 
 ### CSS 模式
 
+- **样式方案**：纯手写 CSS + 内联 `style={{}}`，**未使用 Tailwind CSS**，不要添加 Tailwind 类名
 - **毛玻璃**：`background: color-mix(in srgb, var(--surface) 60%, transparent); backdrop-filter: blur(20px)`
 - **竖向 range slider**：`input[type=range] { writing-mode: vertical-lr; direction: rtl; }` 交换宽高语义
 - **CSS tooltip**：`button[title]:hover::after { content: attr(title); position: absolute; left: 100%; ... }`

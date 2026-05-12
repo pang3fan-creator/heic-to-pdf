@@ -251,6 +251,17 @@ a:hover {
   font-size: 15px;
   color: var(--muted);
 }
+.drop-overlay h2,
+.drop-overlay p {
+  color: #fff;
+}
+[data-theme="light"] .drop-overlay {
+  background: oklch(100% 0 0 / 70%);
+}
+[data-theme="light"] .drop-overlay h2,
+[data-theme="light"] .drop-overlay p {
+  color: #000;
+}
 
 /* ========== Hero / Converter ========== */
 .hero {
@@ -264,7 +275,6 @@ a:hover {
   font-weight: 600;
   letter-spacing: -0.025em;
   line-height: 1.15;
-  margin-bottom: 16px;
 }
 .hero > .container > p {
   font-size: clamp(16px, 2vw, 19px);
@@ -1405,7 +1415,7 @@ a:hover {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
-  align-items: center;
+  align-items: stretch;
 }
 .about-text h2 {
   font-family: var(--font-display);
@@ -1440,19 +1450,42 @@ a:hover {
   color: var(--accent);
 }
 .compare-table {
+  display: flex;
+  flex-direction: column;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
 }
 .compare-table table {
-  width: 100%;
-  border-collapse: collapse;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.compare-table thead {
+  flex-shrink: 0;
+  display: block;
+}
+.compare-table thead tr {
+  display: flex;
+}
+.compare-table tbody {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.compare-table tbody tr {
+  display: flex;
+  flex: 1;
+  align-items: center;
 }
 .compare-table th,
 .compare-table td {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
   padding: 14px 20px;
-  text-align: left;
   font-size: 14px;
   border-bottom: 1px solid var(--border);
 }
@@ -1464,7 +1497,7 @@ a:hover {
   letter-spacing: 0.04em;
   color: var(--muted);
 }
-.compare-table tr:last-child td {
+.compare-table tbody tr:last-child td {
   border-bottom: none;
 }
 .compare-table .highlight {

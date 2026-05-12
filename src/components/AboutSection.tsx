@@ -54,7 +54,7 @@ export default function AboutSection() {
                 {table.rows.map((row, ri) => (
                   <tr key={ri}>
                     {row.map((cell, ci) => (
-                      <td key={ci} className={ci > 0 && cell === "Best" || cell === "Wide" || cell === "Universal" || cell === "Small" ? "highlight" : undefined}>
+                      <td key={ci} className={ci > 0 && cell === "Best" || cell === "Wide" || cell === "Universal" || cell === "Small" || cell === "ISO" ? "highlight" : undefined}>
                         {cell}
                       </td>
                     ))}

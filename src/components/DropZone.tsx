@@ -213,7 +213,6 @@ export default function DropZone({
 
           <h2>{t("title")}</h2>
           <p>{t("subtitle")}</p>
-          <div className="hint">{t("hint")}</div>
           <div style={{ textAlign: "center" }}>
           <div
             className="split-btn-wrap"
@@ -247,12 +246,7 @@ export default function DropZone({
               </div>
             )}
           </div>
-          </div>
-          <div className="privacy-note">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-            </svg>
-            {t("privacy")}
+          <div className="hint">{t("hint")}</div>
           </div>
         </>
       )}

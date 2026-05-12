@@ -74,7 +74,7 @@ export default function GlobalDropOverlay({ onFilesDropped }: Props) {
           </svg>
         </div>
         <h2>Drop images anywhere</h2>
-        <p>Release to start converting — your files never leave your device</p>
+        <p>Release to start converting</p>
       </div>
     </div>
   );

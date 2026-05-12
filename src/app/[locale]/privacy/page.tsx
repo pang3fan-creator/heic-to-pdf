@@ -20,7 +20,7 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "privacy" });
 
   return {
-    title: `${t("pageTitle")} — HEIC to PDF`,
+    title: t("pageTitle"),
     description: t("pageDescription"),
     alternates: buildAlternates(locale, "/privacy"),
   };
