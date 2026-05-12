@@ -138,9 +138,9 @@ src/
 
 ### Google Drive 集成
 
-- **环境变量**：`NEXT_PUBLIC_GOOGLE_CLIENT_ID` + `NEXT_PUBLIC_GOOGLE_CLIENT_SECRET` + `NEXT_PUBLIC_GOOGLE_API_KEY`
+- **环境变量**：`NEXT_PUBLIC_GOOGLE_CLIENT_ID` + `GOOGLE_CLIENT_SECRET`（服务端仅，不暴露到客户端）+ `NEXT_PUBLIC_GOOGLE_API_KEY`
 - **OAuth**：使用全页面重定向而非弹窗（Google 的 OAuth 页面设置 COOP 头）
-- **client_secret 必要**：即使使用 PKCE，Google token 端点仍要求传 `client_secret`
+- **client_secret 代理**：Google 强制要求 client_secret 即使使用 PKCE，通过 `proxyUrl: "/api/auth/google/token"` 服务端代理转发 token 请求（见 `src/app/api/auth/google/token/route.ts`，`src/lib/cloud/oauth-core.ts`）
 - **导入**：Google Picker API（需启用 Google Picker API + Google Drive API）
 - **API Key 要求**：`NEXT_PUBLIC_GOOGLE_API_KEY` 必须设置，且 Key 的 API 限制须包含以上两个 API
 - **Picker 视图**：使用 `DocsView().setMimeTypes(...)` 过滤文件类型
@@ -161,6 +161,12 @@ src/
 - **Merge 关**：`npm install jszip`，`resolvePdfNames()` 处理同名冲突（1.jpg→1.pdf, 1.png→1-1.pdf）
 - **单张图**：无论 merge 开关如何，直接下载 PDF（不打包 zip）
 - Merge 开关通过 `settingsRef.merge` 持久化，跨编辑器会话保持
+
+### 安全响应头 / CSP
+
+- `next.config.ts` 的 `async headers()` 注入 CSP 等响应头，`next-intl` 插件兼容
+- CSP 关键允许项：`img-src 'self' blob: data:`（PDF 预览 blob URL）、`script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'`（HEIC WebAssembly）、`connect-src 'self' https://*.dropboxapi.com https://www.googleapis.com`（云存储 API）
+- 修改 CSP 后需 `npm run build` 验证构建
 
 ## SEO 规范
 
@@ -191,3 +197,14 @@ src/
 ### sitemap 维护
 
 新增页面时需同步更新 `src/app/sitemap.ts` 的 `pages` 数组
+
+### Open Graph / Twitter Card
+
+- 通过 Next.js Metadata API 的 `openGraph` 和 `twitter` 字段注入，在 `[locale]/layout.tsx` 的 `generateMetadata` 中配置
+- OG 图片占位 URL：`https://heicpdf.to/og-image.png`，需在 `public/` 放 1200×630 图片
+
+### llms.txt
+
+- AI 搜索引擎（ChatGPT、Perplexity）使用 `/llms.txt` 获取网站摘要
+- 实现方式：Route Handler `src/app/llms.txt/route.ts`，返回 `text/plain`，内联纯文本内容
+- middleware matcher 排除 `.*\\..*`（含点号 URL），所以路由不受 next-intl 影响
