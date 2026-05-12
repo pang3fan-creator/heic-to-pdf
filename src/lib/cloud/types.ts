@@ -8,6 +8,7 @@ export interface OAuthConfig {
   scope: string;
   storagePrefix: string;
   tokenLifetimeMs: number;
+  proxyUrl?: string; // 服务端代理 URL，用于安全地添加 client_secret
 }
 
 export interface TokenStore {

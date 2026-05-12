@@ -16,6 +16,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const ogImageUrl = "https://heicpdf.to/og-image.png";
 
   return {
     title: {
@@ -26,6 +27,30 @@ export async function generateMetadata({
       "Easily convert your Apple HEIC photos to high-quality PDF documents. No registration required. Supports batch, Dropbox & Google Drive. 100% privacy guaranteed.",
     icons: "/heicpdf-logo.svg",
     alternates: buildAlternates(locale, ""),
+    openGraph: {
+      title: "HEIC to PDF — Fast, Private & Free Online Tool | HEICPDF.TO",
+      description:
+        "Easily convert your Apple HEIC photos to high-quality PDF documents. No registration required. Supports batch, Dropbox & Google Drive. 100% privacy guaranteed.",
+      url: "https://heicpdf.to",
+      siteName: "HEICPDF.TO",
+      locale,
+      type: "website",
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: "HEICPDF.TO — Convert HEIC to PDF Free Online",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "HEIC to PDF — Fast, Private & Free Online Tool | HEICPDF.TO",
+      description:
+        "Easily convert your Apple HEIC photos to high-quality PDF documents. No registration required. Supports batch, Dropbox & Google Drive. 100% privacy guaranteed.",
+      images: [ogImageUrl],
+    },
   };
 }
 

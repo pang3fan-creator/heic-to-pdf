@@ -127,7 +127,8 @@ export function createTokenManager(prefix: string) {
     verifier: string,
   ): Promise<boolean> {
     try {
-      const resp = await fetch(config.tokenUrl, {
+      const url = config.proxyUrl || config.tokenUrl;
+      const resp = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: (() => {
@@ -138,7 +139,7 @@ export function createTokenManager(prefix: string) {
             redirect_uri: config.redirectUri,
             code_verifier: verifier,
           });
-          if (config.clientSecret) p.set("client_secret", config.clientSecret);
+          if (!config.proxyUrl && config.clientSecret) p.set("client_secret", config.clientSecret);
           return p;
         })(),
       });
@@ -165,7 +166,8 @@ export function createTokenManager(prefix: string) {
     const tokens = getTokens();
     if (!tokens?.refreshToken) return false;
     try {
-      const resp = await fetch(config.refreshUrl, {
+      const url = config.proxyUrl || config.refreshUrl;
+      const resp = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: (() => {
@@ -174,7 +176,7 @@ export function createTokenManager(prefix: string) {
             refresh_token: tokens.refreshToken,
             client_id: config.clientId,
           });
-          if (config.clientSecret) p.set("client_secret", config.clientSecret);
+          if (!config.proxyUrl && config.clientSecret) p.set("client_secret", config.clientSecret);
           return p;
         })(),
       });

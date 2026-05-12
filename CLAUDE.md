@@ -46,12 +46,15 @@ src/
 │   ├── image-decoder.ts       # 统一图片解码层（HEIC→Worker, 其他→createImageBitmap）
 │   ├── pdf-generator.ts       # pdf-lib PDF 生成
 │   ├── preview-renderer.ts    # Canvas PDF 页面预览渲染
-│   ├── zip-utils.ts           # JSZip 打包 + 冲突安全命名
 │   ├── dropbox-utils.ts       # Dropbox Chooser（导入）
 │   ├── dropbox-auth.ts        # PKCE OAuth + 直接上传 API
 │   └── __tests__/
-├── middleware.ts             # next-intl 路由中间件（matcher 排除 /auth/ 等）
-└── types/libheif-js.d.ts     # libheif 类型声明
+├── app/sitemap.ts             # sitemap 生成
+├── app/robots.ts              # robots.txt 生成
+├── i18n/routing.ts            # 国际化路由配置（locales、pathnames）
+├── middleware.ts               # next-intl 路由中间件（matcher 排除 /auth/ 等）
+├── types/libheif-js.d.ts       # libheif 类型声明
+└── types/css.d.ts               # CSS 模块类型声明（`declare module "*.css"`）
 ```
 
 ## 常见坑点
@@ -93,6 +96,7 @@ src/
 ### `.next` 缓存损坏
 
 - 修改 Web Worker 或 pdf-lib 相关代码后，若出现 `MODULE_NOT_FOUND: vendor-chunks/pdf-lib.js`，需清除缓存
+- 修改布局/服务端组件后也可能触发，统一方案：`rm -rf .next/cache` 后重新 `npm run build`
 - 解决方案：`rm -rf .next/cache` 或 `rm -rf .next` 后重新 `npm run build`
 
 ### CSS 模式
@@ -163,9 +167,12 @@ src/
 ### 基础配置
 
 - 每个路由使用 Metadata API 动态生成 TDK
+- 使用 `title.template` 自动追加品牌后缀：`title: { template: "%s | HEICPDF.TO", default: "..." }`
 - 结构化数据: WebApplication, FAQPage, HowTo
 
 ### JSON-LD Schema 规范
+
+- **注入方式**：在 `[locale]/layout.tsx` 中用 `getTranslations` 服务端获取文本，通过 `<script type="application/ld+json">` + `dangerouslySetInnerHTML` 注入 `<head>`
 
 | 规范           | 说明                                              |
 | -------------- | ------------------------------------------------- |
