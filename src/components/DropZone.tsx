@@ -26,17 +26,15 @@ export default function DropZone({
 }: Props) {
   const t = useTranslations("hero.dropzone");
   const inputRef = useRef<HTMLInputElement>(null);
-  const [browsePinned, setBrowsePinned] = useState(false);
   const [browseHover, setBrowseHover] = useState(false);
   const browseRef = useRef<HTMLDivElement>(null);
   const browseCloseTimer = useRef<number | undefined>(undefined);
-  const browseOpen = browseHover || browsePinned;
+  const browseOpen = browseHover;
 
   const scheduleBrowseClose = () => {
     if (browseCloseTimer.current !== undefined) clearTimeout(browseCloseTimer.current);
     browseCloseTimer.current = window.setTimeout(() => {
       setBrowseHover(false);
-      setBrowsePinned(false);
     }, 150);
   };
 
@@ -49,7 +47,6 @@ export default function DropZone({
 
   const handleFromDropbox = useCallback(async () => {
     cancelBrowseClose();
-    setBrowsePinned(false);
     setBrowseHover(false);
     try {
       const { pickFromDropbox } = await import("@/lib/dropbox-utils");
@@ -64,7 +61,6 @@ export default function DropZone({
 
   const handleFromGoogleDrive = useCallback(async () => {
     cancelBrowseClose();
-    setBrowsePinned(false);
     setBrowseHover(false);
     try {
       const { pickFromGoogleDrive } = await import("@/lib/cloud/google-drive/utils");
@@ -232,17 +228,9 @@ export default function DropZone({
               </svg>
               {t("browseBtn")}
             </button>
-            <button
-              className="split-btn-arrow"
-              onClick={() => setBrowsePinned((v) => !v)}
-              type="button"
-              aria-label="More options"
-            >
-              ▾
-            </button>
             {browseOpen && (
               <div className="split-btn-dropdown">
-                <button onClick={() => { setBrowsePinned(false); setBrowseHover(false); onBrowse(); }} type="button">
+                <button onClick={() => { setBrowseHover(false); onBrowse(); }} type="button">
                   <HiOutlineComputerDesktop size={28} aria-hidden="true" />
                   {t("fromDevice")}
                 </button>

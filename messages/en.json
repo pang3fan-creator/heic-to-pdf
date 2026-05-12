@@ -16,9 +16,9 @@
       "subtitle": "or click the button below to browse",
       "hint": "Batch upload supported · Up to 20 images · 50MB max per file",
       "browseBtn": "SELECT HEIC FILE(S)",
-      "fromDevice": "From your device",
-      "fromDropbox": "From Dropbox",
-      "fromGoogleDrive": "From Google Drive",
+      "fromDevice": "Device",
+      "fromDropbox": "Dropbox",
+      "fromGoogleDrive": "Google Drive",
       "privacy": "Your files stay in your browser — we never upload them"
     },
     "converting": "Converting…"
@@ -27,9 +27,9 @@
     "title": "Arrange & convert",
     "back": "Back",
     "addPhotos": "Add photos",
-    "fromDevice": "From your device",
-    "fromDropbox": "From Dropbox",
-    "fromGoogleDrive": "From Google Drive",
+    "fromDevice": "Device",
+    "fromDropbox": "Dropbox",
+    "fromGoogleDrive": "Google Drive",
     "convertBtn": "Convert to PDF",
     "sortLabel": "Sort",
     "sortDefault": "Default order",
@@ -59,9 +59,9 @@
     "complete": {
       "title": "Conversion Complete!",
       "download": "Download",
-      "toDevice": "Download to device",
-      "toDropbox": "Save to Dropbox",
-      "toGoogleDrive": "Save to Google Drive",
+      "toDevice": "Device",
+      "toDropbox": "Dropbox",
+      "toGoogleDrive": "Google Drive",
       "startOver": "← Start Over",
       "skipped": "Skipped"
     },

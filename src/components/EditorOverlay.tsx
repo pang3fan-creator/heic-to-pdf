@@ -317,17 +317,15 @@ export default function EditorOverlay({
     [onAddFiles],
   );
 
-  const [addPinned, setAddPinned] = useState(false);
   const [addHover, setAddHover] = useState(false);
   const addRef = useRef<HTMLDivElement>(null);
   const addCloseTimer = useRef<number | undefined>(undefined);
-  const addOpen = addHover || addPinned;
+  const addOpen = addHover;
 
   const scheduleAddClose = () => {
     if (addCloseTimer.current !== undefined) clearTimeout(addCloseTimer.current);
     addCloseTimer.current = window.setTimeout(() => {
       setAddHover(false);
-      setAddPinned(false);
     }, 150);
   };
 
@@ -340,7 +338,6 @@ export default function EditorOverlay({
 
   const handleAddFromDropbox = useCallback(async () => {
     cancelAddClose();
-    setAddPinned(false);
     setAddHover(false);
     try {
       const { pickFromDropbox } = await import("@/lib/dropbox-utils");
@@ -355,7 +352,6 @@ export default function EditorOverlay({
 
   const handleAddFromGoogleDrive = useCallback(async () => {
     cancelAddClose();
-    setAddPinned(false);
     setAddHover(false);
     try {
       const { pickFromGoogleDrive } = await import("@/lib/cloud/google-drive/utils");
@@ -442,17 +438,9 @@ export default function EditorOverlay({
               </svg>
               {t("addPhotos")}
             </button>
-            <button
-              className="split-btn-editor-arrow"
-              onClick={() => setAddPinned((v) => !v)}
-              type="button"
-              aria-label="More options"
-            >
-              ▾
-            </button>
             {addOpen && (
               <div className="split-btn-dropdown">
-                <button onClick={() => { setAddPinned(false); setAddHover(false); handleAddClick(); }} type="button">
+                <button onClick={() => { setAddHover(false); handleAddClick(); }} type="button">
                   <HiOutlineComputerDesktop size={28} aria-hidden="true" />
                   {t("fromDevice")}
                 </button>

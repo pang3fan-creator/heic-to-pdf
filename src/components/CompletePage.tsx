@@ -8,6 +8,9 @@ import type { ConversionFile } from "@/lib/conversion-types";
 import { formatSize, PDF_FILENAME } from "@/lib/conversion-types";
 import { saveToDropbox } from "@/lib/dropbox-utils";
 import { saveToGoogleDrive } from "@/lib/cloud/google-drive/utils";
+import { HiOutlineComputerDesktop } from "react-icons/hi2";
+import { FaDropbox } from "react-icons/fa";
+import { SiGoogledrive } from "react-icons/si";
 
 interface Props {
   files: ConversionFile[];
@@ -24,18 +27,16 @@ export default function CompletePage({
   sizeBytes,
   onReset,
 }: Props) {
-  const [downloadPinned, setDownloadPinned] = useState(false);
   const [downloadHover, setDownloadHover] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const downloadCloseTimer = useRef<number | undefined>(undefined);
   const t = useTranslations("editor.complete");
-  const downloadOpen = downloadHover || downloadPinned;
+  const downloadOpen = downloadHover;
 
   const scheduleDownloadClose = () => {
     if (downloadCloseTimer.current !== undefined) clearTimeout(downloadCloseTimer.current);
     downloadCloseTimer.current = window.setTimeout(() => {
       setDownloadHover(false);
-      setDownloadPinned(false);
     }, 150);
   };
 
@@ -76,7 +77,6 @@ export default function CompletePage({
 
   const handleDownloadToDevice = useCallback(() => {
     cancelDownloadClose();
-    setDownloadPinned(false);
     setDownloadHover(false);
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -86,13 +86,11 @@ export default function CompletePage({
     a.click();
     document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    setDownloadPinned(false);
     setDownloadHover(false);
   }, [blob, filename]);
 
   const handleSaveToDropbox = useCallback(async () => {
     cancelDownloadClose();
-    setDownloadPinned(false);
     setDownloadHover(false);
     setCloudStatus({ provider: "dropbox", status: "authorizing" });
     const ok = await saveToDropbox(blob, filename);
@@ -102,7 +100,6 @@ export default function CompletePage({
 
   const handleSaveToGoogleDrive = useCallback(async () => {
     cancelDownloadClose();
-    setDownloadPinned(false);
     setDownloadHover(false);
     setCloudStatus({ provider: "google-drive", status: "authorizing" });
     const ok = await saveToGoogleDrive(blob, filename);
@@ -155,23 +152,20 @@ export default function CompletePage({
             >
               {t("download")}
             </button>
-            <button
-              className="split-btn-arrow"
-              onClick={() => setDownloadPinned((v) => !v)}
-              type="button"
-              aria-label="More download options"
-            >
-              &#9662;
-            </button>
             {downloadOpen && (
               <div className="split-btn-dropdown">
                 <button onClick={handleDownloadToDevice} type="button">
+                  <HiOutlineComputerDesktop size={28} aria-hidden="true" />
                   {t("toDevice")}
                 </button>
+                <hr aria-hidden="true" />
                 <button onClick={handleSaveToDropbox} type="button">
+                  <FaDropbox size={28} aria-hidden="true" />
                   {t("toDropbox")}
                 </button>
+                <hr aria-hidden="true" />
                 <button onClick={handleSaveToGoogleDrive} type="button">
+                  <SiGoogledrive size={28} aria-hidden="true" />
                   {t("toGoogleDrive")}
                 </button>
               </div>
