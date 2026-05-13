@@ -256,6 +256,13 @@
       }
     ]
   },
+  "notFound": {
+    "label": "404",
+    "title": "Page not found",
+    "description": "The page you are looking for may have moved, expired, or never existed.",
+    "converterLabel": "Back to converter",
+    "supportLabel": "Contact support"
+  },
   "terms": {
     "pageTitle": "Terms of Service",
     "pageDescription": "Terms of Service for HEICPDF.TO. Learn about the terms governing your use of our free online HEIC to PDF converter.",

@@ -1656,6 +1656,88 @@ a:hover {
   color: var(--muted);
 }
 
+/* ========== Not Found ========== */
+.not-found-section {
+  min-height: calc(100vh - 280px);
+  padding: 152px 0 88px;
+  display: flex;
+  align-items: center;
+}
+.not-found-content {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+.not-found-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 72px;
+  height: 38px;
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.not-found-content h1 {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 7vw, 68px);
+  font-weight: 600;
+  line-height: 1.05;
+  margin-bottom: 18px;
+}
+.not-found-description {
+  max-width: 520px;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: clamp(16px, 2vw, 19px);
+  line-height: 1.7;
+}
+.not-found-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 34px;
+}
+.not-found-primary,
+.not-found-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 11px 22px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: opacity 0.2s, transform 0.15s, border-color 0.2s,
+    background 0.2s, color 0.2s;
+}
+.not-found-primary {
+  background: var(--accent);
+  color: #fff;
+}
+.not-found-secondary {
+  border: 1px solid var(--border);
+  color: var(--fg);
+  background: transparent;
+}
+.not-found-primary:hover,
+.not-found-secondary:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+.not-found-secondary:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
 /* ========== Responsive ========== */
 @media (max-width: 900px) {
   .steps-grid {
@@ -1760,6 +1842,21 @@ a:hover {
     flex-direction: column;
     gap: 8px;
     text-align: center;
+  }
+  .not-found-section {
+    min-height: calc(100vh - 340px);
+    padding: 128px 0 64px;
+  }
+  .not-found-actions {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .not-found-primary,
+  .not-found-secondary {
+    width: 100%;
   }
   .nav-links {
     display: none;
