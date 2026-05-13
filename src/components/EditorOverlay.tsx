@@ -276,6 +276,7 @@ export default function EditorOverlay({
   const [previewFileId, setPreviewFileId] = useState<string | null>(null);
   const [customOrder, setCustomOrder] = useState<string[] | null>(null);
   const [dragOverId, setDragOverId] = useState<string | null>(null);
+  const [pickerOpen, setPickerOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const thumbGridWrapRef = useRef<HTMLDivElement>(null);
 
@@ -339,6 +340,7 @@ export default function EditorOverlay({
   const handleAddFromDropbox = useCallback(async () => {
     cancelAddClose();
     setAddHover(false);
+    setPickerOpen(true);
     try {
       const { pickFromDropbox } = await import("@/lib/dropbox-utils");
       const files = await pickFromDropbox();
@@ -347,12 +349,15 @@ export default function EditorOverlay({
       }
     } catch {
       // Dropbox SDK not configured or user cancelled
+    } finally {
+      setPickerOpen(false);
     }
   }, [onAddFiles]);
 
   const handleAddFromGoogleDrive = useCallback(async () => {
     cancelAddClose();
     setAddHover(false);
+    setPickerOpen(true);
     try {
       const { pickFromGoogleDrive } = await import("@/lib/cloud/google-drive/utils");
       const files = await pickFromGoogleDrive();
@@ -361,6 +366,8 @@ export default function EditorOverlay({
       }
     } catch {
       // silently ignore
+    } finally {
+      setPickerOpen(false);
     }
   }, [onAddFiles]);
 
@@ -406,7 +413,9 @@ export default function EditorOverlay({
   }, [onConvert]);
 
   return (
-    <div className="editor-overlay active" id="editorOverlay">
+    <>
+    <div className={`editor-backdrop active${pickerOpen ? " picker-open" : ""}`} />
+    <div className={`editor-overlay active${pickerOpen ? " picker-open" : ""}`} id="editorOverlay">
       {/* Header */}
       <div className="editor-header">
         <div className="editor-header-left">
@@ -698,5 +707,6 @@ export default function EditorOverlay({
         onChange={handleInputChange}
       />
     </div>
+    </>
   );
 }

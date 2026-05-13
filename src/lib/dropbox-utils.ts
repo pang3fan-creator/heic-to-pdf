@@ -65,14 +65,26 @@ async function ensureDropboxSdk(): Promise<void> {
 export async function pickFromDropbox(): Promise<File[]> {
   await ensureDropboxSdk();
 
+  // Ensure Chooser appears above the editor overlay (z-index: 10000)
+  const zFix = document.createElement("style");
+  zFix.id = "dropbox-z-fix";
+  zFix.textContent =
+    '[id*="dropbox"],[id*="Dropbox"],[class*="dropbox"],[class*="Dropbox"]' +
+    "{z-index:2147483647!important}";
+  document.head.appendChild(zFix);
+
   return new Promise<File[]>((resolve, reject) => {
     if (!window.Dropbox?.choose) {
+      document.getElementById("dropbox-z-fix")?.remove();
       reject(new Error("Dropbox SDK not available"));
       return;
     }
 
+    const cleanupZ = () => document.getElementById("dropbox-z-fix")?.remove();
+
     window.Dropbox.choose({
       success: async (files) => {
+        cleanupZ();
         try {
           const results = await Promise.all(
             files
@@ -88,7 +100,10 @@ export async function pickFromDropbox(): Promise<File[]> {
           reject(err);
         }
       },
-      cancel: () => resolve([]),
+      cancel: () => {
+        cleanupZ();
+        resolve([]);
+      },
       linkType: "direct",
       multiselect: true,
       extensions: SUPPORTED_DROPBOX_EXTENSIONS,

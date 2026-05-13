@@ -3,7 +3,7 @@
 ## 技术栈
 
 - **框架**: Next.js (App Router)
-- **国际化**: next-intl (en/es/fr...)
+- **国际化**: next-intl（当前仅 en）
 - **部署**: Vercel
 
 ## `Commands`
@@ -18,6 +18,11 @@ npm run test         # 运行测试
 npm run test:watch   # 监听模式运行测试
 ```
 
+## 浏览器测试
+
+- `agent-browser` CLI 已安装（`~/.agent-browser/browsers` 含 Chrome）。UI 问题优先用 `agent-browser open <url>` + `agent-browser snapshot -i` + `agent-browser eval` 验证视觉效果而非推算
+- `npx playwright` 也可用（浏览器在 `~/Library/Caches/ms-playwright/`）
+
 ## 项目结构
 
 ```
@@ -28,10 +33,9 @@ src/
 │   ├── ConversionContainer.tsx # 状态机调度（idle/editor/converting/complete）
 │   ├── EditorOverlay.tsx      # 全屏编辑器（缩略图+排序+预览）
 │   ├── PreviewModal.tsx       # 大图预览弹窗
-│   ├── DropZone.tsx           # 首页拖拽上传区
+│   ├── DropZone.tsx           # idle+converting+complete 三态合一
 │   ├── GlobalDropOverlay.tsx  # 全局拖拽覆盖层
-│   ├── HeroSection.tsx        # 首页主视觉
-│   └── CompletePage.tsx       # 完成页面（手动下载 + Save to Dropbox/Google Drive）
+│   └── HeroSection.tsx        # 首页主视觉
 ├── hooks/
 │   ├── useHeicConversion.ts   # 核心状态机（解码/转换/下载）
 │   └── __tests__/
@@ -67,6 +71,10 @@ src/
 - `usePathname()` 返回的路径包含语言前缀（如 `/es/about`），解析时需过滤
 - 过滤语言段: `segments.filter((s, i) => i !== 0 || !SUPPORTED_LOCALES.includes(s))`
 - **非 locale 路径**（如 `/auth/*`）需要在 `middleware.ts` 的 matcher 中显式排除，且需要自己的 layout（含 `<html>`/`<body>` 标签）
+
+### 翻译文本前缀
+
+- 翻译值的文本可能已包含前缀字符（如 `"startOver": "← Start Over"`），JSX 中不要再重复添加 `&larr;`，否则会显示双箭头
 
 ### 多语言 URL 拼接
 
@@ -104,8 +112,10 @@ src/
 - **样式方案**：纯手写 CSS + 内联 `style={{}}`，**未使用 Tailwind CSS**，不要添加 Tailwind 类名
 - **毛玻璃**：`background: color-mix(in srgb, var(--surface) 60%, transparent); backdrop-filter: blur(20px)`
 - **竖向 range slider**：`input[type=range] { writing-mode: vertical-lr; direction: rtl; }` 交换宽高语义
-- **CSS tooltip**：`button[title]:hover::after { content: attr(title); position: absolute; left: 100%; ... }`
+- **CSS tooltip**：`button[title]:hover::after { content: attr(title); position: left: 100%; ... }`
 - 浮层面板使用 `position: absolute; top: 50%; transform: translateY(-50%)` 实现垂直居中
+- **CSS 作用域陷阱**：`.drop-zone .split-btn-wrap` 会匹配 drop-zone 下所有实例。不同状态（idle/converting/complete）切换时需用 extra class（`.drop-zone.complete-mode .split-btn-wrap`）覆盖旧规则
+- **flex 按钮对齐**：同一 flex 容器内多个按钮需用相同 `display: inline-flex; align-items: center; line-height`，且考虑 border 占用的高度（`padding` 补偿）
 
 ### 主题系统
 
@@ -115,7 +125,7 @@ src/
 
 ### 全屏覆盖层滚动锁定
 
-- EditorOverlay / CompletePage 等全屏 fixed 覆盖层打开时，需锁定 body 滚动
+- EditorOverlay 全屏 fixed 覆盖层打开时，需锁定 body 滚动
 - `document.body.style.overflow = 'hidden'`
 - 计算滚动条宽度 `window.innerWidth - document.documentElement.clientWidth`，补偿到 `paddingRight` 防止页面抖动
 - useEffect cleanup 中恢复原始 overflow 和 paddingRight
@@ -138,9 +148,9 @@ src/
 
 ### Google Drive 集成
 
-- **环境变量**：`NEXT_PUBLIC_GOOGLE_CLIENT_ID` + `GOOGLE_CLIENT_SECRET`（服务端仅，不暴露到客户端）+ `NEXT_PUBLIC_GOOGLE_API_KEY`
+- **环境变量**：`NEXT_PUBLIC_GOOGLE_CLIENT_ID` + `GOOGLE_CLIENT_SECRET`（服务端） + `NEXT_PUBLIC_GOOGLE_API_KEY`
 - **OAuth**：使用全页面重定向而非弹窗（Google 的 OAuth 页面设置 COOP 头）
-- **client_secret 代理**：Google 强制要求 client_secret 即使使用 PKCE，通过 `proxyUrl: "/api/auth/google/token"` 服务端代理转发 token 请求（见 `src/app/api/auth/google/token/route.ts`，`src/lib/cloud/oauth-core.ts`）
+- **Token 交换**：通过 `proxyUrl: "/api/auth/google/token"` 服务端代理转发，`client_secret` 不暴露到客户端。服务端使用 `undici` 的 `ProxyAgent`，支持 `HTTPS_PROXY` 环境变量（本地开发需要科学上网时设置）
 - **导入**：Google Picker API（需启用 Google Picker API + Google Drive API）
 - **API Key 要求**：`NEXT_PUBLIC_GOOGLE_API_KEY` 必须设置，且 Key 的 API 限制须包含以上两个 API
 - **Picker 视图**：使用 `DocsView().setMimeTypes(...)` 过滤文件类型
@@ -149,13 +159,13 @@ src/
 
 ### Split Button 下拉菜单
 
-- 三个位置使用：DropZone（Browse）、EditorOverlay（Add Photos）、CompletePage（Download）
+- 三个位置使用：DropZone（Browse/Download）、EditorOverlay（Add Photos）
 - 交互：鼠标悬停展开（`onMouseEnter`）、150ms 延迟关闭（`onMouseLeave` + `setTimeout`）
-- 点击 ▾ 箭头切换 pinned 状态，锁定后鼠标移出不收起
+- 无箭头按钮，无 pinned 状态——悬停即显，移出即收
 
-### CompletePage / Merge 功能
+### Complete 状态 / Merge 功能
 
-- **完成页**：转换完成后不再自动下载/自动重置，用户手动 Start Over
+- **完成页**：不再全屏固定覆盖层，改在 DropZone 内联显示（idle→converting→complete 三态在 DropZone 内切换）
 - **云存储状态**：使用统一的 `cloudStatus`（`provider + status`）管理各网盘上传状态
 - complete 状态中 `blobType: "pdf" | "zip"` 区分输出类型
 - **Merge 关**：`npm install jszip`，`resolvePdfNames()` 处理同名冲突（1.jpg→1.pdf, 1.png→1-1.pdf）

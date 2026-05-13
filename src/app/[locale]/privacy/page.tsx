@@ -44,11 +44,15 @@ export default function PrivacyPage() {
         </section>
 
         <article className="policy-body">
-          {sections.map((section) => (
+          {sections.map((section, index) => (
             <div key={section.id}>
               <h2 id={section.id}>{section.heading}</h2>
               <div dangerouslySetInnerHTML={{ __html: section.body }} />
-              <a href="#top" className="back-to-top">↑ Back to top</a>
+              {index === sections.length - 1 && (
+                <div style={{ textAlign: "center" }}>
+                  <a href="#top" className="back-to-top">↑ Back to top</a>
+                </div>
+              )}
             </div>
           ))}
         </article>

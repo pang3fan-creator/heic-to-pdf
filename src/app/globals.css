@@ -285,9 +285,9 @@ a:hover {
 
 .drop-zone {
   position: relative;
-  max-width: 680px;
+  max-width: 860px;
   margin: 0 auto;
-  padding: 80px 48px;
+  padding: 50px 60px 30px;
   border-radius: var(--radius);
   border: 2px dashed var(--border);
   background: var(--surface);
@@ -309,7 +309,7 @@ a:hover {
   box-shadow: 0 0 24px var(--accent-soft), 0 0 60px var(--accent-soft);
 }
 .drop-zone-icon {
-  margin-bottom: 28px;
+  margin-bottom: 16px;
   color: var(--accent);
 }
 .drop-zone h2 {
@@ -327,7 +327,7 @@ a:hover {
   font-size: 13px;
   color: var(--muted);
   opacity: 0.7;
-  margin-top: 24px;
+  margin-top: 32px;
 }
 .drop-zone .browse-btn {
   display: inline-block;
@@ -349,6 +349,9 @@ a:hover {
 }
 .drop-zone .split-btn-wrap {
   margin-top: 24px;
+}
+.drop-zone.complete-mode .split-btn-wrap {
+  margin-top: 0;
 }
 .privacy-note {
   display: flex;
@@ -422,21 +425,49 @@ a:hover {
 }
 
 /* ========== Editor Overlay ========== */
-.editor-overlay {
+.editor-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 10000;
-  background: var(--bg);
-  display: flex;
-  flex-direction: column;
+  z-index: 9999;
+  background: oklch(0% 0 0 / 30%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.35s ease;
 }
-.editor-overlay.active {
+.editor-backdrop.active {
   opacity: 1;
   pointer-events: auto;
 }
+.editor-overlay {
+  position: fixed;
+  inset: 24px;
+  z-index: 10000;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: scale(0.98);
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.editor-overlay.active {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+.editor-backdrop.picker-open {
+  z-index: 1 !important;
+}
+.editor-overlay.picker-open {
+  z-index: 1 !important;
+}
+
 .editor-header {
   display: flex;
   align-items: center;
@@ -1715,7 +1746,7 @@ a:hover {
     padding-bottom: 40px;
   }
   .drop-zone {
-    padding: 56px 24px;
+    padding: 64px 24px 44px;
   }
   .steps-grid {
     grid-template-columns: 1fr;
@@ -1768,6 +1799,10 @@ a:hover {
     padding: 8px 14px;
     font-size: 12px;
   }
+  .editor-overlay {
+    inset: 8px;
+    border-radius: 12px;
+  }
 }
 
 /* Merge toggle */
@@ -1811,20 +1846,14 @@ a:hover {
 }
 
 /* ========== Complete Page ========== */
-.complete-page {
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
-  background: var(--bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.drop-zone.complete-mode {
+  cursor: default;
 }
-.complete-page-content {
-  max-width: 480px;
-  width: 100%;
-  padding: 40px 24px;
-  text-align: center;
+.drop-zone.complete-mode .drop-zone-icon,
+.drop-zone.complete-mode h2,
+.drop-zone.complete-mode p,
+.drop-zone.complete-mode .hint {
+  display: none;
 }
 .complete-icon-circle {
   width: 64px;
@@ -1846,6 +1875,8 @@ a:hover {
 .complete-file-list {
   text-align: left;
   margin-bottom: 20px;
+  max-height: 160px;
+  overflow-y: auto;
 }
 .complete-file-row {
   display: flex;
@@ -1899,13 +1930,19 @@ a:hover {
   align-items: center;
 }
 .complete-start-over {
-  padding: 10px 20px;
+  padding: 13px 28px;
   border: 1px solid var(--border);
   border-radius: 100px;
   background: transparent;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
   cursor: pointer;
+  font-family: var(--font-body);
+  display: inline-flex;
+  align-items: center;
+  transition: background 0.2s;
 }
 .complete-start-over:hover {
   background: var(--surface);
@@ -1917,12 +1954,11 @@ a:hover {
   display: inline-flex;
 }
 .split-btn-main {
-  padding: 12px 28px;
+  padding: 14px 36px;
   border-radius: 100px;
   border: none;
   background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 85%, white), var(--accent));
   color: #fff;
-  font-size: 15px;
   font-weight: 700;
   cursor: pointer;
   font-family: var(--font-body);
@@ -1931,6 +1967,7 @@ a:hover {
   justify-content: center;
   align-items: center;
   gap: 10px;
+  font-size: 16px;
   box-shadow: 0 4px 16px color-mix(in srgb, var(--accent) 40%, transparent);
   transition: transform 0.2s, box-shadow 0.2s;
   line-height: 1.2;

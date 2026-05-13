@@ -2,18 +2,25 @@
 
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { MAX_FILE_SIZE, getFileType } from "@/lib/conversion-types";
+import { MAX_FILE_SIZE, getFileType, formatSize, PDF_FILENAME } from "@/lib/conversion-types";
 import { FaDropbox } from "react-icons/fa";
 import { SiGoogledrive } from "react-icons/si";
 import { HiOutlineComputerDesktop } from "react-icons/hi2";
+import { saveToDropbox } from "@/lib/dropbox-utils";
+import { saveToGoogleDrive } from "@/lib/cloud/google-drive/utils";
+import type { ConversionFile } from "@/lib/conversion-types";
 
 interface Props {
   onFilesSelected: (files: FileList | File[]) => void;
   isConverting?: boolean;
   progress?: number;
-  files?: { name: string; size: number; status: string }[];
+  files?: ConversionFile[];
   currentFileIndex?: number;
   onCancel?: () => void;
+  blob?: Blob;
+  blobType?: "pdf" | "zip";
+  sizeBytes?: number;
+  onReset?: () => void;
 }
 
 export default function DropZone({
@@ -23,6 +30,10 @@ export default function DropZone({
   files,
   currentFileIndex,
   onCancel,
+  blob,
+  blobType,
+  sizeBytes,
+  onReset,
 }: Props) {
   const t = useTranslations("hero.dropzone");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -81,6 +92,74 @@ export default function DropZone({
     }
   }, [handleFromGoogleDrive]);
 
+  const tComplete = useTranslations("editor.complete");
+
+  // ── Complete state ──
+  const [downloadHover, setDownloadHover] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const downloadCloseTimer = useRef<number | undefined>(undefined);
+  const downloadOpen = downloadHover;
+
+  const scheduleDownloadClose = () => {
+    if (downloadCloseTimer.current !== undefined) clearTimeout(downloadCloseTimer.current);
+    downloadCloseTimer.current = window.setTimeout(() => {
+      setDownloadHover(false);
+    }, 150);
+  };
+
+  const cancelDownloadClose = () => {
+    if (downloadCloseTimer.current !== undefined) {
+      clearTimeout(downloadCloseTimer.current);
+      downloadCloseTimer.current = undefined;
+    }
+  };
+
+  type CloudStatus = {
+    provider: "dropbox" | "google-drive" | null;
+    status: "idle" | "authorizing" | "uploading" | "success" | "error";
+  };
+
+  const [cloudStatus, setCloudStatus] = useState<CloudStatus>({ provider: null, status: "idle" });
+
+  const completeFilename = blobType === "pdf" ? PDF_FILENAME : "images.zip";
+  const succeededFiles = files ? files.filter((f) => f.status === "done") : [];
+  const skippedFiles = files ? files.filter((f) => f.status === "skipped") : [];
+
+  const handleDownloadToDevice = useCallback(() => {
+    if (!blob) return;
+    cancelDownloadClose();
+    setDownloadHover(false);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = completeFilename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    setDownloadHover(false);
+  }, [blob, completeFilename]);
+
+  const handleSaveToDropbox = useCallback(async () => {
+    if (!blob) return;
+    cancelDownloadClose();
+    setDownloadHover(false);
+    setCloudStatus({ provider: "dropbox", status: "authorizing" });
+    const ok = await saveToDropbox(blob, completeFilename);
+    setCloudStatus({ provider: "dropbox", status: ok ? "success" : "error" });
+    if (ok) setTimeout(() => setCloudStatus({ provider: null, status: "idle" }), 3000);
+  }, [blob, completeFilename]);
+
+  const handleSaveToGoogleDrive = useCallback(async () => {
+    if (!blob) return;
+    cancelDownloadClose();
+    setDownloadHover(false);
+    setCloudStatus({ provider: "google-drive", status: "authorizing" });
+    const ok = await saveToGoogleDrive(blob, completeFilename);
+    setCloudStatus({ provider: "google-drive", status: ok ? "success" : "error" });
+    if (ok) setTimeout(() => setCloudStatus({ provider: null, status: "idle" }), 3000);
+  }, [blob, completeFilename]);
+
   const showProcessing = isConverting;
 
   const handleFiles = useCallback(
@@ -110,19 +189,22 @@ export default function DropZone({
 
   return (
     <div
-      className="drop-zone"
+      className={`drop-zone${blob ? " complete-mode" : ""}`}
       id="dropZone"
       onDragOver={(e) => {
+        if (blob) return;
         e.preventDefault();
         e.stopPropagation();
         e.currentTarget.classList.add("dragover");
       }}
       onDragLeave={(e) => {
+        if (blob) return;
         e.preventDefault();
         e.stopPropagation();
         e.currentTarget.classList.remove("dragover");
       }}
       onDrop={(e) => {
+        if (blob) return;
         e.preventDefault();
         e.stopPropagation();
         e.currentTarget.classList.remove("dragover");
@@ -131,11 +213,101 @@ export default function DropZone({
         }
       }}
       onClick={(e) => {
+        if (blob) return;
         if ((e.target as HTMLElement).closest('.split-btn-wrap')) return;
         onBrowse();
       }}
     >
-      {showProcessing && files ? (
+      {blob ? (
+        <>
+          <div className="complete-icon-circle">&#10003;</div>
+          <h2 className="complete-title">{tComplete("title")}</h2>
+
+          {/* File results */}
+          {(succeededFiles.length > 0 || skippedFiles.length > 0) && (
+            <div className="complete-file-list">
+              {succeededFiles.map((f) => (
+                <div key={f.id} className="complete-file-row done">
+                  <span className="complete-file-icon">&#10003;</span>
+                  <span className="complete-file-name">{f.name}</span>
+                  <span className="complete-file-size">{formatSize(f.size)}</span>
+                </div>
+              ))}
+              {skippedFiles.map((f) => (
+                <div key={f.id} className="complete-file-row skipped">
+                  <span className="complete-file-icon">&#10005;</span>
+                  <span className="complete-file-name">{f.name}</span>
+                  <span className="complete-file-error">{f.error || tComplete("skipped")}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Output info */}
+          <div className="complete-output-info">
+            <span className="complete-output-name">{completeFilename}</span>
+            <span className="complete-output-size">{formatSize(sizeBytes ?? 0)}</span>
+          </div>
+
+          {/* Actions */}
+          <div className="complete-actions">
+            <div
+              className="split-btn-wrap"
+              ref={dropdownRef}
+              onMouseEnter={() => { cancelDownloadClose(); setDownloadHover(true); }}
+              onMouseLeave={scheduleDownloadClose}
+            >
+              <button
+                className="split-btn-main"
+                onClick={handleDownloadToDevice}
+                type="button"
+              >
+                {tComplete("download")}
+              </button>
+              {downloadOpen && (
+                <div className="split-btn-dropdown">
+                  <button onClick={handleDownloadToDevice} type="button">
+                    <HiOutlineComputerDesktop size={28} aria-hidden="true" />
+                    {tComplete("toDevice")}
+                  </button>
+                  <hr aria-hidden="true" />
+                  <button onClick={handleSaveToDropbox} type="button">
+                    <FaDropbox size={28} aria-hidden="true" />
+                    {tComplete("toDropbox")}
+                  </button>
+                  <hr aria-hidden="true" />
+                  <button onClick={handleSaveToGoogleDrive} type="button">
+                    <SiGoogledrive size={28} aria-hidden="true" />
+                    {tComplete("toGoogleDrive")}
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {onReset && (
+              <button className="complete-start-over" onClick={onReset} type="button">
+                {tComplete("startOver")}
+              </button>
+            )}
+          </div>
+
+          {cloudStatus.status === "authorizing" && (
+            <p className="dropbox-status" style={{ color: "var(--muted)", marginTop: 16, fontSize: 13 }}>
+              {cloudStatus.provider === "dropbox" ? "Authorizing Dropbox..." : "Authorizing Google Drive..."}
+            </p>
+          )}
+          {cloudStatus.status === "success" && (
+            <p className="dropbox-status" style={{ color: "var(--accent)", marginTop: 16, fontSize: 13 }}>
+              ✓ Saved to {cloudStatus.provider === "dropbox" ? "Dropbox" : "Google Drive"}!
+            </p>
+          )}
+          {cloudStatus.status === "error" && (
+            <p className="dropbox-status" style={{ color: "#e44", marginTop: 16, fontSize: 13 }}>
+              ✕ Failed to save to {cloudStatus.provider === "dropbox" ? "Dropbox" : "Google Drive"}
+            </p>
+          )}
+        </>
+      ) : showProcessing && files ? (
         <>
           <div className="file-list">
             {files.slice(0, 5).map((f, idx) => {

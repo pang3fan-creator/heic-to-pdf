@@ -2,6 +2,8 @@ import { googleDriveAuth } from "./auth";
 
 const UPLOAD_URL = "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart";
 const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "";
+// Bump this when OAuth scope changes to force re-authorization
+const SCOPE_VERSION = "v2";
 
 const SUPPORTED_IMAGE_TYPES = [
   "image/heic", "image/heif",
@@ -84,6 +86,13 @@ async function ensurePickerSdk(): Promise<void> {
 export async function pickFromGoogleDrive(): Promise<File[]> {
   if (!API_KEY) return [];
 
+  // Force re-authorization when scope version changes
+  const storedScopeVer = localStorage.getItem("google_drive_scope_version");
+  if (storedScopeVer !== SCOPE_VERSION) {
+    googleDriveAuth.clearTokens();
+    localStorage.setItem("google_drive_scope_version", SCOPE_VERSION);
+  }
+
   // Check if we just returned from the OAuth redirect flow
   const pendingPicker = sessionStorage.getItem("google_picker_pending");
 
@@ -105,8 +114,18 @@ export async function pickFromGoogleDrive(): Promise<File[]> {
 
   const gp = (window as any).google.picker;
 
+  // Ensure Picker appears above the editor overlay (z-index: 10000)
+  const zFix = document.createElement("style");
+  zFix.id = "picker-z-fix";
+  zFix.textContent =
+    ".picker-dialog{z-index:2147483647!important}" +
+    ".picker-dialog-bg{z-index:2147483646!important}";
+  document.head.appendChild(zFix);
+
   return new Promise<File[]>((resolve) => {
     let resolved = false;
+
+    const cleanup = () => document.getElementById("picker-z-fix")?.remove();
 
     const picker = new gp.PickerBuilder()
       .addView(
@@ -118,6 +137,7 @@ export async function pickFromGoogleDrive(): Promise<File[]> {
       .setOAuthToken(token)
       .setDeveloperKey(API_KEY)
       .setCallback(async (data: any) => {
+        cleanup();
         if (resolved) return;
         const action = data[gp.Response.ACTION];
         if (action === gp.Action.PICKED) {

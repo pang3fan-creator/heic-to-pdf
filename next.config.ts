@@ -23,6 +23,7 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: ["undici"],
   webpack: (config) => {
     config.experiments = {
       ...config.experiments,
