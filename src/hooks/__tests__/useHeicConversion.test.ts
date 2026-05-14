@@ -192,6 +192,7 @@ describe("useHeicConversion", () => {
         paperSize: "a4",
         margins: "normal",
         orientation: "landscape",
+        pdfQuality: "high",
         merge: true,
       });
     });
@@ -209,6 +210,7 @@ describe("useHeicConversion", () => {
         paperSize: "original",
         margins: "none",
         orientation: "landscape",
+        pdfQuality: "small",
         merge: true,
       });
     });
@@ -217,6 +219,7 @@ describe("useHeicConversion", () => {
       expect(result.current.state.settings.paperSize).toBe("original");
       expect(result.current.state.settings.margins).toBe("none");
       expect(result.current.state.settings.orientation).toBe("landscape");
+      expect(result.current.state.settings.pdfQuality).toBe("small");
     }
   });
 

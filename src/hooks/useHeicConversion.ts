@@ -16,6 +16,7 @@ import {
 } from "@/lib/conversion-types";
 import { buildPdf } from "@/lib/pdf-generator";
 import { decodeImage } from "@/lib/image-decoder";
+import { encodeFileForPdf } from "@/lib/pdf-image-encoder";
 import { resolvePdfNames, createZip } from "@/lib/zip-utils";
 
 function createConversionFile(file: File): ConversionFile {
@@ -156,7 +157,12 @@ export function useHeicConversion() {
     const files = truncated.map(createConversionFile);
     filesRef.current = files;
     const prevMerge = settingsRef.current.merge;
-    const newSettings = { ...DEFAULT_SETTINGS, merge: prevMerge };
+    const prevPdfQuality = settingsRef.current.pdfQuality;
+    const newSettings = {
+      ...DEFAULT_SETTINGS,
+      merge: prevMerge,
+      pdfQuality: prevPdfQuality,
+    };
     settingsRef.current = newSettings;
     setState({
       status: "editor",
@@ -253,70 +259,19 @@ export function useHeicConversion() {
           continue;
         }
 
-        let width: number, height: number, data: Uint8Array;
-
-        if (format === "jpeg" || format === "png") {
-          // Direct embed: use original bytes + createImageBitmap for dimensions
-          const [buffer, bitmap] = await Promise.all([
-            file.arrayBuffer(),
-            createImageBitmap(file),
-          ]);
-          data = new Uint8Array(buffer);
-          width = bitmap.width;
-          height = bitmap.height;
-          bitmap.close();
-        } else {
-          // HEIC or WebP: decode via image-decoder → Canvas → PNG
-          let rgbaResult;
-          try {
-            rgbaResult = await decodeImage(file, format);
-          } catch (err) {
-            files[i] = {
-              ...files[i],
-              status: "skipped",
-              error: err instanceof Error ? err.message : "Decode failed",
-            };
-            continue;
-          }
-
-          const canvas = document.createElement("canvas");
-          canvas.width = rgbaResult.width;
-          canvas.height = rgbaResult.height;
-          const ctx = canvas.getContext("2d");
-          if (!ctx) {
-            files[i] = {
-              ...files[i],
-              status: "skipped",
-              error: "Canvas context not available",
-            };
-            continue;
-          }
-          const imageData = new ImageData(
-            new Uint8ClampedArray(rgbaResult.rgbaBuffer),
-            rgbaResult.width,
-            rgbaResult.height,
-          );
-          ctx.putImageData(imageData, 0, 0);
-
-          const pngBlob = await new Promise<Blob | null>((resolve) =>
-            canvas.toBlob((b) => resolve(b), "image/png"),
-          );
-
-          if (!pngBlob) {
-            files[i] = {
-              ...files[i],
-              status: "skipped",
-              error: "Failed to encode PNG",
-            };
-            continue;
-          }
-
-          data = new Uint8Array(await pngBlob.arrayBuffer());
-          width = rgbaResult.width;
-          height = rgbaResult.height;
+        let pdfImage: PdfImageInput;
+        try {
+          pdfImage = await encodeFileForPdf(file, format, settings);
+        } catch (err) {
+          files[i] = {
+            ...files[i],
+            status: "skipped",
+            error: err instanceof Error ? err.message : "Encode failed",
+          };
+          continue;
         }
 
-        pdfImages.push({ format, data, width, height });
+        pdfImages.push(pdfImage);
         files[i] = { ...files[i], status: "done" };
       }
 

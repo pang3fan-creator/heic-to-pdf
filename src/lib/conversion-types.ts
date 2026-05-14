@@ -21,9 +21,10 @@ export interface ConversionFile {
 }
 
 export interface ConversionSettings {
-  paperSize: "original" | "a4" | "letter" | "legal" | "a3";
+  paperSize: "original" | "a4" | "letter" | "a3";
   margins: "none" | "narrow" | "normal" | "wide";
   orientation: "portrait" | "landscape" | "auto";
+  pdfQuality: "lossless" | "high" | "balanced" | "small";
   merge: boolean;
 }
 
@@ -31,8 +32,19 @@ export const DEFAULT_SETTINGS: ConversionSettings = {
   paperSize: "a4",
   margins: "narrow",
   orientation: "portrait",
+  pdfQuality: "balanced",
   merge: true,
 };
+
+export const PDF_QUALITY_PRESETS = {
+  lossless: { jpegQuality: null },
+  high: { jpegQuality: 0.92 },
+  balanced: { jpegQuality: 0.82 },
+  small: { jpegQuality: 0.68 },
+} as const satisfies Record<
+  ConversionSettings["pdfQuality"],
+  { jpegQuality: number | null }
+>;
 
 export type ConversionState =
   | { status: "idle" }
@@ -88,7 +100,6 @@ export type MainToWorker =
 export const PAGE_SIZES = {
   a4: { width: 595, height: 842, label: "A4 (210 × 297 mm)" },
   letter: { width: 612, height: 792, label: "Letter (216 × 279 mm)" },
-  legal: { width: 612, height: 1008, label: "Legal (216 × 356 mm)" },
   a3: { width: 842, height: 1191, label: "A3 (297 × 420 mm)" },
 } as const;
 
@@ -127,8 +138,8 @@ export function getFileType(file: File): ImageFormat | "unsupported" {
 
 /** Input type for buildPdf — carries format info for optimal PDF embedding. */
 export interface PdfImageInput {
-  format: ImageFormat;
-  data: Uint8Array; // JPEG/PNG=raw bytes, HEIC/WebP=Canvas-encoded PNG bytes
+  format: "jpeg" | "png";
+  data: Uint8Array;
   width: number;
   height: number;
 }

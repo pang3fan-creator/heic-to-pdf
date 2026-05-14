@@ -31,24 +31,98 @@ type ThumbSize = 0 | 1 | 2 | 3 | 4; // 0=小, 1=次小, 2=中, 3=次大, 4=大
 
 const PAPER_SIZES: { value: ConversionSettings["paperSize"]; label: string }[] = [
   { value: "original", label: "Original" },
-  { value: "a4", label: "A4 (210 × 297 mm)" },
-  { value: "letter", label: "Letter (216 × 279 mm)" },
-  { value: "legal", label: "Legal (216 × 356 mm)" },
-  { value: "a3", label: "A3 (297 × 420 mm)" },
+  { value: "a4", label: "A4" },
+  { value: "letter", label: "US Letter" },
 ];
 
 const ORIENTATIONS: { value: ConversionSettings["orientation"]; label: string }[] = [
+  { value: "auto", label: "Auto" },
   { value: "portrait", label: "Portrait" },
   { value: "landscape", label: "Landscape" },
-  { value: "auto", label: "Auto (match original)" },
 ];
 
 const MARGINS: { value: ConversionSettings["margins"]; label: string }[] = [
-  { value: "none", label: "None (0 mm)" },
-  { value: "narrow", label: "Narrow (6 mm)" },
-  { value: "normal", label: "Normal (12 mm)" },
-  { value: "wide", label: "Wide (24 mm)" },
+  { value: "none", label: "No margin" },
+  { value: "narrow", label: "Small" },
+  { value: "normal", label: "Normal" },
 ];
+
+const PDF_QUALITIES: {
+  value: ConversionSettings["pdfQuality"];
+  labelKey: string;
+  descriptionKey: string;
+}[] = [
+  {
+    value: "lossless",
+    labelKey: "sidebar.qualityLossless",
+    descriptionKey: "sidebar.qualityLosslessDesc",
+  },
+  {
+    value: "high",
+    labelKey: "sidebar.qualityHigh",
+    descriptionKey: "sidebar.qualityHighDesc",
+  },
+  {
+    value: "balanced",
+    labelKey: "sidebar.qualityBalanced",
+    descriptionKey: "sidebar.qualityBalancedDesc",
+  },
+];
+
+interface SegmentedOption<T extends string | boolean> {
+  value: T;
+  label: string;
+  title?: string;
+}
+
+interface SegmentedControlProps<T extends string | boolean> {
+  label: string;
+  value: T;
+  options: SegmentedOption<T>[];
+  columns?: 2 | 3 | 4;
+  disabled?: boolean;
+  onChange: (value: T) => void;
+}
+
+function SegmentedControl<T extends string | boolean>({
+  label,
+  value,
+  options,
+  columns,
+  disabled = false,
+  onChange,
+}: SegmentedControlProps<T>) {
+  return (
+    <div className={`sidebar-field${disabled ? " is-disabled" : ""}`}>
+      <div className="sidebar-field-label">{label}</div>
+      <div
+        className="sidebar-segmented"
+        role="radiogroup"
+        aria-label={label}
+        data-columns={columns ?? options.length}
+        aria-disabled={disabled}
+      >
+        {options.map((option) => {
+          const selected = option.value === value;
+          return (
+            <button
+              key={String(option.value)}
+              type="button"
+              className={`sidebar-segment${selected ? " is-selected" : ""}`}
+              role="radio"
+              aria-checked={selected}
+              disabled={disabled}
+              title={option.title}
+              onClick={() => onChange(option.value)}
+            >
+              {option.label}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 // ── ThumbnailCell ──────────────────────────────────────────
 // Renders a single thumbnail as a mini PDF page preview using Canvas.
@@ -279,6 +353,12 @@ export default function EditorOverlay({
   const [pickerOpen, setPickerOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const thumbGridWrapRef = useRef<HTMLDivElement>(null);
+  const isOriginalSize = settings.paperSize === "original";
+  const qualityOptions = PDF_QUALITIES.map((q) => ({
+    value: q.value,
+    label: t(q.labelKey),
+    title: t(q.descriptionKey),
+  }));
 
   const previewFile = useMemo(
     () =>
@@ -600,86 +680,74 @@ export default function EditorOverlay({
         <div className="editor-sidebar">
           <div className="sidebar-section">
             <div className="sidebar-section-title">{t("sidebar.pageSetup")}</div>
-            <div className="sidebar-field">
-              <div className="sidebar-field-label">{t("sidebar.paperSize")}</div>
-              <select
-                className="sidebar-select"
-                value={settings.paperSize}
-                onChange={(e) =>
-                  onSettingsChange({
-                    ...settings,
-                    paperSize: e.target.value as ConversionSettings["paperSize"],
-                  })
-                }
-              >
-                {PAPER_SIZES.map((s) => (
-                  <option key={s.value} value={s.value}>
-                    {s.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="sidebar-field">
-              <div className="sidebar-field-label">{t("sidebar.orientation")}</div>
-              <select
-                className="sidebar-select"
-                value={settings.orientation}
-                onChange={(e) =>
-                  onSettingsChange({
-                    ...settings,
-                    orientation: e.target.value as ConversionSettings["orientation"],
-                  })
-                }
-              >
-                {ORIENTATIONS.map((o) => (
-                  <option key={o.value} value={o.value}>
-                    {o.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="sidebar-field">
-              <div className="sidebar-field-label">{t("sidebar.margin")}</div>
-              <select
-                className="sidebar-select"
-                value={settings.margins}
-                onChange={(e) =>
-                  onSettingsChange({
-                    ...settings,
-                    margins: e.target.value as ConversionSettings["margins"],
-                  })
-                }
-              >
-                {MARGINS.map((m) => (
-                  <option key={m.value} value={m.value}>
-                    {m.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="sidebar-field">
-              <div className="sidebar-field-label">{t("sidebar.merge")}</div>
-              <label className="sidebar-toggle">
-                <input
-                  type="checkbox"
-                  checked={settings.merge}
-                  onChange={(e) =>
-                    onSettingsChange({
-                      ...settings,
-                      merge: e.target.checked,
-                    })
-                  }
-                />
-                <span className="sidebar-toggle-track">
-                  <span className="sidebar-toggle-thumb" />
-                </span>
-                <span className="sidebar-toggle-label">
-                  {settings.merge
-                    ? t("sidebar.mergeOn")
-                    : t("sidebar.mergeOff")}
-                </span>
-              </label>
-            </div>
+            <SegmentedControl
+              label={t("sidebar.paperSize")}
+              value={settings.paperSize}
+              options={PAPER_SIZES}
+              columns={3}
+              onChange={(paperSize) =>
+                onSettingsChange({
+                  ...settings,
+                  paperSize,
+                  ...(paperSize === "original"
+                    ? { orientation: "auto" as const, margins: "none" as const }
+                    : {}),
+                })
+              }
+            />
+            <SegmentedControl
+              label={t("sidebar.orientation")}
+              value={settings.orientation}
+              options={ORIENTATIONS}
+              columns={3}
+              disabled={isOriginalSize}
+              onChange={(orientation) =>
+                onSettingsChange({
+                  ...settings,
+                  orientation,
+                })
+              }
+            />
+            <SegmentedControl
+              label={t("sidebar.margin")}
+              value={settings.margins}
+              options={MARGINS}
+              columns={3}
+              disabled={isOriginalSize}
+              onChange={(margins) =>
+                onSettingsChange({
+                  ...settings,
+                  margins,
+                })
+              }
+            />
+            <SegmentedControl
+              label={t("sidebar.quality")}
+              value={settings.pdfQuality}
+              options={qualityOptions}
+              columns={3}
+              onChange={(pdfQuality) =>
+                onSettingsChange({
+                  ...settings,
+                  pdfQuality,
+                })
+              }
+            />
+            <SegmentedControl
+              label={t("sidebar.merge")}
+              value={settings.merge}
+              options={[
+                { value: true, label: t("sidebar.mergeOn") },
+                { value: false, label: t("sidebar.mergeOff") },
+              ]}
+              columns={2}
+              onChange={(merge) =>
+                onSettingsChange({
+                  ...settings,
+                  merge,
+                })
+              }
+            />
           </div>
           <div className="sidebar-footer">
             <div className="sidebar-file-count">

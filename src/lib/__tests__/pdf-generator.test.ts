@@ -3,6 +3,7 @@
 import { describe, it, expect } from "vitest";
 import { buildPdf, calculateLayout } from "../pdf-generator";
 import type { ConversionSettings, PdfImageInput } from "../conversion-types";
+import { DEFAULT_SETTINGS, PAGE_SIZES } from "../conversion-types";
 
 // Create a minimal valid PNG for testing
 // 1x1 pixel transparent PNG
@@ -21,17 +22,72 @@ function createMinimalPng(): Uint8Array {
   return png;
 }
 
+// 1x1 white JPEG.
+function createMinimalJpeg(): Uint8Array {
+  return new Uint8Array([
+    0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46,
+    0x49, 0x46, 0x00, 0x01, 0x01, 0x01, 0x00, 0x48,
+    0x00, 0x48, 0x00, 0x00, 0xff, 0xdb, 0x00, 0x43,
+    0x00, 0x03, 0x02, 0x02, 0x03, 0x02, 0x02, 0x03,
+    0x03, 0x03, 0x03, 0x04, 0x03, 0x03, 0x04, 0x05,
+    0x08, 0x05, 0x05, 0x04, 0x04, 0x05, 0x0a, 0x07,
+    0x07, 0x06, 0x08, 0x0c, 0x0a, 0x0c, 0x0c, 0x0b,
+    0x0a, 0x0b, 0x0b, 0x0d, 0x0e, 0x12, 0x10, 0x0d,
+    0x0e, 0x11, 0x0e, 0x0b, 0x0b, 0x10, 0x16, 0x10,
+    0x11, 0x13, 0x14, 0x15, 0x15, 0x15, 0x0c, 0x0f,
+    0x17, 0x18, 0x16, 0x14, 0x18, 0x12, 0x14, 0x15,
+    0x14, 0xff, 0xc0, 0x00, 0x0b, 0x08, 0x00, 0x01,
+    0x00, 0x01, 0x01, 0x01, 0x11, 0x00, 0xff, 0xc4,
+    0x00, 0x14, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x08, 0xff, 0xc4, 0x00, 0x14,
+    0x10, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0xff, 0xda, 0x00, 0x08, 0x01, 0x01,
+    0x00, 0x00, 0x3f, 0x00, 0x37, 0xff, 0xd9,
+  ]);
+}
+
 const defaultSettings: ConversionSettings = {
   paperSize: "a4",
   margins: "narrow",
   orientation: "portrait",
+  pdfQuality: "balanced",
   merge: true,
 };
+
+describe("DEFAULT_SETTINGS", () => {
+  it("uses balanced PDF quality by default", () => {
+    expect(DEFAULT_SETTINGS.pdfQuality).toBe("balanced");
+  });
+
+  it("keeps A4 as the default paper size", () => {
+    expect(DEFAULT_SETTINGS.paperSize).toBe("a4");
+  });
+});
+
+describe("PAGE_SIZES", () => {
+  it("does not expose Legal as an editor paper size", () => {
+    expect("legal" in PAGE_SIZES).toBe(false);
+  });
+});
 
 describe("buildPdf", () => {
   it("produces a PDF blob from a single image", async () => {
     const images: PdfImageInput[] = [
       { format: "png", data: createMinimalPng(), width: 100, height: 100 },
+    ];
+
+    const blob = await buildPdf(images, defaultSettings);
+
+    expect(blob).toBeInstanceOf(Blob);
+    expect(blob.type).toBe("application/pdf");
+    expect(blob.size).toBeGreaterThan(0);
+  });
+
+  it("produces a PDF blob from a JPEG image", async () => {
+    const images: PdfImageInput[] = [
+      { format: "jpeg", data: createMinimalJpeg(), width: 1, height: 1 },
     ];
 
     const blob = await buildPdf(images, defaultSettings);
@@ -132,16 +188,6 @@ describe("calculateLayout", () => {
     // Letter portrait: 612x792
     expect(layout.pageWidth).toBe(612);
     expect(layout.pageHeight).toBe(792);
-  });
-
-  it("supports Legal paper size", () => {
-    const layout = calculateLayout(100, 100, {
-      ...defaultSettings,
-      paperSize: "legal",
-    });
-    // Legal portrait: 612x1008
-    expect(layout.pageWidth).toBe(612);
-    expect(layout.pageHeight).toBe(1008);
   });
 
   it("supports A3 paper size", () => {
