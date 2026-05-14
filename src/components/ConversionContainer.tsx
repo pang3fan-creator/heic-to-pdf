@@ -36,6 +36,7 @@ export default function ConversionContainer() {
           onConvert={conversion.startConversion}
           onAddFiles={conversion.addMoreFiles}
           onRemoveFile={conversion.removeFile}
+          onRotateFile={conversion.rotateFile}
           onSettingsChange={conversion.updateSettings}
         />
       )}

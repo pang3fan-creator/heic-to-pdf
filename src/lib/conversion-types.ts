@@ -17,8 +17,11 @@ export interface ConversionFile {
   previewData?: Uint8Array;
   previewDataWidth?: number;
   previewDataHeight?: number;
+  rotation?: ImageRotation;
   error?: string;
 }
+
+export type ImageRotation = 0 | 90 | 180 | 270;
 
 export interface ConversionSettings {
   paperSize: "original" | "a4" | "letter" | "a3";
@@ -142,6 +145,24 @@ export interface PdfImageInput {
   data: Uint8Array;
   width: number;
   height: number;
+}
+
+export function normalizeRotation(rotation: number): ImageRotation {
+  const normalized = ((rotation % 360) + 360) % 360;
+  if (normalized === 90 || normalized === 180 || normalized === 270) {
+    return normalized;
+  }
+  return 0;
+}
+
+export function getRotatedDimensions(
+  width: number,
+  height: number,
+  rotation: ImageRotation = 0,
+): { width: number; height: number } {
+  return rotation === 90 || rotation === 270
+    ? { width: height, height: width }
+    : { width, height };
 }
 
 /** Format bytes to human-readable string. */

@@ -1,7 +1,10 @@
 import {
   type ConversionSettings,
+  type ImageRotation,
   type ImageFormat,
   type PdfImageInput,
+  getRotatedDimensions,
+  normalizeRotation,
   PDF_QUALITY_PRESETS,
 } from "./conversion-types";
 import { decodeImage } from "./image-decoder";
@@ -20,6 +23,25 @@ function canvasToBlob(
   return new Promise((resolve) => {
     canvas.toBlob((blob) => resolve(blob), type, quality);
   });
+}
+
+function rotateCanvas(
+  source: HTMLCanvasElement,
+  rotation: ImageRotation,
+): HTMLCanvasElement | null {
+  if (rotation === 0) return source;
+
+  const dimensions = getRotatedDimensions(source.width, source.height, rotation);
+  const canvas = document.createElement("canvas");
+  canvas.width = dimensions.width;
+  canvas.height = dimensions.height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return null;
+
+  ctx.translate(canvas.width / 2, canvas.height / 2);
+  ctx.rotate((rotation * Math.PI) / 180);
+  ctx.drawImage(source, -source.width / 2, -source.height / 2);
+  return canvas;
 }
 
 function drawRgbaToCanvas(
@@ -108,11 +130,13 @@ export async function encodeFileForPdf(
   file: File,
   format: ImageFormat,
   settings: ConversionSettings,
+  rotation: ImageRotation = 0,
 ): Promise<PdfImageInput> {
   const preset = PDF_QUALITY_PRESETS[settings.pdfQuality];
+  const normalizedRotation = normalizeRotation(rotation);
 
   if (preset.jpegQuality === null) {
-    if (format === "jpeg" || format === "png") {
+    if (normalizedRotation === 0 && (format === "jpeg" || format === "png")) {
       const [buffer, bitmap] = await Promise.all([
         file.arrayBuffer(),
         createImageBitmap(file),
@@ -128,25 +152,66 @@ export async function encodeFileForPdf(
       };
     }
 
+    if (format === "jpeg" || format === "png") {
+      const { canvas, width, height } = await drawFileToCanvas(file);
+      const rotatedCanvas = rotateCanvas(canvas, normalizedRotation);
+      if (!rotatedCanvas) throw new Error("Canvas context not available");
+      const dimensions = getRotatedDimensions(width, height, normalizedRotation);
+      return encodeCanvasForPdf(
+        rotatedCanvas,
+        dimensions.width,
+        dimensions.height,
+        format === "jpeg" ? "image/jpeg" : "image/png",
+      );
+    }
+
     const rgbaImage = await decodeImage(file, format);
     const canvas = drawRgbaToCanvas(rgbaImage, false);
     if (!canvas) throw new Error("Canvas context not available");
-    return encodeCanvasForPdf(canvas, rgbaImage.width, rgbaImage.height, "image/png");
+    const rotatedCanvas = rotateCanvas(canvas, normalizedRotation);
+    if (!rotatedCanvas) throw new Error("Canvas context not available");
+    const dimensions = getRotatedDimensions(
+      rgbaImage.width,
+      rgbaImage.height,
+      normalizedRotation,
+    );
+    return encodeCanvasForPdf(
+      rotatedCanvas,
+      dimensions.width,
+      dimensions.height,
+      "image/png",
+    );
   }
 
   if (format === "heic" || format === "webp") {
     const rgbaImage = await decodeImage(file, format);
     const canvas = drawRgbaToCanvas(rgbaImage, true);
     if (!canvas) throw new Error("Canvas context not available");
-    return encodeCanvasForPdf(
-      canvas,
+    const rotatedCanvas = rotateCanvas(canvas, normalizedRotation);
+    if (!rotatedCanvas) throw new Error("Canvas context not available");
+    const dimensions = getRotatedDimensions(
       rgbaImage.width,
       rgbaImage.height,
+      normalizedRotation,
+    );
+    return encodeCanvasForPdf(
+      rotatedCanvas,
+      dimensions.width,
+      dimensions.height,
       "image/jpeg",
       preset.jpegQuality,
     );
   }
 
   const { canvas, width, height } = await drawFileToCanvas(file);
-  return encodeCanvasForPdf(canvas, width, height, "image/jpeg", preset.jpegQuality);
+  const rotatedCanvas = rotateCanvas(canvas, normalizedRotation);
+  if (!rotatedCanvas) throw new Error("Canvas context not available");
+  const dimensions = getRotatedDimensions(width, height, normalizedRotation);
+  return encodeCanvasForPdf(
+    rotatedCanvas,
+    dimensions.width,
+    dimensions.height,
+    "image/jpeg",
+    preset.jpegQuality,
+  );
 }

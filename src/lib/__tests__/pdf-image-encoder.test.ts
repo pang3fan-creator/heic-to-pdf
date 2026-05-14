@@ -27,6 +27,12 @@ class MockCanvas {
       putImageData: vi.fn(() => {
         this.operations.push("putImageData");
       }),
+      translate: vi.fn(() => {
+        this.operations.push("translate");
+      }),
+      rotate: vi.fn(() => {
+        this.operations.push("rotate");
+      }),
     };
   }
 
@@ -145,5 +151,19 @@ describe("encodeFileForPdf", () => {
     expect(toBlobCalls).toEqual([{ type: "image/jpeg", quality: 0.92 }]);
     expect(canvases[0].operations).toEqual(["fillRect", "drawImage"]);
     expect(canvases[1].operations).toEqual(["putImageData"]);
+  });
+
+  it("swaps dimensions when encoding a 90 degree rotated image", async () => {
+    const result = await encodeFileForPdf(
+      new File(["png"], "photo.png", { type: "image/png" }),
+      "png",
+      balancedSettings,
+      90,
+    );
+
+    expect(result.format).toBe("jpeg");
+    expect(result.width).toBe(20);
+    expect(result.height).toBe(10);
+    expect(toBlobCalls).toEqual([{ type: "image/jpeg", quality: 0.82 }]);
   });
 });

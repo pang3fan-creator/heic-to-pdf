@@ -24,19 +24,26 @@ export function drawPagePreview(
   settings: ConversionSettings,
   /** Override viewport dimensions (defaults to 500×700) */
   viewport?: { width: number; height: number },
+  rotation = 0,
 ): void {
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
+  const normalizedRotation = ((rotation % 360) + 360) % 360;
+  const rotatedWidth =
+    normalizedRotation === 90 || normalizedRotation === 270 ? imgHeight : imgWidth;
+  const rotatedHeight =
+    normalizedRotation === 90 || normalizedRotation === 270 ? imgWidth : imgHeight;
+
   // 1. Resolve auto orientation
-  const resolvedOrientation = resolveOrientation(imgWidth, imgHeight, settings);
+  const resolvedOrientation = resolveOrientation(rotatedWidth, rotatedHeight, settings);
   const resolvedSettings: ConversionSettings = {
     ...settings,
     orientation: resolvedOrientation,
   };
 
   // 2. Calculate exact PDF page layout
-  const layout = calculateLayout(imgWidth, imgHeight, resolvedSettings);
+  const layout = calculateLayout(rotatedWidth, rotatedHeight, resolvedSettings);
 
   // 3. Determine scale to fit within preview viewport
   const maxWidth = viewport?.width ?? 500;
@@ -72,11 +79,18 @@ export function drawPagePreview(
   ctx.fillRect(0, 0, displayW, displayH);
 
   // 7. Draw the image at the calculated position, scaled to preview size
-  ctx.drawImage(
-    img,
-    Math.round(layout.x * fitScale),
-    Math.round(layout.y * fitScale),
-    Math.round(layout.drawWidth * fitScale),
-    Math.round(layout.drawHeight * fitScale),
-  );
+  const imageX = Math.round(layout.x * fitScale);
+  const imageY = Math.round(layout.y * fitScale);
+  const imageW = Math.round(layout.drawWidth * fitScale);
+  const imageH = Math.round(layout.drawHeight * fitScale);
+
+  ctx.save();
+  ctx.translate(imageX + imageW / 2, imageY + imageH / 2);
+  ctx.rotate((normalizedRotation * Math.PI) / 180);
+  if (normalizedRotation === 90 || normalizedRotation === 270) {
+    ctx.drawImage(img, -imageH / 2, -imageW / 2, imageH, imageW);
+  } else {
+    ctx.drawImage(img, -imageW / 2, -imageH / 2, imageW, imageH);
+  }
+  ctx.restore();
 }

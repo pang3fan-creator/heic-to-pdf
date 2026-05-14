@@ -7,11 +7,13 @@ import {
   type ConversionFile,
   type ConversionSettings,
   type ConversionState,
+  type ImageRotation,
   type PdfImageInput,
   MAX_FILES,
   MAX_FILE_SIZE,
   DEFAULT_SETTINGS,
   getFileType,
+  normalizeRotation,
   resolveOrientation,
 } from "@/lib/conversion-types";
 import { buildPdf } from "@/lib/pdf-generator";
@@ -212,6 +214,25 @@ export function useHeicConversion() {
     });
   }, []);
 
+  const rotateFile = useCallback((fileId: string, delta: 90 | -90) => {
+    const applyRotation = (files: ConversionFile[]) =>
+      files.map((file) =>
+        file.id === fileId
+          ? {
+              ...file,
+              rotation: normalizeRotation((file.rotation ?? 0) + delta),
+            }
+          : file,
+      );
+
+    setState((prev) => {
+      if (prev.status !== "editor") return prev;
+      const files = applyRotation(prev.files);
+      filesRef.current = files;
+      return { ...prev, files };
+    });
+  }, []);
+
   const closeEditor = useCallback(() => {
     cancelledRef.current = false;
     workerRef.current?.terminate();
@@ -261,7 +282,12 @@ export function useHeicConversion() {
 
         let pdfImage: PdfImageInput;
         try {
-          pdfImage = await encodeFileForPdf(file, format, settings);
+          pdfImage = await encodeFileForPdf(
+            file,
+            format,
+            settings,
+            files[i].rotation ?? 0,
+          );
         } catch (err) {
           files[i] = {
             ...files[i],
@@ -384,6 +410,7 @@ export function useHeicConversion() {
     updateSettings,
     addMoreFiles,
     removeFile,
+    rotateFile,
     closeEditor,
     startConversion,
     reset,

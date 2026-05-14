@@ -23,6 +23,7 @@ interface Props {
   onConvert: () => void;
   onAddFiles: (files: FileList | File[]) => void;
   onRemoveFile: (fileId: string) => void;
+  onRotateFile: (fileId: string, delta: 90 | -90) => void;
   onSettingsChange: (settings: ConversionSettings) => void;
 }
 
@@ -134,6 +135,7 @@ function drawThumbPage(
   imgWidth: number,
   imgHeight: number,
   settings: ConversionSettings,
+  rotation = 0,
 ): void {
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
@@ -151,8 +153,13 @@ function drawThumbPage(
   }
 
   // Resolve auto orientation
-  const resolved = resolveOrientation(imgWidth, imgHeight, settings);
-  const layout = calculateLayout(imgWidth, imgHeight, {
+  const normalizedRotation = ((rotation % 360) + 360) % 360;
+  const rotatedWidth =
+    normalizedRotation === 90 || normalizedRotation === 270 ? imgHeight : imgWidth;
+  const rotatedHeight =
+    normalizedRotation === 90 || normalizedRotation === 270 ? imgWidth : imgHeight;
+  const resolved = resolveOrientation(rotatedWidth, rotatedHeight, settings);
+  const layout = calculateLayout(rotatedWidth, rotatedHeight, {
     ...settings,
     orientation: resolved,
   });
@@ -183,13 +190,20 @@ function drawThumbPage(
   ctx.fillRect(pageX, pageY, pageW, pageH);
 
   // Draw image at calculated position within the page
-  ctx.drawImage(
-    img,
-    pageX + Math.round(layout.x * fitScale),
-    pageY + Math.round(layout.y * fitScale),
-    Math.round(layout.drawWidth * fitScale),
-    Math.round(layout.drawHeight * fitScale),
-  );
+  const imageX = pageX + Math.round(layout.x * fitScale);
+  const imageY = pageY + Math.round(layout.y * fitScale);
+  const imageW = Math.round(layout.drawWidth * fitScale);
+  const imageH = Math.round(layout.drawHeight * fitScale);
+
+  ctx.save();
+  ctx.translate(imageX + imageW / 2, imageY + imageH / 2);
+  ctx.rotate((normalizedRotation * Math.PI) / 180);
+  if (normalizedRotation === 90 || normalizedRotation === 270) {
+    ctx.drawImage(img, -imageH / 2, -imageW / 2, imageH, imageW);
+  } else {
+    ctx.drawImage(img, -imageW / 2, -imageH / 2, imageW, imageH);
+  }
+  ctx.restore();
 }
 
 function ThumbnailCell({
@@ -198,6 +212,7 @@ function ThumbnailCell({
   settings,
   onClick,
   onRemove,
+  onRotate,
   className,
   draggable,
   onDragStart,
@@ -210,6 +225,7 @@ function ThumbnailCell({
   settings: ConversionSettings;
   onClick: () => void;
   onRemove?: (fileId: string) => void;
+  onRotate?: (fileId: string, delta: 90 | -90) => void;
   className?: string;
   draggable?: boolean;
   onDragStart?: (e: React.DragEvent) => void;
@@ -254,6 +270,7 @@ function ThumbnailCell({
           file.thumbnailDataWidth!,
           file.thumbnailDataHeight!,
           settings,
+          file.rotation ?? 0,
         );
       });
     });
@@ -284,10 +301,11 @@ function ThumbnailCell({
         file.thumbnailDataWidth!,
         file.thumbnailDataHeight!,
         settings,
+        file.rotation ?? 0,
       );
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [settings]);
+  }, [settings, file.rotation]);
 
   return (
     <div
@@ -315,6 +333,32 @@ function ThumbnailCell({
             }}
           >✕</span>
         </span>
+        <div className="thumb-rotate-actions" aria-label="Rotate image">
+          <button
+            type="button"
+            className="thumb-rotate-btn"
+            title="Rotate left 90 degrees"
+            aria-label="Rotate left 90 degrees"
+            onClick={(e) => {
+              e.stopPropagation();
+              onRotate?.(file.id, -90);
+            }}
+          >
+            ↺
+          </button>
+          <button
+            type="button"
+            className="thumb-rotate-btn"
+            title="Rotate right 90 degrees"
+            aria-label="Rotate right 90 degrees"
+            onClick={(e) => {
+              e.stopPropagation();
+              onRotate?.(file.id, 90);
+            }}
+          >
+            ↻
+          </button>
+        </div>
         {file.thumbnailData ? (
           <canvas ref={canvasRef} className="thumb-canvas" />
         ) : (
@@ -342,6 +386,7 @@ export default function EditorOverlay({
   onConvert,
   onAddFiles,
   onRemoveFile,
+  onRotateFile,
   onSettingsChange,
 }: Props) {
   const t = useTranslations("editor");
@@ -631,6 +676,7 @@ export default function EditorOverlay({
                     settings={settings}
                     onClick={() => setPreviewFileId(f.id)}
                     onRemove={onRemoveFile}
+                    onRotate={onRotateFile}
                     draggable
                     className={dragOverId === f.id ? "drag-over" : ""}
                     onDragStart={(e) => {

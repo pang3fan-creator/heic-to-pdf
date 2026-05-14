@@ -73,6 +73,7 @@ export default function PreviewModal({
         file.previewDataHeight!,
         settings,
         PREVIEW_VIEWPORT,
+        file.rotation ?? 0,
       );
     });
 
@@ -101,9 +102,10 @@ export default function PreviewModal({
       file.previewDataHeight,
       settings,
       PREVIEW_VIEWPORT,
+      file.rotation ?? 0,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [settings]);
+  }, [settings, file.rotation]);
 
   // Keyboard navigation
   useEffect(() => {
