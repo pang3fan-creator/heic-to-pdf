@@ -146,8 +146,8 @@
         "a": "HEIC (High Efficiency Image Container) is Apple's image format — it's been the default on iPhones since iOS 11. It cuts file sizes by about half compared to JPEG at the same quality. The downside? Not every device handles it well. That's why HEIC to PDF conversion is such a practical workaround: PDF works everywhere, no questions asked."
       },
       {
-        "q": "Will image quality degrade after conversion?",
-        "a": "Not at all. When you run a HEIC to PDF conversion here, your original image data stays intact. HEIC files are decoded at full resolution and embedded as high-quality images inside the PDF. What you get out looks exactly like what you put in."
+        "q": "How to convert HEIC to PDF?",
+        "a": "Just drag and drop your HEIC photos into the converter above, or click the upload button to browse. Arrange the pages however you like, pick your paper size and margins, then hit Convert. The whole process runs locally in your browser — no uploads, no waiting on a server. Once it's done, download the PDF straight to your device or save it to cloud storage."
       },
       {
         "q": "Where are my files stored? Is it safe?",
@@ -156,10 +156,6 @@
       {
         "q": "Does it support batch conversion?",
         "a": "Yes. You can drag or select up to 20 HEIC photos at once, and they'll all be turned into a single multi-page PDF. You can also reorder them, pick paper size and margins, and choose whether to merge everything into one PDF or keep them separate."
-      },
-      {
-        "q": "Do I need to install any software?",
-        "a": "Nope. This HEIC to PDF converter runs entirely in your browser — just open the site and you're good to go. It works on Chrome, Safari, Edge, and Firefox. No sign-up, no download, no hassle."
       },
       {
         "q": "Why can't I view HEIC photos on Windows?",
@@ -187,7 +183,7 @@
       }
     ],
     "copyright": "© 2026 HEICPDF.TO. All rights reserved.",
-    "tagline": "Made with care — processed locally, your privacy respected"
+    "tagline": "HEIC to PDF — converted locally, your privacy respected"
   },
   "privacy": {
     "pageTitle": "Privacy Policy",
