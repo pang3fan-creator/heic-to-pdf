@@ -38,5 +38,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
         },
       },
     },
+    {
+      url: "https://heicpdf.to/blog/how-to-convert-heic-to-pdf",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+      alternates: {
+        languages: {
+          en: "https://heicpdf.to/blog/how-to-convert-heic-to-pdf",
+          "x-default": "https://heicpdf.to/blog/how-to-convert-heic-to-pdf",
+        },
+      },
+    },
   ];
 }

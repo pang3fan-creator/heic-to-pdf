@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Breadcrumb from "@/components/Breadcrumb";
 import { buildAlternates } from "@/lib/url";
 
 type Section = {
@@ -28,7 +29,12 @@ export async function generateMetadata({
 
 export default function TermsPage() {
   const t = useTranslations("terms");
+  const tnav = useTranslations("nav");
   const sections = t.raw("sections") as Section[];
+  const breadcrumbItems = [
+    { label: tnav("breadcrumbHome"), href: "/" },
+    { label: t("pageTitle") },
+  ];
 
   return (
     <>
@@ -36,7 +42,7 @@ export default function TermsPage() {
       <main>
         <section className="policy-header">
           <div className="container">
-            <div className="eyebrow">Legal</div>
+            <Breadcrumb items={breadcrumbItems} />
             <h1>{t("pageTitle")}</h1>
             <p className="last-updated">{t("lastUpdated")}</p>
             <hr />

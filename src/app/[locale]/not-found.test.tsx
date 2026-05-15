@@ -15,11 +15,9 @@ vi.mock("@/components/Footer", () => ({
 
 function renderNotFound() {
   return render(
-    createElement(
-      NextIntlClientProvider,
-      { locale: "en", messages },
-      createElement(NotFoundPage),
-    ),
+    <NextIntlClientProvider locale="en" messages={messages}>
+      <NotFoundPage />
+    </NextIntlClientProvider>,
   );
 }
 
