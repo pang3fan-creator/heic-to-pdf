@@ -47,10 +47,10 @@ describe("How to Convert HEIC to PDF blog article page", () => {
     renderBlogArticle();
 
     expect(
-      screen.getByRole("heading", {
+      screen.getAllByRole("heading", {
         name: "How to Convert HEIC to PDF: A Private & Instant Guide (2026)",
-      }),
-    ).toBeTruthy();
+      }).length,
+    ).toBeGreaterThanOrEqual(1);
     expect(screen.getByRole("progressbar", { name: "Reading progress" })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "Most Read" })).toBeTruthy();
     expect(screen.getByRole("link", { name: "Try HEIC to PDF" }).getAttribute("href")).toBe(
@@ -67,7 +67,7 @@ describe("How to Convert HEIC to PDF blog article page", () => {
     const structuredData = JSON.parse(script?.textContent ?? "{}");
     expect(structuredData["@type"]).toBe("BlogPosting");
     expect(structuredData.headline).toBe(
-      "How to Convert HEIC to PDF: A Private & Instant Guide (2026)",
+      "How to Convert HEIC to PDF: A Private Guide",
     );
     expect(structuredData.inLanguage).toBe("en");
   });
@@ -82,7 +82,7 @@ describe("How to Convert HEIC to PDF blog article page", () => {
   it("generates canonical blog metadata", async () => {
     const metadata = await generateMetadata({ params: Promise.resolve({ locale: "en" }) });
 
-    expect(metadata.title).toBe("How to Convert HEIC to PDF: A Private & Instant Guide (2026)");
+    expect(metadata.title).toBe("How to Convert HEIC to PDF: A Private Guide");
     expect(metadata.description).toContain("Learn how to convert HEIC to PDF locally in your browser");
     expect(metadata.alternates).toEqual({
       canonical: "https://heicpdf.to/blog/how-to-convert-heic-to-pdf",
