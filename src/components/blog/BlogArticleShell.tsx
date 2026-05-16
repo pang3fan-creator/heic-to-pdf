@@ -132,22 +132,24 @@ export default function BlogArticleShell({
         </div>
       </section>
 
-      <section className="blog-related-section">
-        <h2>{article.relatedHeading}</h2>
-        <div className="blog-related-grid">
-          {article.related.map((item) => (
-            <a className="blog-related-card" href={article.articleHref} key={item.title}>
-              <div className="blog-related-image">{item.eyebrow}</div>
-              <div className="blog-related-card-body">
-                <p className="blog-related-eyebrow">{item.eyebrow}</p>
-                <h3>{item.title}</h3>
-                <p>{item.excerpt}</p>
-                <time>{item.date}</time>
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
+      {article.related.length > 0 && (
+        <section className="blog-related-section">
+          <h2>{article.relatedHeading}</h2>
+          <div className="blog-related-grid">
+            {article.related.map((item) => (
+              <a className="blog-related-card" href={article.articleHref} key={item.title}>
+                <div className="blog-related-image">{item.eyebrow}</div>
+                <div className="blog-related-card-body">
+                  <p className="blog-related-eyebrow">{item.eyebrow}</p>
+                  <h3>{item.title}</h3>
+                  <p>{item.excerpt}</p>
+                  <time>{item.date}</time>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

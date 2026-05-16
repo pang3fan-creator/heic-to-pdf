@@ -7,7 +7,7 @@ import FaqItem from "./FaqItem";
 export default function FaqSection() {
   const t = useTranslations("faq");
   const items = t.raw("items") as Array<{ q: string; a: string }>;
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
     <section className="section" id="faq">

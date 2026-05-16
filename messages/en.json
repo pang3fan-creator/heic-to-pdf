@@ -493,7 +493,7 @@
     "howToConvertHeicToPdf": {
       "language": "en",
       "title": "How to Convert HEIC to PDF: A Private Guide",
-      "description": "Learn how to convert HEIC to PDF locally in your browser — no uploads, no software installation. A complete guide for iPhone users on Windows, Mac, and more.",
+      "description": "The complete guide to converting HEIC to PDF without uploading your photos. Browser-based, private, and no software required — works on any device.",
       "publishedAtIso": "2026-05-15T00:00:00+00:00",
       "modifiedAtIso": "2026-05-15T00:00:00+00:00",
       "author": {
@@ -502,7 +502,7 @@
       "article": {
         "eyebrow": "Tutorial",
         "title": "How to Convert HEIC to PDF: A Private & Instant Guide (2026)",
-        "description": "A complete walkthrough for converting HEIC photos to PDF — right in your browser, no uploads, no software to install.",
+        "description": "A complete walkthrough for converting HEIC photos to PDF in your browser — no uploads, no software to install.",
         "publishedAtLabel": "May 15, 2026",
         "backToTop": "Back to top",
         "readingProgressLabel": "Reading progress",
@@ -567,14 +567,7 @@
           ]
         },
         "relatedHeading": "Related Articles",
-        "related": [
-          {
-            "eyebrow": "Tutorial",
-            "title": "How to Convert HEIC to PDF: A Private & Instant Guide (2026)",
-            "excerpt": "A complete walkthrough for converting HEIC photos to PDF — right in your browser, no uploads, no software to install.",
-            "date": "May 15, 2026"
-          }
-        ]
+        "related": []
       }
     }
   }
