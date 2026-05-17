@@ -68,31 +68,45 @@ export default function BlogArticlePage() {
   const articleUrl = getArticleUrl(locale);
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "@id": `${articleUrl}#article`,
-    headline: t("title"),
-    description: t("description"),
-    url: articleUrl,
-    datePublished: t("publishedAtIso"),
-    dateModified: t("modifiedAtIso"),
-    author: {
-      "@type": "Person",
-      name: t("author.name"),
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "HEICPDF.TO",
-      url: "https://heicpdf.to",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://heicpdf.to/heicpdf-logo-256.png",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `${articleUrl}#article`,
+        headline: t("title"),
+        description: t("description"),
+        url: articleUrl,
+        datePublished: t("publishedAtIso"),
+        dateModified: t("modifiedAtIso"),
+        author: {
+          "@type": "Person",
+          name: t("author.name"),
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "HEICPDF.TO",
+          url: "https://heicpdf.to",
+          logo: {
+            "@type": "ImageObject",
+            url: "https://heicpdf.to/heicpdf-logo-256.png",
+          },
+        },
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": articleUrl,
+        },
+        inLanguage: t("language"),
       },
-    },
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": articleUrl,
-    },
-    inLanguage: t("language"),
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${articleUrl}#breadcrumb`,
+        itemListElement: breadcrumbItems.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: item.label,
+          item: item.href ? `https://heicpdf.to${item.href}` : undefined,
+        })),
+      },
+    ],
   };
 
   return (

@@ -16,6 +16,7 @@ export default async function HomePage({
   const { locale } = await params;
   const faqT = await getTranslations({ locale, namespace: "faq" });
   const howtoT = await getTranslations({ locale, namespace: "howto" });
+  const heroT = await getTranslations({ locale, namespace: "hero" });
   const faqItems = faqT.raw("items") as Array<{ q: string; a: string }>;
   const howtoSteps = howtoT.raw("steps") as Array<{ num: number; title: string; desc: string }>;
   const schemaDescription =
@@ -32,13 +33,7 @@ export default async function HomePage({
         operatingSystem: "All",
         applicationCategory: ["Multimedia", "Utilities"],
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-        featureList: [
-          "Convert HEIC to PDF",
-          "Batch conversion up to 20 images",
-          "Dropbox & Google Drive support",
-          "Page arrangement and customization",
-          "100% browser-based processing",
-        ],
+        featureList: heroT.raw("features") as string[],
         inLanguage: locale,
       },
       {

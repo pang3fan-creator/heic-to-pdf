@@ -25,7 +25,12 @@ export async function generateMetadata({
     },
     description:
       "Easily convert your Apple HEIC photos to high-quality PDF documents. No registration required. Supports batch, Dropbox & Google Drive. 100% privacy guaranteed.",
-    icons: "/heicpdf-logo.svg",
+    icons: [
+      { rel: "icon", url: "/heicpdf-logo.svg", type: "image/svg+xml" },
+      { rel: "icon", url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { rel: "icon", url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { rel: "apple-touch-icon", url: "/apple-touch-icon.png", sizes: "180x180" },
+    ],
     alternates: buildAlternates(locale, ""),
     openGraph: {
       title: "HEIC to PDF — Fast, Private & Free Online Tool | HEICPDF.TO",
@@ -63,6 +68,21 @@ const themeScript = `
 })();
 `;
 
+const orgSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://heicpdf.to#organization",
+  name: "HEICPDF.TO",
+  url: "https://heicpdf.to",
+  description: "Free online HEIC to PDF converter. All processing happens locally in your browser — no uploads, total privacy.",
+  logo: {
+    "@type": "ImageObject",
+    url: "https://heicpdf.to/heicpdf-logo-256.png",
+    width: 256,
+    height: 256,
+  },
+};
+
 export default async function LocaleLayout({
   children,
   params,
@@ -82,6 +102,10 @@ export default async function LocaleLayout({
     <html lang={locale} data-theme="dark" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+        />
       </head>
       <body>
         <NextIntlClientProvider messages={messages}>

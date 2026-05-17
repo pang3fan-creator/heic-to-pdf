@@ -21,6 +21,13 @@
   },
   "hero": {
     "title": "Convert HEIC to PDF",
+    "features": [
+      "Convert HEIC to PDF",
+      "Batch conversion up to 20 images",
+      "Dropbox & Google Drive support",
+      "Page arrangement and customization",
+      "100% browser-based processing"
+    ],
     "dropzone": {
       "title": "Drag & drop HEIC photos here",
       "subtitle": "or click the button below to browse",
@@ -109,38 +116,38 @@
   },
   "howto": {
     "title": "Four steps to convert HEIC to PDF",
-    "description": "No registration, no installation — just your browser",
+    "description": "No registration, no installation, no uploads — your HEIC to PDF conversion happens entirely in your browser",
     "steps": [
       {
         "num": 1,
         "title": "Select photos",
-        "desc": "Choose HEIC photos to convert to PDF from your iPhone or computer. Supports multi-select and batch drag & drop."
+        "desc": "Choose HEIC photos to convert to PDF from your iPhone or computer. Supports multi-select and batch drag & drop. You can also import files directly from Dropbox or Google Drive if your photos are already backed up there. Starting a HEIC to PDF conversion is as simple as dragging files onto the page."
       },
       {
         "num": 2,
         "title": "Arrange & customize",
-        "desc": "Reorder your HEIC photos, choose paper size and margins, and fine-tune each page before converting to PDF."
+        "desc": "Reorder your HEIC photos, choose paper size and margins, and fine-tune each page before converting to PDF. The live preview shows exactly how your PDF will look before you export, giving you full control over the HEIC to PDF output."
       },
       {
         "num": 3,
         "title": "Export PDF",
-        "desc": "Click convert to transform your HEIC files into a PDF. Preview the result, then download or save directly to cloud storage."
+        "desc": "Click convert to transform your HEIC files into a PDF. Preview the result, then download or save directly to cloud storage. Since HEIC to PDF conversion runs entirely in your browser with no server involved, the whole process finishes in seconds."
       },
       {
         "num": 4,
         "title": "Done",
-        "desc": "Your HEIC to PDF conversion is complete! Your original photos remain untouched — no quality loss, no modifications."
+        "desc": "Your HEIC to PDF conversion is complete! Your original photos remain untouched — no quality loss, no modifications. Choose to download as a single merged PDF or keep each image as a separate file depending on how you plan to use them."
       }
     ]
   },
   "about": {
     "title": "Why convert HEIC to PDF?",
-    "description": "If you own an iPhone, you've probably been shooting in HEIC without thinking twice — it's been the default since iOS 11, and it saves a ton of space compared to JPEG. The catch? Try sending one to a friend on Windows or opening it on an Android phone. That's exactly why HEIC to PDF conversion is so handy: PDF is the one format nobody argues about. It opens everywhere, prints everywhere, and works the way you'd expect.",
+    "description": "If you own an iPhone, you've probably been shooting in HEIC without thinking twice — it's been the default since iOS 11, and it saves a ton of space compared to JPEG. According to Apple, HEIC files are up to 50% smaller than JPEGs at the same quality, which means you can keep thousands more photos on your phone without running out of room. The catch? Try sending one to a friend on Windows or opening it on an Android phone — it either shows up as an unknown file or won't open at all. That's exactly why HEIC to PDF conversion is so handy: PDF is the one format nobody argues about. It opens everywhere, prints everywhere, and works the way you'd expect, whether you're on a PC, a Mac, a tablet, or a phone. No format detection, no error messages, no struggling with unsupported file types — just a file that works the first time you open it.",
     "reasons": [
-      "Windows and Android have no native way to preview HEIC files — they'll just show up as unknown files. A quick HEIC to PDF conversion solves this instantly, making your photos viewable on any PC, laptop, or phone.",
-      "PDF is about as universal as it gets. Whether it's a Mac, a Chromebook, or an old Windows machine, PDFs open without fuss. No codecs, no special apps — just your photos, ready to go.",
-      "Need to email photos or archive them for later? A HEIC to PDF conversion gives you a file that's smaller than the originals, easier to attach, and readable by anyone — no explanation needed.",
-      "Got a whole batch of HEIC photos from a trip or event? Convert them into a single PDF instead of sending multiple files. One download, easy to share, easy to print."
+      "Windows and Android have no native way to preview HEIC files — they'll just show up as unopenable files. A quick HEIC to PDF conversion solves this instantly, making your photos viewable on any PC, laptop, or phone. No codecs, no special software, no digging through settings. If you snap a photo on your iPhone and email it to someone on Windows, they can open the PDF right away — no extra steps or explanations needed.",
+      "PDF is about as universal as it gets. Whether it's a Mac, a Chromebook, or an old Windows machine, PDFs open without fuss. No need to install HEIC decoders or worry about compatibility — just your photos, ready to go on any device. A HEIC to PDF conversion removes the question of whether the recipient can actually open what you sent, which is especially useful when sharing with people who aren't particularly tech-savvy. For them, getting a PDF from a HEIC to PDF tool is seamless — no apps, no tutorials.",
+      "Need to email photos or archive them for later? A HEIC to PDF conversion gives you a file that's smaller than the originals, easier to attach, and readable by anyone — no explanation needed. Perfect for sending batches of vacation photos, sharing documents with colleagues, or submitting images to websites that don't accept HEIC uploads. Many email services have attachment limits, and a HEIC to PDF keeps each file well under them while preserving the image quality.",
+      "Got a whole batch of HEIC photos from a trip or event? Convert them into a single multi-page PDF instead of sending multiple files. One download, easy to share, easy to print. You can also keep them as separate PDFs if that works better for your workflow. Either way, a single HEIC to PDF pass handles everything at once."
     ],
     "table": {
       "headers": [
@@ -208,28 +215,28 @@
     }
   },
   "faq": {
-    "title": "Frequently asked questions",
-    "description": "Everything you need to know about HEIC to PDF conversion",
+    "title": "Frequently asked questions about HEIC to PDF",
+    "description": "Everything you need to know about HEIC to PDF conversion and compatibility — last updated May 2026",
     "items": [
       {
         "q": "What is HEIC format?",
-        "a": "HEIC (High Efficiency Image Container) is Apple's image format — it's been the default on iPhones since iOS 11. It cuts file sizes by about half compared to JPEG at the same quality. The downside? Not every device handles it well. That's why HEIC to PDF conversion is such a practical workaround: PDF works everywhere, no questions asked."
+        "a": "HEIC (High Efficiency Image Container) is Apple's image format — it's been the default on iPhones since iOS 11. It cuts file sizes by about half compared to JPEG at the same quality, which means you can store nearly twice as many photos on your phone. The downside? Not every device handles it well. That's why HEIC to PDF conversion is such a practical workaround: PDF works everywhere, no questions asked."
       },
       {
         "q": "How to convert HEIC to PDF?",
-        "a": "Just drag and drop your HEIC photos into the converter above, or click the upload button to browse. Arrange the pages however you like, pick your paper size and margins, then hit Convert. The whole process runs locally in your browser — no uploads, no waiting on a server. Once it's done, download the PDF straight to your device or save it to cloud storage."
+        "a": "Just drag and drop your HEIC photos into the converter above, or click the upload button to browse your device. You can also import files from Dropbox or Google Drive if your photos are stored there. Arrange the pages however you like in the editor — reorder thumbnails, pick paper size and margins, and adjust quality. Then hit Convert. The whole HEIC to PDF process runs locally in your browser using WebAssembly, so there's no upload step and no server to wait on. Once it's done, download the PDF straight to your device or save it directly to cloud storage."
       },
       {
         "q": "Where are my files stored? Is it safe?",
-        "a": "Right inside your browser. The entire HEIC to PDF conversion happens locally — we never touch your files and have no way to access them. If you decide to save the result to Dropbox or Google Drive, that's a direct transfer from your browser to your own cloud storage."
+        "a": "Right inside your browser, on your own device. The entire HEIC to PDF conversion happens locally using WebAssembly — your photos are decoded, processed, and turned into a PDF without ever leaving your computer. We have no servers that receive your files and no way to access them. If you decide to save the result to Dropbox or Google Drive, that's a direct transfer from your browser to your own cloud storage — we still never see the data. Once you close the tab, everything is gone."
       },
       {
         "q": "Does it support batch conversion?",
-        "a": "Yes. You can drag or select up to 20 HEIC photos at once, and they'll all be turned into a single multi-page PDF. You can also reorder them, pick paper size and margins, and choose whether to merge everything into one PDF or keep them separate."
+        "a": "Yes. You can drag or select up to 20 HEIC photos at once, and they'll all be processed in one go. You can merge everything into a single multi-page PDF or keep each image as its own separate file. Before converting, you can reorder the pages, pick paper size and margins, adjust output quality, and preview how each page will look. The entire batch HEIC to PDF conversion happens locally in your browser, so processing 20 photos takes only a few seconds instead of minutes."
       },
       {
         "q": "Why can't I view HEIC photos on Windows?",
-        "a": "HEIC is Apple's format, so Windows doesn't know what to do with it out of the box — no thumbnails, no previews. Microsoft does offer a HEIF extension in the Store, but the simplest fix is converting HEIC to PDF. PDFs open on any device, every time."
+        "a": "HEIC is Apple's format, so Windows doesn't know what to do with it out of the box — no thumbnails, no previews. Microsoft does offer a HEIF extension in the Store, but the simplest fix is a quick HEIC to PDF conversion. PDFs open on any device, every time, without needing extra codecs or extensions. That's why HEIC to PDF conversion is the go-to solution for sharing photos across platforms."
       }
     ]
   },
@@ -487,17 +494,22 @@
       "description": "The complete guide to converting HEIC to PDF without uploading your photos. Browser-based, private, and no software required — works on any device.",
       "guideSection": {
         "title": "Beyond the basics",
-        "description": "A few extra things worth knowing about HEIC to PDF conversion",
+        "description": "A few extra things worth knowing about HEIC to PDF conversion, from alternative methods to output options",
         "parts": [
           {
             "id": "native-options",
             "heading": "Converting on macOS or Windows",
-            "body": "<p>Not everyone immediately turns to a web tool for HEIC to PDF conversion — and that's fair. If you're on a Mac, you can open a HEIC photo in Preview and export it as PDF (File → Export As… → PDF). Need to merge several into one PDF? Open them all in Preview, select the thumbnails, then go to File → Print → Save as PDF. It works, but for more than a couple of photos it gets tedious fast.</p><p>On Windows it's trickier. HEIC isn't supported out of the box, so you'll need the HEIF Image Extension from the Microsoft Store. After that, you can view HEIC files in the Photos app and print each one to PDF using Microsoft Print to PDF. But it's one at a time — there's no batch HEIC to PDF conversion built into Windows.</p><p>That's where a dedicated tool like this one comes in. Drag in 20 photos, arrange them, pick your settings, and you've got a multi-page PDF in seconds. The native options are fine for a single image, but for anything more, a purpose-built HEIC to PDF converter saves you a lot of clicking.</p>"
+            "body": "<p>Not everyone immediately turns to a web tool for HEIC to PDF conversion — and that's fair. If you're on a Mac, you can open a HEIC photo in Preview and export it as PDF (File → Export As… → PDF). Need to merge several into one PDF? Open them all in Preview, select the thumbnails, then go to File → Print → Save as PDF. It works, but for more than a couple of photos the process gets tedious fast — you're clicking through the same dialogs over and over.</p><p>On Windows it's trickier. HEIC isn't supported out of the box, so you'll need the HEIF Image Extension from the Microsoft Store. After that, you can view HEIC files in the Photos app and print each one to PDF using Microsoft Print to PDF. But it's one at a time — there's no batch HEIC to PDF conversion built into Windows.</p><p>That's where a dedicated tool like this one comes in. With Preview or Print to PDF, each photo has to be opened, exported, and saved individually — ten photos means repeating the same clicks ten times. Drag the same files into this converter and they're processed together in one HEIC to PDF batch. You can arrange them, tweak the layout, and download the result in under a minute. The native options are fine for a single image, but for anything more than that, a purpose-built converter saves you a lot of clicking.</p>"
           },
           {
             "id": "heic-vs-heif",
             "heading": "HEIC vs HEIF — what's the difference?",
-            "body": "<p>You might have seen the term HEIF (High Efficiency Image File Format) pop up while looking into HEIC to PDF tools. HEIC is actually Apple's name for their implementation of the broader HEIF standard. Think of HEIF as the container format and HEIC as Apple's flavor of it.</p><p>The reason this matters: HEIF isn't just an Apple thing anymore. Recent Android phones and some digital cameras now shoot in HEIF by default too. So if you're getting files from different sources, they might be labeled differently under the hood — but the HEIC to PDF conversion works exactly the same way.</p><p>Our tool handles both HEIC and HEIF without any extra steps. Drag them in, convert them out. No config, no fuss.</p>"
+            "body": "<p>You might have seen the term HEIF (High Efficiency Image File Format) pop up while looking into HEIC to PDF tools. HEIC is actually Apple's name for their implementation of the broader HEIF standard. Think of HEIF as the container format and HEIC as Apple's flavor of it.</p><p>The reason this matters: HEIF isn't just an Apple thing anymore. Recent Android phones and some digital cameras now shoot in HEIF by default too. So if you're getting files from different sources, they might be labeled differently under the hood — but the HEIC to PDF conversion works exactly the same way.</p><p>Our tool handles both HEIC and HEIF without any extra steps. Drag them in, convert them out. No config, no fuss. Whether the file says HEIC or HEIF, the same HEIC to PDF process applies — one less thing to worry about.</p>"
+          },
+          {
+            "id": "quality-options",
+            "heading": "Quality and output options",
+            "body": "<p>When you convert HEIC to PDF with this tool, you're not stuck with a one-size-fits-all output. Before converting, you can adjust the paper size (A4, Letter, or match the original image dimensions), choose margins from none to wide, and pick between portrait and landscape orientation. There's also a quality slider — drop it to around 70% for email-friendly files that send fast, or keep it at 100% for high-quality archiving.</p><p>For batch jobs, you can merge all photos into a single multi-page PDF or keep each image as its own separate file. The page order is fully customizable — just drag thumbnails around in the editor before hitting convert. All of this runs locally, so you can tweak and redo as many times as you need with zero waiting. Whether you're preparing a document for US colleagues (Letter size) or a European client (A4), the options are there before you start the HEIC to PDF conversion.</p>"
           }
         ]
       },
