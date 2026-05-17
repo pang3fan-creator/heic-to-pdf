@@ -4,6 +4,7 @@ import ConversionContainer from "@/components/ConversionContainer";
 import HeroSection from "@/components/HeroSection";
 import HowToSection from "@/components/HowToSection";
 import AboutSection from "@/components/AboutSection";
+import GuideSection from "@/components/GuideSection";
 import FaqSection from "@/components/FaqSection";
 import Footer from "@/components/Footer";
 
@@ -78,6 +79,7 @@ export default async function HomePage({
         </HeroSection>
         <HowToSection />
         <AboutSection />
+        <GuideSection />
         <FaqSection />
       </main>
       <Footer />

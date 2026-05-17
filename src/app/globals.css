@@ -88,6 +88,30 @@ a:hover {
   margin: 0 auto 48px;
 }
 
+.guide-content {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.guide-block {
+  margin-bottom: 48px;
+}
+
+.guide-block h3 {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 16px;
+}
+
+.guide-block p {
+  color: var(--fg);
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
 /* ========== Navbar ========== */
 .navbar {
   position: fixed;

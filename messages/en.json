@@ -247,15 +247,6 @@
         ]
       },
       {
-        "title": "Blog",
-        "links": [
-          {
-            "label": "How to Convert HEIC to PDF",
-            "href": "/blog/how-to-convert-heic-to-pdf"
-          }
-        ]
-      },
-      {
         "title": "Support",
         "links": [
           {
@@ -494,6 +485,22 @@
       "language": "en",
       "title": "How to Convert HEIC to PDF: A Private Guide",
       "description": "The complete guide to converting HEIC to PDF without uploading your photos. Browser-based, private, and no software required — works on any device.",
+      "guideSection": {
+        "title": "Beyond the basics",
+        "description": "A few extra things worth knowing about HEIC to PDF conversion",
+        "parts": [
+          {
+            "id": "native-options",
+            "heading": "Converting on macOS or Windows",
+            "body": "<p>Not everyone immediately turns to a web tool for HEIC to PDF conversion — and that's fair. If you're on a Mac, you can open a HEIC photo in Preview and export it as PDF (File → Export As… → PDF). Need to merge several into one PDF? Open them all in Preview, select the thumbnails, then go to File → Print → Save as PDF. It works, but for more than a couple of photos it gets tedious fast.</p><p>On Windows it's trickier. HEIC isn't supported out of the box, so you'll need the HEIF Image Extension from the Microsoft Store. After that, you can view HEIC files in the Photos app and print each one to PDF using Microsoft Print to PDF. But it's one at a time — there's no batch HEIC to PDF conversion built into Windows.</p><p>That's where a dedicated tool like this one comes in. Drag in 20 photos, arrange them, pick your settings, and you've got a multi-page PDF in seconds. The native options are fine for a single image, but for anything more, a purpose-built HEIC to PDF converter saves you a lot of clicking.</p>"
+          },
+          {
+            "id": "heic-vs-heif",
+            "heading": "HEIC vs HEIF — what's the difference?",
+            "body": "<p>You might have seen the term HEIF (High Efficiency Image File Format) pop up while looking into HEIC to PDF tools. HEIC is actually Apple's name for their implementation of the broader HEIF standard. Think of HEIF as the container format and HEIC as Apple's flavor of it.</p><p>The reason this matters: HEIF isn't just an Apple thing anymore. Recent Android phones and some digital cameras now shoot in HEIF by default too. So if you're getting files from different sources, they might be labeled differently under the hood — but the HEIC to PDF conversion works exactly the same way.</p><p>Our tool handles both HEIC and HEIF without any extra steps. Drag them in, convert them out. No config, no fuss.</p>"
+          }
+        ]
+      },
       "publishedAtIso": "2026-05-15T00:00:00+00:00",
       "modifiedAtIso": "2026-05-15T00:00:00+00:00",
       "author": {
