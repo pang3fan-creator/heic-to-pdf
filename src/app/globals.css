@@ -1757,12 +1757,17 @@ a:hover {
   font-size: 13px;
   color: var(--muted);
 }
-.footer-badge {
+.footer-badges {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
   margin-top: 24px;
+}
+.footer-badge {
   opacity: 0.8;
   transition: opacity 0.2s;
+  line-height: 0;
 }
 .footer-badge:hover {
   opacity: 1;
