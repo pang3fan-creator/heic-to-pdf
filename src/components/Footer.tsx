@@ -54,6 +54,9 @@ export default function Footer() {
           <a href="https://submitaitools.org" target="_blank" rel="noopener noreferrer" className="footer-badge">
             <img src="https://submitaitools.org/static_submitaitools/images/submitaitools.png" alt="Submit AI Tools" style={{ borderRadius: 10, width: 200, height: 60 }} />
           </a>
+          <a href="https://aiagentsdirectory.com/agent/heicpdfto?utm_source=badge&utm_medium=referral&utm_campaign=free_listing&utm_content=heicpdfto" target="_blank" rel="noopener noreferrer" className="footer-badge">
+            <img src="https://aiagentsdirectory.com/featured-badge.svg?v=2024" alt="HEICPDF.TO - Featured AI Agent on AI Agents Directory" width="200" height="50" />
+          </a>
         </div>
       </div>
     </footer>
