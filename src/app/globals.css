@@ -1757,6 +1757,16 @@ a:hover {
   font-size: 13px;
   color: var(--muted);
 }
+.footer-badge {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+.footer-badge:hover {
+  opacity: 1;
+}
 
 /* ========== Not Found ========== */
 .not-found-section {

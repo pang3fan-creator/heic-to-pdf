@@ -47,6 +47,11 @@ export default function Footer() {
           <span>{t("copyright")}</span>
           <span>{t("tagline")}</span>
         </div>
+        <div className="footer-badge">
+          <a href="https://dang.ai/" target="_blank" rel="noopener noreferrer">
+            <img src="https://cdn.prod.website-files.com/63d8afd87da01fb58ea3fbcb/6487e2868c6c8f93b4828827_dang-badge.png" alt="Dang.ai" width="150" height="54" />
+          </a>
+        </div>
       </div>
     </footer>
   );
