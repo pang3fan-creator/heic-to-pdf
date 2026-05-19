@@ -32,7 +32,7 @@ export default function Navbar() {
 
   return (
     <nav className="navbar" role="navigation" aria-label="Main navigation">
-      <a href="/" className="navbar-brand" aria-label="Home">
+      <a href="/" className="navbar-brand" aria-label={t("ariaHome")}>
         <svg
           width="36"
           height="36"
@@ -106,7 +106,7 @@ export default function Navbar() {
         <button
           className="mobile-menu-btn"
           onClick={() => setMenuOpen((v) => !v)}
-          aria-label="Menu"
+          aria-label={t("ariaMenu")}
         >
           ☰
         </button>

@@ -1,0 +1,406 @@
+{
+  "org": {
+    "description": "Convertisseur HEIC en PDF gratuit. Tout le traitement s'effectue localement dans votre navigateur — aucun téléchargement, confidentialité totale."
+  },
+  "layout": {
+    "title": "Convertissez HEIC en PDF — rapide et privé | HEICPDF.TO",
+    "description": "Convertissez vos photos HEIC en PDF avec notre outil gratuit et sécurisé. Conversion HEIC en PDF en haute qualité, traitement par lot jusqu'à 20 images.",
+    "ogImageAlt": "HEICPDF.TO — Convertissez vos HEIC en PDF gratuitement"
+  },
+  "dropOverlay": {
+    "title": "Déposez vos images ici",
+    "subtitle": "Relâchez pour convertir vos HEIC en PDF"
+  },
+  "nav": {
+    "brand": "HEICPDF.TO",
+    "ariaHome": "Accueil",
+    "ariaMenu": "Menu",
+    "links": [
+      {
+        "label": "Accueil",
+        "href": "/"
+      },
+      {
+        "label": "Confidentialité",
+        "href": "/privacy"
+      },
+      {
+        "label": "CGU",
+        "href": "/terms"
+      }
+    ],
+    "themeToggle": "Passer en mode clair",
+    "breadcrumbHome": "Accueil",
+    "breadcrumbBlog": "Blog"
+  },
+  "footer": {
+    "brand": "HEICPDF.TO",
+    "description": "Un outil en ligne gratuit qui convertit HEIC en PDF directement dans votre navigateur. Aucun téléchargement, aucune atteinte à la vie privée.",
+    "columns": [
+      {
+        "title": "Outils",
+        "links": [
+          {
+            "label": "Accueil",
+            "href": "/"
+          }
+        ]
+      },
+      {
+        "title": "Assistance",
+        "links": [
+          {
+            "label": "Nous contacter",
+            "href": "mailto:support@heicpdf.to"
+          },
+          {
+            "label": "Politique de confidentialité",
+            "href": "/privacy"
+          },
+          {
+            "label": "Conditions d'utilisation",
+            "href": "/terms"
+          }
+        ]
+      }
+    ],
+    "copyright": "© 2026 HEICPDF.TO. Tous droits réservés.",
+    "tagline": "Conversion HEIC en PDF — traitement local, votre vie privée respectée"
+  },
+  "privacy": {
+    "pageTitle": "Politique de confidentialité",
+    "pageDescription": "Politique de confidentialité du convertisseur HEIC en PDF HEICPDF.TO. Vos fichiers sont traités dans votre navigateur, aucun téléchargement.",
+    "backToTop": "↑ Retour en haut",
+    "lastUpdated": "Dernière mise à jour : 17 mai 2026",
+    "sections": [
+      {
+        "id": "introduction",
+        "heading": "1. Introduction",
+        "body": "<p>HEICPDF.TO (&laquo;&nbsp;nous&nbsp;&raquo; ou &laquo;&nbsp;notre&nbsp;&raquo;) exploite le site web <strong>heicpdf.to</strong> (le &laquo;&nbsp;Service&nbsp;&raquo;). Cette page explique comment le Service gère les informations lorsque vous l&rsquo;utilisez.</p><p>Nous prenons votre vie privée très au sérieux. Cet outil est conçu autour d&rsquo;un principe fondamental : <strong>vos fichiers ne quittent jamais votre appareil</strong>. Toute conversion HEIC en PDF est effectuée entièrement dans votre navigateur via WebAssembly — aucune image n&rsquo;est téléchargée vers un serveur, et nous n&rsquo;avons aucun moyen d&rsquo;accéder, de stocker ou de partager vos fichiers.</p><p>Le Service n&rsquo;utilise pas de publicité, d&rsquo;analytique, de scripts de suivi ou de cookies de traçage. Certains stockages navigateur sont utilisés uniquement pour des fonctionnalités que vous choisissez, comme la sauvegarde de votre préférence de thème ou la connexion à un stockage cloud.</p><div class=\"emph-box\"><strong>En termes simples :</strong> Nous traitons les fichiers dans votre navigateur, pas sur nos serveurs. Nous ne voyons pas vos photos, nous ne vous traquons pas, et nous ne vendons pas vos données.</div>"
+      },
+      {
+        "id": "data-collection",
+        "heading": "2. Informations que nous collectons",
+        "body": "<p>Nous collectons le moins d&rsquo;informations possible. Le tableau ci-dessous décrit les catégories de données que le Service peut traiter :</p><table class=\"data-table\"><thead><tr><th>Catégorie</th><th>Ce que nous traitons</th><th>Objectif</th></tr></thead><tbody><tr><td>Données des fichiers</td><td><strong>Aucune collecte.</strong> Vos photos HEIC sont traitées localement dans votre navigateur. Nous ne recevons, ne transmettons et ne stockons jamais vos fichiers image.</td><td>Vos fichiers restent sur votre appareil en permanence</td></tr><tr><td>Préférence de thème</td><td>Votre préférence de mode sombre/clair, stockée dans le <code>localStorage</code> de votre navigateur.</td><td>Fonctionnalité — conserve votre thème préféré entre les visites</td></tr><tr><td>Données d&rsquo;autorisation de stockage cloud</td><td>Si vous choisissez de connecter Dropbox ou Google Drive, l&rsquo;état OAuth, le vérificateur de code, le jeton d&rsquo;accès, le jeton d&rsquo;actualisation et la date d&rsquo;expiration peuvent être stockés dans le <code>localStorage</code> de votre navigateur. Google Picker peut également utiliser le <code>sessionStorage</code> pour mémoriser un flux d&rsquo;autorisation en cours.</td><td>Fonctionnalité — vous permet d&rsquo;importer ou d&rsquo;enregistrer vers le service cloud de votre choix</td></tr></tbody></table><p>Nous ne collectons <strong>pas</strong> : votre nom, adresse e-mail, numéro de téléphone, adresse postale, informations de paiement, analytique d&rsquo;utilisation, identifiants publicitaires ou identifiants de suivi. Nous n&rsquo;utilisons pas de techniques d&rsquo;empreinte numérique, ne vous suivons pas sur des sites tiers et ne vendons pas vos données.</p>"
+      },
+      {
+        "id": "local-processing",
+        "heading": "3. Traitement local — vos fichiers restent privés",
+        "body": "<p>C&rsquo;est la partie la plus importante de cette politique. Chaque conversion HEIC en PDF effectuée sur notre site se déroule <strong>entièrement dans votre navigateur</strong>. Vos photos :</p><ul><li><strong>Ne sont jamais téléchargées</strong> vers un serveur — ni le nôtre, ni celui d&rsquo;un tiers.</li><li><strong>Ne sont jamais stockées</strong> dans nos bases de données, journaux ou caches.</li><li><strong>Ne sont jamais transmises</strong> sur le réseau. Le moteur de conversion (décodage HEIC + génération PDF) fonctionne comme un binaire WebAssembly dans l&rsquo;onglet de votre navigateur.</li><li><strong>Restent sur votre appareil</strong> jusqu&rsquo;à ce que vous choisissiez de télécharger le résultat ou de fermer l&rsquo;onglet.</li></ul><p>Une fois que vous fermez l&rsquo;onglet du navigateur, <strong>toutes les données traitées sont supprimées</strong>. Nous n&rsquo;avons aucun mécanisme pour récupérer, restaurer ou accéder à un fichier que vous convertissez. Cette architecture est délibérée : elle élimine le risque de confidentialité le plus courant dans les services de conversion de fichiers.</p><div class=\"emph-box\"><strong>Note d&rsquo;architecture :</strong> Notre décodeur WebAssembly HEIC a été compilé à partir de la bibliothèque open-source <em>libheif</em>. Le PDF est généré côté client à l&rsquo;aide d&rsquo;une bibliothèque JavaScript légère. Aucun chemin d&rsquo;exfiltration de données n&rsquo;existe dans le code de l&rsquo;application.</div>"
+      },
+      {
+        "id": "analytics",
+        "heading": "4. Analytique et suivi d&rsquo;utilisation",
+        "body": "<p>Nous n&rsquo;utilisons <strong>pas</strong> de services d&rsquo;analytique, de scripts de suivi, de cookies ou toute forme de surveillance de l&rsquo;utilisation sur notre site web. Nous n&rsquo;utilisons pas Google Analytics, Facebook Pixel, Plausible ou tout autre fournisseur d&rsquo;analytique.</p><p>Nous avons conçu le Service pour fonctionner sans collecter d&rsquo;informations sur la façon dont vous l&rsquo;utilisez. Les seules données traitées sont la conversion HEIC en PDF elle-même, qui s&rsquo;effectue entièrement dans votre navigateur via WebAssembly — aucune donnée n&rsquo;est transmise à un serveur.</p>"
+      },
+      {
+        "id": "cookies",
+        "heading": "5. Cookies et stockage local",
+        "body": "<p>Nous ne définissons ni ne lisons de cookies pour l&rsquo;analytique, la publicité, le suivi ou les préférences de thème.</p><p>Le Service utilise un stockage navigateur limité pour la fonctionnalité :</p><table class=\"data-table\"><thead><tr><th>Stockage</th><th>Objectif</th><th>Durée</th></tr></thead><tbody><tr><td><code>localStorage: theme</code></td><td>Stocke votre préférence de mode sombre/clair pour qu&rsquo;elle persiste entre les visites</td><td>Jusqu&rsquo;à ce que vous changiez de thème ou effaciez les données du navigateur</td></tr><tr><td><code>localStorage: valeurs OAuth cloud</code></td><td>Stocke les données d&rsquo;autorisation uniquement lorsque vous choisissez de connecter Dropbox ou Google Drive</td><td>Jusqu&rsquo;à ce que vous vous déconnectiez, que le jeton expire ou que vous effaciez les données du navigateur</td></tr><tr><td><code>sessionStorage: google_picker_pending</code></td><td>Mémorise un flux d&rsquo;autorisation Google Picker en cours</td><td>Session de navigateur actuelle</td></tr></tbody></table><p>Vous pouvez effacer ce stockage navigateur dans les paramètres de votre navigateur. Le convertisseur continuera de fonctionner, bien que la persistance du thème et les fonctionnalités de stockage cloud connecté puissent nécessiter une nouvelle configuration.</p><p>Nous n&rsquo;utilisons pas de cookies de suivi, de cookies publicitaires, de cookies d&rsquo;analytique ou de cookies tiers.</p>"
+      },
+      {
+        "id": "third-party",
+        "heading": "6. Services tiers",
+        "body": "<p>Le Service n&rsquo;intègre aucun service tiers d&rsquo;analytique, de publicité ou de collecte de données. Toute conversion HEIC en PDF est traitée entièrement dans votre navigateur à l&rsquo;aide de bibliothèques WebAssembly open-source (libheif) et de JavaScript côté client (pdf-lib, JSZip).</p><p>Lorsque vous choisissez d&rsquo;importer ou d&rsquo;enregistrer des fichiers vers un stockage cloud (Dropbox, Google Drive), ces services sont accessibles directement depuis votre navigateur via leurs SDK ou API officiels, sous réserve de leurs politiques de confidentialité respectives. Ces ressources tierces ne sont chargées que lorsque vous choisissez d&rsquo;utiliser la fonctionnalité de stockage cloud correspondante. Nous ne recevons, ne stockons et ne traitons pas vos identifiants de stockage cloud ou vos fichiers sur nos serveurs.</p>"
+      },
+      {
+        "id": "data-retention",
+        "heading": "7. Conservation des données",
+        "body": "<p>Étant donné que le Service ne télécharge ni ne stocke vos fichiers, il n&rsquo;y a rien à conserver de notre côté pour la conversion de fichiers. Le stockage navigateur décrit dans la section 5 reste sur votre appareil jusqu&rsquo;à ce que vous le supprimiez, modifiiez le paramètre correspondant, déconnectiez le service cloud concerné ou effaciez les données du navigateur.</p><p>Nous ne conservons pas de profils d&rsquo;analytique, d&rsquo;identifiants publicitaires ou d&rsquo;identifiants de suivi car nous ne les collectons pas.</p>"
+      },
+      {
+        "id": "your-rights",
+        "heading": "8. Vos droits (RGPD &amp; CCPA)",
+        "body": "<p>Si vous résidez dans l&rsquo;Espace économique européen (EEE), au Royaume-Uni, en Californie ou dans une autre juridiction offrant des droits à la vie privée, vous pouvez bénéficier de droits en vertu de la législation applicable sur la protection des données.</p><h3>Droit d&rsquo;accès</h3><p>Vous pouvez demander une copie des données personnelles que nous détenons à votre sujet. Étant donné que les fichiers sont traités localement et que le Service ne crée pas de comptes utilisateur, de profils d&rsquo;analytique ou de profils de suivi, nous ne détenons généralement pas de données personnelles vous identifiant.</p><h3>Droit de rectification</h3><p>Vous avez le droit de faire corriger des données personnelles inexactes. Comme nous ne maintenons pas de comptes utilisateur ou de profils, il y a peu de données personnelles à corriger — mais si vous estimez que des données que nous détenons sont inexactes, nous enquêterons et les corrigerons rapidement.</p><h3>Droit à l&rsquo;effacement (&laquo;&nbsp;droit à l&rsquo;oubli&nbsp;&raquo;)</h3><p>Vous pouvez demander la suppression de vos données personnelles. Le stockage navigateur décrit dans la section 5 est stocké sur votre appareil et peut être effacé depuis les paramètres de votre navigateur. Si vous nous contactez au sujet de données détenues par nous, nous examinerons et répondrons dans les délais requis par la loi applicable.</p><h3>Droit à la limitation du traitement</h3><p>Vous pouvez demander que nous limitions le traitement de vos données personnelles. Le Service ne s&rsquo;engage pas dans le profilage, la publicité comportementale ou la prise de décision automatisée.</p><h3>Droit à la portabilité des données</h3><p>Vous avez le droit de recevoir les données personnelles que vous avez fournies dans un format structuré et couramment utilisé, le cas échéant. Contactez-nous pour exercer ce droit.</p><h3>CCPA — Résidents californiens</h3><p>En vertu du California Consumer Privacy Act (CCPA), les résidents californiens peuvent avoir des droits supplémentaires pour :</p><ul><li><strong>Connaître</strong> quelles informations personnelles sont collectées, utilisées, partagées ou vendues.</li><li><strong>Refuser</strong> la vente ou le partage d&rsquo;informations personnelles. Nous ne vendons <strong>pas</strong> et ne partageons pas d&rsquo;informations personnelles pour de la publicité comportementale cross-contexte.</li><li><strong>Non-discrimination</strong> — nous ne vous discriminerons pas pour avoir exercé vos droits à la vie privée.</li></ul><p>Pour exercer l&rsquo;un de ces droits, veuillez nous contacter. Nous répondrons dans les délais requis par la loi applicable.</p>"
+      },
+      {
+        "id": "security",
+        "heading": "9. Sécurité des données",
+        "body": "<p>Étant donné que vos fichiers ne quittent jamais votre appareil, le principal risque de sécurité — l&rsquo;interception de données lors du téléchargement ou la violation de fichiers côté serveur — est éliminé par conception. Pour le Service :</p><ul><li>Tout le trafic du site est servi via HTTPS.</li><li>La conversion de fichiers s&rsquo;effectue dans votre navigateur, pas sur nos serveurs.</li><li>L&rsquo;autorisation de stockage cloud s&rsquo;effectue via les flux OAuth de Dropbox ou Google Drive lorsque vous choisissez ces fonctionnalités.</li><li>Nous auditions régulièrement nos dépendances pour détecter les vulnérabilités connues.</li></ul><p>Aucun système de sécurité n&rsquo;est impénétrable. Cependant, notre architecture signifie que même en cas de compromission du serveur, un attaquant n&rsquo;aurait accès à <strong>aucun fichier utilisateur converti et à aucun compte utilisateur</strong>.</p>"
+      },
+      {
+        "id": "children",
+        "heading": "10. Confidentialité des enfants",
+        "body": "<p>Notre Service n&rsquo;est pas destiné aux personnes de moins de 13 ans (ou l&rsquo;âge équivalent de la majorité numérique dans votre juridiction). Nous ne collectons pas sciemment d&rsquo;informations personnelles auprès d&rsquo;enfants. Si vous avez connaissance qu&rsquo;un enfant nous a fourni des données personnelles, veuillez nous contacter — nous prendrons les mesures nécessaires pour supprimer ces informations dès que possible.</p>"
+      },
+      {
+        "id": "changes",
+        "heading": "11. Modifications de cette politique",
+        "body": "<p>Nous pouvons mettre à jour cette Politique de confidentialité de temps à autre. Le cas échéant, nous réviserons la date de &laquo;&nbsp;Dernière mise à jour&nbsp;&raquo; en haut de cette page. Les modifications importantes seront communiquées via un avis sur notre site web.</p><p>Nous vous encourageons à consulter périodiquement cette Politique de confidentialité pour prendre connaissance des éventuelles modifications. L&rsquo;utilisation continue du Service après l&rsquo;entrée en vigueur des modifications constitue votre acceptation de la politique mise à jour.</p>"
+      },
+      {
+        "id": "contact",
+        "heading": "12. Nous contacter",
+        "body": "<p>Si vous avez des questions, des préoccupations ou des demandes concernant cette Politique de confidentialité ou nos pratiques en matière de données, veuillez nous contacter à <a href=\"mailto:support@heicpdf.to\">support@heicpdf.to</a>.</p><p>Nous nous efforçons de répondre à toutes les demandes de renseignements sur la vie privée dans un délai de 48 heures et de résoudre tout problème dans un délai de 30 jours.</p><div class=\"emph-box\"><strong>Résumé :</strong> Nous avons conçu HEICPDF.TO pour que vous n&rsquo;ayez jamais à nous faire confiance avec vos fichiers. Le traitement s&rsquo;effectue dans votre navigateur. Rien n&rsquo;est téléchargé. Rien n&rsquo;est stocké. Rien n&rsquo;est partagé. Ce n&rsquo;est pas une affirmation marketing — c&rsquo;est une garantie architecturale.</div>"
+      }
+    ]
+  },
+  "terms": {
+    "pageTitle": "Conditions d'utilisation",
+    "pageDescription": "Conditions d'utilisation du convertisseur HEIC en PDF HEICPDF.TO. Découvrez les règles régissant votre utilisation de notre outil en ligne gratuit.",
+    "backToTop": "↑ Retour en haut",
+    "lastUpdated": "Dernière mise à jour : 11 mai 2026",
+    "sections": [
+      {
+        "id": "overview",
+        "heading": "1. Présentation du service",
+        "body": "<p>HEICPDF.TO (accessible à l&rsquo;adresse <strong>heicpdf.to</strong>) est un outil en ligne gratuit qui convertit les photos HEIC/HEIF au format PDF. Le Service est fourni &laquo;&nbsp;en l&rsquo;état&nbsp;&raquo; et est destiné à un usage personnel et non commercial, sauf autorisation contraire.</p><p>Tout traitement de fichier est effectué <strong>entièrement dans votre navigateur</strong> via la technologie WebAssembly. Aucune image, document ou fichier que vous utilisez avec le Service n&rsquo;est téléchargé sur nos serveurs, transmis sur le réseau ou stocké par nos soins. Le Service ne nécessite ni inscription ni création de compte.</p><p>En accédant ou en utilisant le Service, vous acceptez d&rsquo;être lié par les présentes Conditions. Si vous n&rsquo;acceptez pas ces Conditions, veuillez ne pas utiliser le Service.</p><div class=\"emph-box\"><strong>Note d&rsquo;architecture :</strong> Étant donné que toute conversion s&rsquo;effectue localement dans votre navigateur, nous n&rsquo;avons jamais accès à vos photos. Ce choix architectural façonne plusieurs des Conditions ci-dessous — nous ne pouvons tout simplement pas accéder, modifier ou supprimer des fichiers qui ne quittent jamais votre appareil.</div>"
+      },
+      {
+        "id": "eligibility",
+        "heading": "2. Éligibilité de l'utilisateur",
+        "body": "<p>En utilisant le Service, vous déclarez et garantissez que :</p><ul><li>Vous avez au moins 13 ans (ou l&rsquo;âge équivalent du consentement numérique dans votre juridiction).</li><li>Vous avez la capacité juridique de conclure les présentes Conditions.</li><li>Vous ne résidez pas dans un pays faisant l&rsquo;objet d&rsquo;un embargo du gouvernement américain ou désigné comme pays &laquo;&nbsp;soutenant le terrorisme&nbsp;&raquo;.</li><li>Vous ne figurez sur aucune liste du gouvernement américain de parties prohibées ou restreintes.</li></ul><p>Si vous utilisez le Service au nom d&rsquo;une organisation, vous déclarez et garantissez que vous avez l&rsquo;autorité de lier cette organisation aux présentes Conditions.</p>"
+      },
+      {
+        "id": "responsibilities",
+        "heading": "3. Responsabilités de l'utilisateur",
+        "body": "<p>Vous acceptez d&rsquo;utiliser le Service uniquement à des fins licites et conformément aux présentes Conditions. Vous acceptez de ne pas :</p><ul><li>Utiliser le Service pour convertir, stocker ou distribuer du contenu illégal, contrefait ou nuisible.</li><li>Tenter de faire de la rétro-ingénierie, de décompiler ou d&rsquo;extraire le code source du moteur de conversion WebAssembly ou de toute bibliothèque côté client.</li><li>Interférer avec ou perturber le fonctionnement du Service, notamment en soumettant un nombre excessif de demandes de conversion dans le but de dégrader les performances.</li><li>Utiliser des scripts automatisés, des robots ou des extracteurs pour interagir avec le Service.</li><li>Falsifier l&rsquo;origine des fichiers traités via le Service ou prétendre à un endorsement de notre part sans autorisation.</li></ul><p>Vous êtes seul responsable du contenu des fichiers que vous traitez via le Service et de vous assurer que votre utilisation est conforme à toutes les lois et réglementations applicables.</p>"
+      },
+      {
+        "id": "intellectual-property",
+        "heading": "4. Propriété intellectuelle",
+        "body": "<h3>Notre propriété intellectuelle</h3><p>Le Service, y compris son code, son design, sa marque, ainsi que le nom et le logo HEICPDF.TO, nous appartiennent ou appartiennent à nos concédants de licence et sont protégés par les lois sur le droit d&rsquo;auteur, les marques commerciales et autres lois sur la propriété intellectuelle. Vous ne pouvez pas reproduire, modifier, distribuer ou créer des œuvres dérivées du Service ou de toute partie de celui-ci sans notre autorisation écrite expresse.</p><h3>Votre propriété intellectuelle</h3><p>Vous conservez tous les droits sur les fichiers, images ou documents que vous traitez via le Service. Étant donné que les fichiers sont traités entièrement dans votre navigateur et jamais transmis à nos serveurs, nous ne revendiquons aucune propriété sur le contenu que vous convertissez, ni n&rsquo;y avons accès. Vos fichiers restent votre propriété à tout moment.</p><h3>Open Source</h3><p>Certains composants du Service sont des logiciels open source. Le moteur de décodage HEIC est basé sur <em>libheif</em>, une bibliothèque open source publiée sous licence LGPL. La génération PDF utilise <em>pdf-lib</em>, publié sous licence MIT. L&rsquo;utilisation de ces bibliothèques est régie par leurs licences respectives.</p>"
+      },
+      {
+        "id": "disclaimer",
+        "heading": "5. Clause de non-responsabilité",
+        "body": "<p>LE SERVICE EST FOURNI &laquo;&nbsp;EN L&rsquo;ÉTAT&nbsp;&raquo; ET &laquo;&nbsp;SELON LA DISPONIBILITÉ&nbsp;&raquo; SANS AUCUNE GARANTIE D&rsquo;AUCUNE SORTE, EXPRESSE OU IMPLICITE, Y COMPRIS MAIS SANS S&rsquo;Y LIMITER LES GARANTIES IMPLICITES DE QUALITÉ MARCHANDE, D&rsquo;ADAPTATION À UN USAGE PARTICULIER ET D&rsquo;ABSENCE DE CONTREFAÇON.</p><p>NOUS NE GARANTISSONS PAS QUE :</p><ul><li>Le Service répondra à vos exigences ou attentes spécifiques.</li><li>Le Service sera ininterrompu, opportun, sécurisé ou exempt d&rsquo;erreurs.</li><li>Les résultats obtenus par l&rsquo;utilisation du Service seront exacts, fiables ou adaptés à votre usage prévu.</li><li>Les erreurs ou défauts du Service seront corrigés.</li></ul><p>Aucun conseil ou information obtenu par vous auprès de nous ou via le Service ne créera une garantie non expressément énoncée dans les présentes Conditions.</p>"
+      },
+      {
+        "id": "liability",
+        "heading": "6. Limitation de responsabilité",
+        "body": "<p>DANS TOUTE LA MESURE PERMISE PAR LA LOI APPLICABLE, EN AUCUN CAS NOUS NE SERONS RESPONSABLES DES DOMMAGES INDIRECTS, ACCESSOIRES, SPÉCIAUX, CONSÉCUTIFS OU PUNITIFS DÉCOULANT DE OU LIÉS À VOTRE UTILISATION DU SERVICE. CECI INCLUT, SANS LIMITATION, LES DOMMAGES POUR PERTE DE PROFITS, CLIENTÈLE, DONNÉES OU AUTRES PERTES IMMATÉRIELLES.</p><p>NOTRE RESPONSABILITÉ TOTALE ENVERS VOUS POUR TOUTE RÉCLAMATION DÉCOULANT DES PRÉSENTES CONDITIONS OU DE VOTRE UTILISATION DU SERVICE NE DÉPASSERA PAS LE MONTANT QUE VOUS AVEZ PAYÉ POUR UTILISER LE SERVICE (SOIT ZÉRO — LE SERVICE EST GRATUIT) OU, SI AUCUN MONTANT N&rsquo;A ÉTÉ PAYÉ, DIX DOLLARS AMÉRICAINS (10,00 $).</p><p>ÉTANT DONNÉ QUE LE SERVICE TRAITE LES FICHIERS LOCALEMENT DANS VOTRE NAVIGATEUR ET QUE NOUS N&rsquo;AVONS PAS ACCÈS À VOS DONNÉES, NOUS NE POUVONS ÊTRE TENUS RESPONSABLES EN CAS DE PERTE, CORRUPTION OU ACCÈS NON AUTORISÉ DE DONNÉES RÉSULTANT DE VOTRE UTILISATION DU SERVICE. VOUS ÊTES RESPONSABLE DE LA CONSERVATION DE SAUVEGARDES DE VOS FICHIERS ORIGINAUX.</p>"
+      },
+      {
+        "id": "governing-law",
+        "heading": "7. Droit applicable",
+        "body": "<p>Les présentes Conditions sont régies et interprétées conformément aux lois de l&rsquo;État de Californie, États-Unis, sans égard à ses dispositions relatives aux conflits de lois. Toute action ou procédure judiciaire découlant des présentes Conditions ou du Service sera portée exclusivement devant les tribunaux fédéraux ou d&rsquo;État situés dans le comté de San Francisco, Californie.</p><p>Si vous accédez au Service depuis l&rsquo;extérieur des États-Unis, vous le faites de votre propre initiative et êtes responsable du respect des lois locales.</p><p>Le fait de ne pas appliquer un droit ou une disposition des présentes Conditions ne constitue pas une renonciation à ce droit ou à cette disposition. Si une disposition des présentes Conditions est jugée inapplicable ou invalide, cette disposition sera limitée ou éliminée dans la mesure minimale nécessaire pour que les autres dispositions restent en pleine vigueur et effet.</p>"
+      },
+      {
+        "id": "contact",
+        "heading": "8. Contact",
+        "body": "<p>Si vous avez des questions, des préoccupations ou des demandes concernant les présentes Conditions, veuillez nous contacter à <a href=\"mailto:support@heicpdf.to\">support@heicpdf.to</a>.</p><p>Nous nous efforçons de répondre à toutes les demandes dans un délai de 48 heures.</p>"
+      }
+    ]
+  },
+  "hero": {
+    "title": "Convertissez vos photos HEIC en PDF",
+    "schemaDescription": "Convertissez facilement vos photos Apple HEIC en PDF de haute qualité. Aucune inscription requise. Conversion par lot, import Dropbox et Google Drive. Confidentialité garantie à 100 %.",
+    "features": [
+      "Conversion HEIC en PDF",
+      "Conversion HEIC en PDF par lot jusqu'à 20 images",
+      "Import depuis Dropbox & Google Drive",
+      "Réorganisation et personnalisation des pages",
+      "100 % local, dans votre navigateur"
+    ],
+    "dropzone": {
+      "title": "Glissez-déposez vos photos HEIC ici",
+      "subtitle": "ou cliquez sur le bouton ci-dessous pour parcourir vos fichiers",
+      "hint": "Conversion HEIC en PDF par lot · Jusqu'à 20 images · 50 Mo max par fichier",
+      "browseBtn": "SÉLECTIONNER DES FICHIERS HEIC",
+      "fromDevice": "Appareil",
+      "fromDropbox": "Dropbox",
+      "fromGoogleDrive": "Google Drive",
+      "privacy": "Vos fichiers sont traités dans votre navigateur — nous ne les voyons jamais"
+    },
+    "converting": "Conversion en cours…"
+  },
+  "editor": {
+    "back": "Retour",
+    "addPhotos": "Ajouter des photos",
+    "fromDevice": "Appareil",
+    "fromDropbox": "Dropbox",
+    "fromGoogleDrive": "Google Drive",
+    "convertBtn": "Convertir vos HEIC en PDF",
+    "sortLabel": "Trier",
+    "sortDefault": "Ordre par défaut",
+    "sortAsc": "Trier par ordre croissant",
+    "sortDesc": "Trier par ordre décroissant",
+    "sizeLabel": "Taille",
+    "sizeIncrease": "Agrandir les vignettes",
+    "sizeDrag": "Faites glisser pour redimensionner",
+    "sizeDecrease": "Réduire les vignettes",
+    "rotateImage": "Faire pivoter l'image",
+    "rotateLeft": "Pivoter de 90° à gauche",
+    "rotateRight": "Pivoter de 90° à droite",
+    "sidebar": {
+      "pageSetup": "Configuration de la page",
+      "paperSize": "Format",
+      "orientation": "Orientation",
+      "margin": "Marges",
+      "paperSizeOriginal": "Original",
+      "paperSizeA4": "A4",
+      "paperSizeLetter": "Lettre US",
+      "orientationAuto": "Auto",
+      "orientationAutoLong": "Auto (selon l'original)",
+      "orientationPortrait": "Portrait",
+      "orientationLandscape": "Paysage",
+      "marginNone": "Aucune",
+      "marginNoneLong": "Aucune (0 mm)",
+      "marginNarrow": "Petite",
+      "marginNarrowLong": "Étroite (6 mm)",
+      "marginNormal": "Normale",
+      "marginNormalLong": "Normale (12 mm)",
+      "marginWide": "Large (24 mm)",
+      "quality": "Qualité de sortie",
+      "qualityLossless": "Sans perte",
+      "qualityLosslessDesc": "Meilleure qualité, fichier plus volumineux",
+      "qualityHigh": "Haute",
+      "qualityHighDesc": "Haute qualité",
+      "qualityBalanced": "Équilibrée",
+      "qualityBalancedDesc": "Recommandé",
+      "qualitySmall": "Petite",
+      "qualitySmallDesc": "Fichier plus léger",
+      "merge": "Fusionner les PDF",
+      "mergeOn": "Combiné",
+      "mergeOff": "Séparé"
+    },
+    "fileCount": "{count} fichier{count, plural, one {} other {s}} sélectionné{count, plural, one {} other {s}}",
+    "fileCountZip": "{count} fichier{count, plural, one {} other {s}} → {count} PDF{count, plural, one {} other {s}} dans .zip",
+    "complete": {
+      "title": "Conversion terminée !",
+      "download": "Télécharger",
+      "toDevice": "Appareil",
+      "toDropbox": "Dropbox",
+      "toGoogleDrive": "Google Drive",
+      "startOver": "← Recommencer",
+      "skipped": "Ignoré",
+      "cloudAuthorizing": "Autorisation {provider}…",
+      "cloudSaved": "✓ Enregistré sur {provider} !",
+      "cloudFailed": "✕ Échec de l'enregistrement sur {provider}"
+    },
+    "empty": "Sélectionnez vos photos HEIC pour commencer",
+    "preview": {
+      "close": "Fermer l'aperçu",
+      "decoding": "Décodage de l'image…",
+      "pageOf": "{current} / {total}",
+      "prev": "Image précédente",
+      "next": "Image suivante"
+    }
+  },
+  "converter": {
+    "button": {
+      "cancel": "Annuler"
+    },
+    "progress": {
+      "fileOfTotal": "Photo {current} sur {total}",
+      "moreFiles": "+{count} supplément{count, plural, one {} other {s}}"
+    },
+    "error": {
+      "title": "Échec de la conversion",
+      "detail": "Veuillez réessayer ou utiliser un autre navigateur",
+      "back": "← Retour",
+      "retry": "↻ Réessayer"
+    }
+  },
+  "howto": {
+    "title": "Convertissez vos HEIC en PDF en quatre étapes",
+    "description": "Pas d'inscription, pas d'installation, pas d'envoi de fichiers — votre conversion HEIC en PDF s'effectue entièrement dans votre navigateur",
+    "steps": [
+      {
+        "num": 1,
+        "title": "Sélectionnez vos photos",
+        "desc": "Choisissez les photos HEIC à convertir depuis votre iPhone ou votre ordinateur. La sélection multiple et le glisser-déposer par lots sont pris en charge. Vous pouvez également importer des fichiers directement depuis Dropbox ou Google Drive si vos photos y sont déjà sauvegardées. Convertir des HEIC en PDF est aussi simple que de glisser des fichiers sur la page."
+      },
+      {
+        "num": 2,
+        "title": "Organisez & personnalisez",
+        "desc": "Réordonnez vos photos HEIC, choisissez le format de papier et les marges, puis ajustez chaque page avant la conversion. L'aperçu en direct montre exactement à quoi ressemblera votre PDF avant l'exportation, vous donnant un contrôle total sur le résultat final de votre conversion HEIC en PDF."
+      },
+      {
+        "num": 3,
+        "title": "Exportez en PDF",
+        "desc": "Cliquez sur Convertir pour transformer vos fichiers HEIC en PDF. Prévisualisez le résultat, puis téléchargez-le ou enregistrez-le directement sur votre stockage cloud. Comme la conversion HEIC en PDF s'exécute entièrement dans votre navigateur sans serveur, le processus entier ne prend que quelques secondes."
+      },
+      {
+        "num": 4,
+        "title": "Terminé",
+        "desc": "Votre conversion HEIC en PDF est terminée ! Vos photos originales restent intactes — aucune perte de qualité, aucune modification. Choisissez de télécharger un seul PDF fusionné ou de conserver chaque image dans un fichier séparé, selon l'usage que vous souhaitez en faire."
+      }
+    ]
+  },
+  "about": {
+    "title": "Pourquoi convertir ses HEIC en PDF ?",
+    "description": "Si vous possédez un iPhone, vous photographiez sans doute en HEIC sans y penser — c'est le format par défaut depuis iOS 11, et il économise beaucoup d'espace par rapport au JPEG. Selon Apple, les fichiers HEIC sont jusqu'à 50 % plus petits que les JPEG à qualité égale, ce qui vous permet de conserver des milliers de photos supplémentaires sur votre téléphone. Le problème ? Essayez d'en envoyer une à un ami sur Windows ou de l'ouvrir sur un téléphone Android — le fichier reste inaccessible. C'est exactement pour cela que la conversion HEIC en PDF est si pratique : le PDF est le format qui fait l'unanimité. Il s'ouvre partout, s'imprime partout, et fonctionne aussi bien sur PC, Mac, tablette que smartphone. Pas de problème de compatibilité, pas de messages d'erreur, pas de lutte avec des formats non pris en charge — un fichier qui fonctionne du premier coup.",
+    "reasons": [
+      "Windows et Android ne peuvent pas afficher les fichiers HEIC nativement — ils apparaissent comme des fichiers impossibles à ouvrir. Une simple conversion HEIC en PDF résout instantanément ce problème en rendant vos photos visibles sur n'importe quel PC, ordinateur portable ou téléphone. Pas de codecs, pas de logiciel spécial, pas de réglages compliqués. Prenez une photo avec votre iPhone et envoyez-la par e-mail à quelqu'un sur Windows : il pourra ouvrir le PDF immédiatement, sans explication.",
+      "Le PDF est l'un des formats les plus universels qui soient. Que ce soit sur un Mac, un Chromebook ou un vieux PC Windows, les PDF s'ouvrent sans difficulté. Pas besoin d'installer de décodeur HEIC ni de se soucier de la compatibilité — vos photos sont prêtes à être consultées sur n'importe quel appareil. Une conversion HEIC en PDF élimine la question de savoir si le destinataire pourra réellement ouvrir ce que vous lui envoyez, ce qui est particulièrement utile lorsque vous partagez avec des personnes moins à l'aise avec la technologie.",
+      "Besoin d'envoyer des photos par e-mail ou de les archiver ? Une conversion HEIC en PDF vous donne un fichier plus petit que l'original, plus facile à joindre et lisible par tous — aucune explication nécessaire. Idéal pour partager des lots de photos de vacances, transmettre des documents à des collègues, ou soumettre des images sur des sites qui n'acceptent pas le format HEIC. De nombreux services de messagerie imposent des limites de pièces jointes, et la conversion HEIC en PDF maintient chaque fichier bien en dessous de ces limites tout en préservant la qualité de l'image.",
+      "Vous avez tout un lot de photos HEIC d'un voyage ou d'un événement ? Convertissez-les en un seul PDF multi-pages plutôt que d'envoyer plusieurs fichiers. Un seul téléchargement, facile à partager et à imprimer. Vous pouvez également les conserver sous forme de PDF séparés si cela correspond mieux à votre flux de travail. Dans les deux cas, un seul passage de conversion HEIC en PDF traite tout d'un coup."
+    ],
+    "table": {
+      "headers": [
+        "Caractéristique",
+        "HEIC",
+        "JPEG",
+        "PDF"
+      ],
+      "rows": [
+        ["Compression", "Meilleure", "Bonne", "Réglable"],
+        ["Compatibilité", "Limitée", "Large", "Universelle"],
+        ["Multi-page", "✓", "✗", "✓"],
+        ["Retouches", "✓", "✓", "Limitée"],
+        ["Impression", "Limitée", "Limitée", "Maximale"],
+        ["Taille", "Petite", "Moyenne", "Moyenne"],
+        ["Partage", "Limité", "Bon", "Universel"],
+        ["Annotations", "✗", "✗", "✓"],
+        ["Standard", "Apple", "Courant", "ISO"]
+      ]
+    }
+  },
+  "faq": {
+    "title": "Questions fréquentes sur la conversion HEIC en PDF",
+    "description": "Tout ce que vous devez savoir sur la conversion HEIC en PDF et la compatibilité — mis à jour en mai 2026",
+    "items": [
+      {
+        "q": "Qu'est-ce que le format HEIC ?",
+        "a": "HEIC (High Efficiency Image Container) est le format d'image d'Apple — il est devenu le format par défaut sur les iPhone depuis iOS 11. Il réduit la taille des fichiers d'environ 50 % par rapport au JPEG à qualité égale, ce qui vous permet de stocker près de deux fois plus de photos sur votre téléphone. L'inconvénient ? Tous les appareils ne le gèrent pas correctement. C'est pourquoi la conversion HEIC en PDF est une solution si pratique : le PDF fonctionne partout, sans exception."
+      },
+      {
+        "q": "Comment convertir des HEIC en PDF ?",
+        "a": "Il vous suffit de glisser-déposer vos photos HEIC dans le convertisseur ci-dessus, ou de cliquer sur le bouton d'importation pour parcourir votre appareil. Vous pouvez également importer des fichiers depuis Dropbox ou Google Drive si vos photos y sont stockées. Réorganisez les pages dans l'éditeur comme vous le souhaitez — réordonnez les vignettes, choisissez le format de papier et les marges, puis ajustez la qualité. Ensuite, cliquez sur Convertir. Tout le processus de conversion HEIC en PDF s'exécute localement dans votre navigateur via WebAssembly : pas d'envoi de fichiers vers un serveur. Une fois terminé, téléchargez le PDF directement sur votre appareil ou enregistrez-le dans votre stockage cloud."
+      },
+      {
+        "q": "Où sont stockés mes fichiers ? Est-ce sûr ?",
+        "a": "Directement dans votre navigateur, sur votre propre appareil. L'intégralité de la conversion HEIC en PDF s'effectue localement via WebAssembly — vos photos sont décodées, traitées et transformées en PDF sans jamais quitter votre ordinateur. Nous n'avons aucun serveur qui reçoit vos fichiers et aucun moyen d'y accéder. Si vous décidez d'enregistrer le résultat sur Dropbox ou Google Drive, il s'agit d'un transfert direct de votre navigateur vers votre propre stockage cloud — nous ne voyons toujours pas les données. Une fois l'onglet fermé, tout disparaît."
+      },
+      {
+        "q": "Est-ce que la conversion par lot est prise en charge ?",
+        "a": "Oui. Vous pouvez glisser-déposer ou sélectionner jusqu'à 20 photos HEIC à la fois, et elles seront toutes traitées en une seule opération. Vous pouvez tout fusionner en un seul PDF multi-pages ou conserver chaque image dans son propre fichier séparé. Avant la conversion, vous pouvez réordonner les pages, choisir le format de papier et les marges, ajuster la qualité de sortie et prévisualiser l'apparence de chaque page. L'ensemble de la conversion par lot HEIC en PDF s'effectue localement dans votre navigateur, donc le traitement de 20 photos ne prend que quelques secondes au lieu de plusieurs minutes."
+      },
+      {
+        "q": "Pourquoi ne puis-je pas voir les photos HEIC sur Windows ?",
+        "a": "HEIC est un format Apple, donc Windows ne sait pas quoi en faire par défaut — pas de vignettes, pas d'aperçus. Microsoft propose bien une extension HEIF dans le Store, mais la solution la plus simple est une conversion rapide HEIC en PDF. Les PDF s'ouvrent sur n'importe quel appareil, à chaque fois, sans nécessiter de codecs ou d'extensions supplémentaires. C'est pourquoi la conversion HEIC en PDF est la solution de référence pour partager des photos entre différentes plateformes."
+      },
+      {
+        "q": "Pourquoi des outils comme PDF24 ne proposent-ils pas la conversion HEIC en PDF ?",
+        "a": "HEIC est basé sur une technologie de compression brevetée (HEVC/H.265), donc les services en ligne qui traitent les fichiers sur leurs serveurs doivent payer des droits de licence pour la prendre en charge. C'est pourquoi des convertisseurs reconnus comme PDF24 n'offrent pas la conversion HEIC en PDF — non pas parce que le format est rare, mais parce que les coûts de licence ne valent pas l'investissement pour eux. Nous fonctionnons différemment. Cet outil s'exécute entièrement dans votre navigateur, donc rien ne touche jamais un serveur. Pas de traitement côté serveur signifie pas de problème de licence. La conversion HEIC en PDF s'effectue localement sur votre machine, ce qui nous permet de prendre en charge HEIC sans les obstacles habituels — et vos fichiers ne quittent jamais votre appareil."
+      }
+    ]
+  },
+  "blog": {
+    "howToConvertHeicToPdf": {
+      "guideSection": {
+        "title": "Au-delà des bases",
+        "description": "Informations utiles sur la conversion HEIC en PDF : méthodes natives, qualité de sortie et astuces pour convertir vos HEIC en PDF",
+        "parts": [
+          {
+            "id": "native-options",
+            "heading": "Convertir sur macOS ou Windows",
+            "body": "<p>Tout le monde ne se tourne pas immédiatement vers un outil en ligne pour la conversion HEIC en PDF — et c'est compréhensible. Sur Mac, vous pouvez ouvrir une photo HEIC dans Aperçu et l'exporter en PDF (Fichier → Exporter au format… → PDF). Besoin d'en fusionner plusieurs en un seul PDF ? Ouvrez-les toutes dans Aperçu, sélectionnez les vignettes, puis allez dans Fichier → Imprimer → Enregistrer au format PDF. Cela fonctionne, mais pour plus de quelques photos, le processus devient vite fastidieux.</p><p>Sur Windows c'est plus compliqué. HEIC n'est pas pris en charge nativement, vous aurez besoin de l'extension HEIF Image Extension du Microsoft Store. Ensuite, vous pouvez voir les fichiers HEIC dans l'application Photos et imprimer chaque image au format PDF via Microsoft Print to PDF. Mais une par une — il n'y a pas de conversion HEIC en PDF par lot intégrée dans Windows.</p><p>C'est là qu'un outil dédié comme celui-ci prend tout son sens. Glissez vos fichiers dans ce convertisseur et ils sont traités ensemble en un seul lot. Vous pouvez les organiser, ajuster la mise en page et télécharger le résultat en moins d'une minute.</p>"
+          },
+          {
+            "id": "heic-vs-heif",
+            "heading": "HEIC vs HEIF — quelle est la différence ?",
+            "body": "<p>Vous avez peut-être vu le terme HEIF (High Efficiency Image File Format) en cherchant des outils de conversion HEIC en PDF. HEIC est en fait le nom qu'Apple donne à son implémentation du standard HEIF plus large. Considérez HEIF comme le format conteneur et HEIC comme la version Apple.</p><p>Pourquoi cela importe : HEIF n'est plus seulement utilisé par Apple. Les récents téléphones Android et certains appareils photo numériques prennent désormais également en charge le format HEIF par défaut. Ainsi, si vous recevez des fichiers de différentes sources, ils peuvent être étiquetés différemment — mais la conversion HEIC en PDF fonctionne exactement de la même manière.</p><p>Notre outil gère à la fois HEIC et HEIF sans aucune étape supplémentaire. Glissez-les, convertissez-les. Pas de configuration, pas de complication.</p>"
+          },
+          {
+            "id": "quality-options",
+            "heading": "Qualité et options de sortie",
+            "body": "<p>Lorsque vous convertissez des HEIC en PDF avec cet outil, vous n'êtes pas limité à un format unique. Avant la conversion, vous pouvez ajuster le format de papier (A4, Lettre ou conserver les dimensions d'origine), choisir les marges (de zéro à large) et sélectionner l'orientation portrait ou paysage. Un curseur de qualité vous permet de réduire à environ 70 % pour des fichiers adaptés aux e-mails, ou de rester à 100 % pour un archivage haute qualité.</p><p>Pour les lots, vous pouvez fusionner toutes les photos en un seul PDF multi-pages ou conserver chaque image dans son propre fichier. L'ordre des pages est entièrement personnalisable — faites simplement glisser les vignettes dans l'éditeur avant de lancer la conversion. Tout s'exécute localement, vous pouvez donc ajuster et recommencer autant de fois que nécessaire.</p>"
+          }
+        ]
+      }
+    }
+  }
+}

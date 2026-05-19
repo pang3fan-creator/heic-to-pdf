@@ -3,7 +3,7 @@
 ## 技术栈
 
 - **框架**: Next.js (App Router)
-- **国际化**: next-intl（当前仅 en）
+- **国际化**: next-intl（支持 en + fr，部分翻译回退机制）
 - **部署**: Vercel
 
 ## `Commands`
@@ -22,6 +22,7 @@ npm run test:watch   # 监听模式运行测试
 
 - `agent-browser` CLI 已安装（`~/.agent-browser/browsers` 含 Chrome）。UI 问题优先用 `agent-browser open <url>` + `agent-browser snapshot -i` + `agent-browser eval` 验证视觉效果而非推算
 - `npx playwright` 也可用（浏览器在 `~/Library/Caches/ms-playwright/`）
+- **预先存在的测试失败**：`src/app/[locale]/blog/how-to-convert-heic-to-pdf/page.test.tsx` 因 vitest 中 `next/navigation` 模块解析问题失败，非代码改动引起
 
 ## 项目结构
 
@@ -35,7 +36,11 @@ src/
 │   ├── PreviewModal.tsx       # 大图预览弹窗
 │   ├── DropZone.tsx           # idle+converting+complete 三态合一
 │   ├── GlobalDropOverlay.tsx  # 全局拖拽覆盖层
-│   └── HeroSection.tsx        # 首页主视觉
+│   ├── Navbar.tsx             # 顶部导航栏（含主题切换）
+│   ├── Footer.tsx             # 页脚（含语言切换器）
+│   ├── LanguageSwitcher.tsx   # 语言切换下拉菜单
+│   ├── Breadcrumb.tsx         # 面包屑导航
+│   └── __tests__/             # 组件单元测试
 ├── hooks/
 │   ├── useHeicConversion.ts   # 核心状态机（解码/转换/下载）
 │   └── __tests__/
@@ -62,6 +67,18 @@ src/
 ```
 
 ## 常见坑点
+
+### 多语言注意事项
+
+- **法语关键词**：统一使用 "HEIC en PDF"（月搜索 8100），不使用 "HEIC vers PDF"（590）或 "HEIC to PDF"
+- **部分翻译回退**：`request.ts` 中通过 deepMerge 将 fr.json 合并到 en.json，缺失 key 静默回退英文
+- **语言切换器**：`routing.ts` 需要 `createNavigation(routing)` 导出 `useRouter`/`usePathname`
+- **NEXT_LOCALE cookie**：next-intl 通过此 cookie 持久化用户语言选择，浏览器测试时需清除
+- **Meta description**：严格控制在 160 字符以内（SEO 要求）
+- **metadata 本地化**：`layout.tsx` 的 `generateMetadata` 中 title.default、description、openGraph、twitter 均需用 `getTranslations` 获取翻译，不可硬编码
+- **首页组件硬编码**：`GlobalDropOverlay.tsx`（Drop images anywhere）、`Navbar.tsx`（aria-label）、`Footer.tsx`（aria-label）可能有硬编码英文，需用翻译替换
+- **GuideSection**：首页的 GuideSection 使用 `blog.howToConvertHeicToPdf.guideSection` 命名空间，首页翻译时需额外覆盖此命名空间
+- **结构化数据**：隐私/条款等法律页面也需添加 WebPage + BreadcrumbList 的 JSON-LD
 
 ### next-intl 路由规则 (关键!)
 
@@ -104,8 +121,11 @@ src/
 ### `.next` 缓存损坏
 
 - 修改 Web Worker 或 pdf-lib 相关代码后，若出现 `MODULE_NOT_FOUND: vendor-chunks/pdf-lib.js`，需清除缓存
-- 修改布局/服务端组件后也可能触发，统一方案：`rm -rf .next/cache` 后重新 `npm run build`
-- 解决方案：`rm -rf .next/cache` 或 `rm -rf .next` 后重新 `npm run build`
+- 修改布局/服务端组件后也可能触发：`rm -rf .next/cache` 后重新 `npm run build`
+
+### favicon 404
+
+- `next.config.ts` 中通过 `async redirects()` 将 `/favicon.ico` 301 重定向到已有图标文件（如 `/favicon-32x32.png`）
 
 ### CSS 模式
 
@@ -184,11 +204,11 @@ src/
 
 - 每个路由使用 Metadata API 动态生成 TDK
 - 使用 `title.template` 自动追加品牌后缀：`title: { template: "%s | HEICPDF.TO", default: "..." }`
-- 结构化数据: WebApplication, FAQPage, HowTo
+- Meta title（含品牌后缀）应控制在 40-60 字符之间
 
 ### JSON-LD Schema 规范
 
-- **注入方式**：在 `[locale]/layout.tsx` 中用 `getTranslations` 服务端获取文本，通过 `<script type="application/ld+json">` + `dangerouslySetInnerHTML` 注入 `<head>`
+- **注入位置**：全局 Organization schema 在 `layout.tsx` 的 `<head>` 注入；页面级 schema（WebApplication/FAQPage/WebPage/BlogPosting）在各 `page.tsx` 的 `<main>` 前注入
 
 | 规范           | 说明                                              |
 | -------------- | ------------------------------------------------- |
@@ -196,8 +216,11 @@ src/
 | 日期格式       | ISO 8601 含时区 (`2026-03-16T00:00:00+00:00`)     |
 | 多语言支持     | Schema 文本从翻译文件获取，`inLanguage` 标识语言  |
 | @graph 模式    | 多 Schema 用 `@graph` 组织，配合 `@id` 引用       |
+| @graph 与 @context | `@context` 放在 `@graph` 外层 wrapper 上，graph 内条目不重复添加 |
 | BreadcrumbList | 只包含实际存在的页面，不支持 `inLanguage` 属性    |
 | SearchAction   | 仅当有实际搜索功能时添加                          |
+| 全局 Schema 本地化 | `layout.tsx` 的 Organization 需用 `getTranslations()` 动态获取描述，不能硬编码 |
+| isPartOf 引用检查 | 引用 `#website` 等 ID 前需确认该 ID 在全局 schema 中存在（当前仅 `#organization`） |
 
 ### hreflang 规范
 
@@ -207,6 +230,7 @@ src/
 ### sitemap 维护
 
 新增页面时需同步更新 `src/app/sitemap.ts` 的 `pages` 数组
+- sitemap 中每种语言版本的 URL 都需添加 `alternates.languages`（含 hreflang 标签），不只是默认语言
 
 ### Open Graph / Twitter Card
 

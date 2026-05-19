@@ -1,7 +1,9 @@
 import { useTranslations } from "next-intl";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Footer() {
   const t = useTranslations("footer");
+  const tnav = useTranslations("nav");
   const columns = t.raw("columns") as Array<{
     title: string;
     links: Array<{ label: string; href: string }>;
@@ -12,7 +14,7 @@ export default function Footer() {
       <div className="container">
         <div className="footer-grid">
           <div>
-            <a href="/" className="footer-brand" aria-label="Home">
+            <a href="/" className="footer-brand" aria-label={tnav("ariaHome")}>
               <svg
                 width="32"
                 height="32"
@@ -44,17 +46,20 @@ export default function Footer() {
           ))}
         </div>
         <div className="footer-bottom">
-          <span>{t("copyright")}</span>
+          <div className="footer-bottom-left">
+            <span>{t("copyright")}</span>
+            <LanguageSwitcher />
+          </div>
           <span>{t("tagline")}</span>
         </div>
         <div className="footer-badges">
-          <a href="https://dang.ai/" target="_blank" rel="noopener noreferrer" className="footer-badge">
+          <a href="https://dang.ai/" target="_blank" rel="noopener noreferrer nofollow" className="footer-badge">
             <img src="https://cdn.prod.website-files.com/63d8afd87da01fb58ea3fbcb/6487e2868c6c8f93b4828827_dang-badge.png" alt="Dang.ai" width="150" height="54" />
           </a>
-          <a href="https://submitaitools.org" target="_blank" rel="noopener noreferrer" className="footer-badge">
+          <a href="https://submitaitools.org" target="_blank" rel="noopener noreferrer nofollow" className="footer-badge">
             <img src="https://submitaitools.org/static_submitaitools/images/submitaitools.png" alt="Submit AI Tools" style={{ borderRadius: 10, width: 200, height: 60 }} />
           </a>
-          <a href="https://aiagentsdirectory.com/agent/heicpdfto?utm_source=badge&utm_medium=referral&utm_campaign=free_listing&utm_content=heicpdfto" target="_blank" rel="noopener noreferrer" className="footer-badge">
+          <a href="https://aiagentsdirectory.com/agent/heicpdfto?utm_source=badge&utm_medium=referral&utm_campaign=free_listing&utm_content=heicpdfto" target="_blank" rel="noopener noreferrer nofollow" className="footer-badge">
             <img src="https://aiagentsdirectory.com/featured-badge.svg?v=2024" alt="HEICPDF.TO - Featured AI Agent on AI Agents Directory" width="200" height="50" />
           </a>
         </div>

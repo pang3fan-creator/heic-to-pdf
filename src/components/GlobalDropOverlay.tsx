@@ -1,14 +1,14 @@
-// src/components/GlobalDropOverlay.tsx
-
 "use client";
 
 import { useCallback, useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 
 interface Props {
   onFilesDropped: (files: FileList | File[]) => void;
 }
 
 export default function GlobalDropOverlay({ onFilesDropped }: Props) {
+  const t = useTranslations("dropOverlay");
   const dragCounter = useRef(0);
   const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -73,8 +73,8 @@ export default function GlobalDropOverlay({ onFilesDropped }: Props) {
             <line x1="12" y1="37" x2="36" y2="37" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
           </svg>
         </div>
-        <h2>Drop images anywhere</h2>
-        <p>Release to start converting</p>
+        <h2>{t("title")}</h2>
+        <p>{t("subtitle")}</p>
       </div>
     </div>
   );

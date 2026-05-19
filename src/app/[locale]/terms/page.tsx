@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
@@ -28,6 +28,7 @@ export async function generateMetadata({
 }
 
 export default function TermsPage() {
+  const locale = useLocale();
   const t = useTranslations("terms");
   const tnav = useTranslations("nav");
   const sections = t.raw("sections") as Section[];
@@ -35,10 +36,47 @@ export default function TermsPage() {
     { label: tnav("breadcrumbHome"), href: "/" },
     { label: t("pageTitle") },
   ];
+  const { canonical } = buildAlternates(locale, "/terms");
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${canonical}#webpage`,
+        url: canonical,
+        name: t("pageTitle"),
+        description: t("pageDescription"),
+        inLanguage: locale,
+        breadcrumb: { "@id": `${canonical}#breadcrumb` },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${canonical}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: breadcrumbItems[0].label,
+            item: "https://heicpdf.to/",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: breadcrumbItems[1].label,
+          },
+        ],
+      },
+    ],
+  };
 
   return (
     <>
       <Navbar />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       <main>
         <section className="policy-header">
           <div className="container">
@@ -56,7 +94,7 @@ export default function TermsPage() {
               <div dangerouslySetInnerHTML={{ __html: section.body }} />
               {index === sections.length - 1 && (
                 <div style={{ textAlign: "center" }}>
-                  <a href="#top" className="back-to-top">↑ Back to top</a>
+                  <a href="#top" className="back-to-top">{t("backToTop")}</a>
                 </div>
               )}
             </div>

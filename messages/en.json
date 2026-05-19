@@ -1,6 +1,20 @@
 {
+  "org": {
+    "description": "Free online HEIC to PDF converter. All processing happens locally in your browser — no uploads, total privacy."
+  },
+  "layout": {
+    "title": "HEIC to PDF — Fast, Private & Free Online Tool | HEICPDF.TO",
+    "description": "Easily convert your Apple HEIC photos to high-quality PDF documents. No registration required. Supports batch, Dropbox & Google Drive. 100% privacy guaranteed.",
+    "ogImageAlt": "HEICPDF.TO — Convert HEIC to PDF Free Online"
+  },
+  "dropOverlay": {
+    "title": "Drop images anywhere",
+    "subtitle": "Release to start converting"
+  },
   "nav": {
     "brand": "HEICPDF.TO",
+    "ariaHome": "Home",
+    "ariaMenu": "Menu",
     "links": [
       {
         "label": "Home",
@@ -21,6 +35,7 @@
   },
   "hero": {
     "title": "Convert HEIC to PDF",
+    "schemaDescription": "Easily convert your Apple HEIC photos to high-quality PDF documents. No registration required. Supports batch, Dropbox & Google Drive. 100% privacy guaranteed.",
     "features": [
       "Convert HEIC to PDF",
       "Batch conversion up to 20 images",
@@ -41,7 +56,6 @@
     "converting": "Converting…"
   },
   "editor": {
-    "title": "Arrange & convert",
     "back": "Back",
     "addPhotos": "Add photos",
     "fromDevice": "Device",
@@ -56,17 +70,27 @@
     "sizeIncrease": "Enlarge thumbnails",
     "sizeDrag": "Drag to resize thumbnails",
     "sizeDecrease": "Shrink thumbnails",
+    "rotateImage": "Rotate image",
+    "rotateLeft": "Rotate left 90 degrees",
+    "rotateRight": "Rotate right 90 degrees",
     "sidebar": {
       "pageSetup": "Page setup",
       "paperSize": "Size",
       "orientation": "Orientation",
       "margin": "Margin",
+      "paperSizeOriginal": "Original",
+      "paperSizeA4": "A4",
+      "paperSizeLetter": "US Letter",
+      "orientationAuto": "Auto",
+      "orientationAutoLong": "Auto (match original)",
       "orientationPortrait": "Portrait",
       "orientationLandscape": "Landscape",
-      "orientationAuto": "Auto (match original)",
-      "marginNone": "None (0 mm)",
-      "marginNarrow": "Narrow (6 mm)",
-      "marginNormal": "Normal (12 mm)",
+      "marginNone": "No margin",
+      "marginNoneLong": "None (0 mm)",
+      "marginNarrow": "Small",
+      "marginNarrowLong": "Narrow (6 mm)",
+      "marginNormal": "Normal",
+      "marginNormalLong": "Normal (12 mm)",
       "marginWide": "Wide (24 mm)",
       "quality": "Output quality",
       "qualityLossless": "Lossless",
@@ -82,6 +106,7 @@
       "mergeOff": "Separate"
     },
     "fileCount": "{count} file{count, plural, one {} other {s}} selected",
+    "fileCountZip": "{count} file{count, plural, one {} other {s}} → {count} PDF{count, plural, one {} other {s}} in .zip",
     "complete": {
       "title": "Conversion Complete!",
       "download": "Download",
@@ -89,7 +114,10 @@
       "toDropbox": "Dropbox",
       "toGoogleDrive": "Google Drive",
       "startOver": "← Start Over",
-      "skipped": "Skipped"
+      "skipped": "Skipped",
+      "cloudAuthorizing": "Authorizing {provider}...",
+      "cloudSaved": "✓ Saved to {provider}!",
+      "cloudFailed": "✕ Failed to save to {provider}"
     },
     "empty": "Select HEIC photos to get started",
     "preview": {
@@ -105,7 +133,8 @@
       "cancel": "Cancel"
     },
     "progress": {
-      "fileOfTotal": "Photo {current} of {total}"
+      "fileOfTotal": "Photo {current} of {total}",
+      "moreFiles": "+{count} more"
     },
     "error": {
       "title": "Conversion Failed",
@@ -279,8 +308,9 @@
     "tagline": "HEIC to PDF — converted locally, your privacy respected"
   },
   "privacy": {
-    "pageTitle": "Privacy Policy",
+    "pageTitle": "Privacy Policy — HEIC to PDF Converter",
     "pageDescription": "Privacy policy for HEICPDF.TO. Learn how we protect your data — all file processing happens in your browser, nothing is uploaded to our servers.",
+    "backToTop": "↑ Back to top",
     "lastUpdated": "Last updated: May 17, 2026",
     "sections": [
       {
@@ -353,8 +383,9 @@
     "supportLabel": "Contact support"
   },
   "terms": {
-    "pageTitle": "Terms of Service",
-    "pageDescription": "Terms of Service for HEICPDF.TO. Learn about the terms governing your use of our free online HEIC to PDF converter.",
+    "pageTitle": "Terms of Service — HEIC to PDF Converter",
+    "pageDescription": "Terms of Service for HEICPDF.TO. Review the terms for using our HEIC to PDF converter. All processing happens in your browser — no uploads, total privacy.",
+    "backToTop": "↑ Back to top",
     "lastUpdated": "Last updated: May 11, 2026",
     "sections": [
       {

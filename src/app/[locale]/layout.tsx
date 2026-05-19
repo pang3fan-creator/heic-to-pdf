@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { buildAlternates } from "@/lib/url";
@@ -17,14 +17,14 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const ogImageUrl = "https://heicpdf.to/og-image.png";
+  const layoutT = await getTranslations({ locale, namespace: "layout" });
 
   return {
     title: {
       template: "%s | HEICPDF.TO",
-      default: "HEIC to PDF — Fast, Private & Free Online Tool | HEICPDF.TO",
+      default: layoutT("title"),
     },
-    description:
-      "Easily convert your Apple HEIC photos to high-quality PDF documents. No registration required. Supports batch, Dropbox & Google Drive. 100% privacy guaranteed.",
+    description: layoutT("description"),
     icons: [
       { rel: "icon", url: "/heicpdf-logo.svg", type: "image/svg+xml" },
       { rel: "icon", url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
@@ -33,9 +33,8 @@ export async function generateMetadata({
     ],
     alternates: buildAlternates(locale, ""),
     openGraph: {
-      title: "HEIC to PDF — Fast, Private & Free Online Tool | HEICPDF.TO",
-      description:
-        "Easily convert your Apple HEIC photos to high-quality PDF documents. No registration required. Supports batch, Dropbox & Google Drive. 100% privacy guaranteed.",
+      title: layoutT("title"),
+      description: layoutT("description"),
       url: "https://heicpdf.to",
       siteName: "HEICPDF.TO",
       locale,
@@ -45,15 +44,14 @@ export async function generateMetadata({
           url: ogImageUrl,
           width: 1200,
           height: 630,
-          alt: "HEICPDF.TO — Convert HEIC to PDF Free Online",
+          alt: layoutT("ogImageAlt"),
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: "HEIC to PDF — Fast, Private & Free Online Tool | HEICPDF.TO",
-      description:
-        "Easily convert your Apple HEIC photos to high-quality PDF documents. No registration required. Supports batch, Dropbox & Google Drive. 100% privacy guaranteed.",
+      title: layoutT("title"),
+      description: layoutT("description"),
       images: [ogImageUrl],
     },
   };
@@ -67,21 +65,6 @@ const themeScript = `
   }
 })();
 `;
-
-const orgSchema = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "@id": "https://heicpdf.to#organization",
-  name: "HEICPDF.TO",
-  url: "https://heicpdf.to",
-  description: "Free online HEIC to PDF converter. All processing happens locally in your browser — no uploads, total privacy.",
-  logo: {
-    "@type": "ImageObject",
-    url: "https://heicpdf.to/heicpdf-logo-256.png",
-    width: 256,
-    height: 256,
-  },
-};
 
 export default async function LocaleLayout({
   children,
@@ -97,6 +80,22 @@ export default async function LocaleLayout({
   }
 
   const messages = await getMessages();
+  const orgT = await getTranslations({ locale, namespace: "org" });
+
+  const orgSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://heicpdf.to#organization",
+    name: "HEICPDF.TO",
+    url: "https://heicpdf.to",
+    description: orgT("description"),
+    logo: {
+      "@type": "ImageObject",
+      url: "https://heicpdf.to/heicpdf-logo-256.png",
+      width: 256,
+      height: 256,
+    },
+  };
 
   return (
     <html lang={locale} data-theme="dark" suppressHydrationWarning>

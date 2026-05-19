@@ -19,8 +19,7 @@ export default async function HomePage({
   const heroT = await getTranslations({ locale, namespace: "hero" });
   const faqItems = faqT.raw("items") as Array<{ q: string; a: string }>;
   const howtoSteps = howtoT.raw("steps") as Array<{ num: number; title: string; desc: string }>;
-  const schemaDescription =
-    "Easily convert your Apple HEIC photos to high-quality PDF documents. No registration required. Supports batch, Dropbox & Google Drive. 100% privacy guaranteed.";
+  const schemaDescription = heroT("schemaDescription");
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [

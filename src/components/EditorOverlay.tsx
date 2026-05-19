@@ -30,22 +30,22 @@ interface Props {
 type SortMode = "default" | "asc" | "desc";
 type ThumbSize = 0 | 1 | 2 | 3 | 4; // 0=小, 1=次小, 2=中, 3=次大, 4=大
 
-const PAPER_SIZES: { value: ConversionSettings["paperSize"]; label: string }[] = [
-  { value: "original", label: "Original" },
-  { value: "a4", label: "A4" },
-  { value: "letter", label: "US Letter" },
+const PAPER_SIZES: { value: ConversionSettings["paperSize"]; labelKey: string }[] = [
+  { value: "original", labelKey: "sidebar.paperSizeOriginal" },
+  { value: "a4", labelKey: "sidebar.paperSizeA4" },
+  { value: "letter", labelKey: "sidebar.paperSizeLetter" },
 ];
 
-const ORIENTATIONS: { value: ConversionSettings["orientation"]; label: string }[] = [
-  { value: "auto", label: "Auto" },
-  { value: "portrait", label: "Portrait" },
-  { value: "landscape", label: "Landscape" },
+const ORIENTATIONS: { value: ConversionSettings["orientation"]; labelKey: string }[] = [
+  { value: "auto", labelKey: "sidebar.orientationAuto" },
+  { value: "portrait", labelKey: "sidebar.orientationPortrait" },
+  { value: "landscape", labelKey: "sidebar.orientationLandscape" },
 ];
 
-const MARGINS: { value: ConversionSettings["margins"]; label: string }[] = [
-  { value: "none", label: "No margin" },
-  { value: "narrow", label: "Small" },
-  { value: "normal", label: "Normal" },
+const MARGINS: { value: ConversionSettings["margins"]; labelKey: string }[] = [
+  { value: "none", labelKey: "sidebar.marginNone" },
+  { value: "narrow", labelKey: "sidebar.marginNarrow" },
+  { value: "normal", labelKey: "sidebar.marginNormal" },
 ];
 
 const PDF_QUALITIES: {
@@ -233,6 +233,7 @@ function ThumbnailCell({
   onDragLeave?: (e: React.DragEvent) => void;
   onDrop?: (e: React.DragEvent) => void;
 }) {
+  const t = useTranslations("editor");
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const bitmapRef = useRef<ImageBitmap | null>(null);
 
@@ -333,12 +334,12 @@ function ThumbnailCell({
             }}
           >✕</span>
         </span>
-        <div className="thumb-rotate-actions" aria-label="Rotate image">
+        <div className="thumb-rotate-actions" aria-label={t("rotateImage")}>
           <button
             type="button"
             className="thumb-rotate-btn"
-            title="Rotate left 90 degrees"
-            aria-label="Rotate left 90 degrees"
+            title={t("rotateLeft")}
+            aria-label={t("rotateLeft")}
             onClick={(e) => {
               e.stopPropagation();
               onRotate?.(file.id, -90);
@@ -349,8 +350,8 @@ function ThumbnailCell({
           <button
             type="button"
             className="thumb-rotate-btn"
-            title="Rotate right 90 degrees"
-            aria-label="Rotate right 90 degrees"
+            title={t("rotateRight")}
+            aria-label={t("rotateRight")}
             onClick={(e) => {
               e.stopPropagation();
               onRotate?.(file.id, 90);
@@ -403,6 +404,21 @@ export default function EditorOverlay({
     value: q.value,
     label: t(q.labelKey),
     title: t(q.descriptionKey),
+  }));
+
+  const paperSizeOptions = PAPER_SIZES.map((p) => ({
+    value: p.value,
+    label: t(p.labelKey),
+  }));
+
+  const orientationOptions = ORIENTATIONS.map((o) => ({
+    value: o.value,
+    label: t(o.labelKey),
+  }));
+
+  const marginOptions = MARGINS.map((m) => ({
+    value: m.value,
+    label: t(m.labelKey),
   }));
 
   const previewFile = useMemo(
@@ -547,7 +563,7 @@ export default function EditorOverlay({
           <button
             className="editor-back-btn"
             onClick={onClose}
-            aria-label="Back to homepage"
+            aria-label={t("back")}
             type="button"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -556,7 +572,6 @@ export default function EditorOverlay({
             </svg>
             {t("back")}
           </button>
-          <span className="editor-title">{t("title")}</span>
         </div>
         <div className="editor-header-right">
           <div
@@ -729,7 +744,7 @@ export default function EditorOverlay({
             <SegmentedControl
               label={t("sidebar.paperSize")}
               value={settings.paperSize}
-              options={PAPER_SIZES}
+              options={paperSizeOptions}
               columns={3}
               onChange={(paperSize) =>
                 onSettingsChange({
@@ -744,7 +759,7 @@ export default function EditorOverlay({
             <SegmentedControl
               label={t("sidebar.orientation")}
               value={settings.orientation}
-              options={ORIENTATIONS}
+              options={orientationOptions}
               columns={3}
               disabled={isOriginalSize}
               onChange={(orientation) =>
@@ -757,7 +772,7 @@ export default function EditorOverlay({
             <SegmentedControl
               label={t("sidebar.margin")}
               value={settings.margins}
-              options={MARGINS}
+              options={marginOptions}
               columns={3}
               disabled={isOriginalSize}
               onChange={(margins) =>
@@ -804,7 +819,7 @@ export default function EditorOverlay({
               <span>
                 {settings.merge
                   ? t("fileCount", { count: files.length })
-                  : `${files.length} files → ${files.length} PDFs in .zip`}
+                  : t("fileCountZip", { count: files.length })}
               </span>
             </div>
           </div>

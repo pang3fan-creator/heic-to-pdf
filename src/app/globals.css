@@ -1757,6 +1757,34 @@ a:hover {
   font-size: 13px;
   color: var(--muted);
 }
+.footer-bottom-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.lang-switcher {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  padding: 2px 20px 2px 6px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  background-image: url("data:image/svg+xml,%3Csvg width='8' height='6' viewBox='0 0 8 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L4 4.5L7 1.5' stroke='%23888' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 4px center;
+  background-size: 8px 6px;
+}
+.lang-switcher:hover {
+  color: var(--fg);
+  border-color: var(--accent);
+}
+.lang-switcher option {
+  background: var(--bg);
+  color: var(--fg);
+}
 .footer-badges {
   display: flex;
   justify-content: center;

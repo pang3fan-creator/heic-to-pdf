@@ -93,6 +93,7 @@ export default function DropZone({
   }, [handleFromGoogleDrive]);
 
   const tComplete = useTranslations("editor.complete");
+  const tConverter = useTranslations("converter");
 
   // ── Complete state ──
   const [downloadHover, setDownloadHover] = useState(false);
@@ -293,17 +294,17 @@ export default function DropZone({
 
           {cloudStatus.status === "authorizing" && (
             <p className="dropbox-status" style={{ color: "var(--muted)", marginTop: 16, fontSize: 13 }}>
-              {cloudStatus.provider === "dropbox" ? "Authorizing Dropbox..." : "Authorizing Google Drive..."}
+              {tComplete("cloudAuthorizing", { provider: cloudStatus.provider === "dropbox" ? "Dropbox" : "Google Drive" })}
             </p>
           )}
           {cloudStatus.status === "success" && (
             <p className="dropbox-status" style={{ color: "var(--accent)", marginTop: 16, fontSize: 13 }}>
-              ✓ Saved to {cloudStatus.provider === "dropbox" ? "Dropbox" : "Google Drive"}!
+              {tComplete("cloudSaved", { provider: cloudStatus.provider === "dropbox" ? "Dropbox" : "Google Drive" })}
             </p>
           )}
           {cloudStatus.status === "error" && (
             <p className="dropbox-status" style={{ color: "#e44", marginTop: 16, fontSize: 13 }}>
-              ✕ Failed to save to {cloudStatus.provider === "dropbox" ? "Dropbox" : "Google Drive"}
+              {tComplete("cloudFailed", { provider: cloudStatus.provider === "dropbox" ? "Dropbox" : "Google Drive" })}
             </p>
           )}
         </>
@@ -339,13 +340,13 @@ export default function DropZone({
             })}
             {files.length > 5 && (
               <span className="file-chip">
-                +{files.length - 5} more
+                {tConverter("progress.moreFiles", { count: files.length - 5 })}
               </span>
             )}
           </div>
           <div className="progress-info">
             <span className="progress-current">
-              Photo {currentFileIndex !== undefined ? currentFileIndex + 1 : files.length} of {files.length}
+              {tConverter("progress.fileOfTotal", { current: currentFileIndex !== undefined ? currentFileIndex + 1 : files.length, total: files.length })}
             </span>
             <span>{progress ?? 0}%</span>
           </div>
@@ -367,7 +368,7 @@ export default function DropZone({
                   cursor: "pointer",
                 }}
               >
-                Cancel
+                {tConverter("button.cancel")}
               </button>
             </div>
           )}

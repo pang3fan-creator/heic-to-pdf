@@ -1,42 +1,35 @@
 import type { MetadataRoute } from "next";
 
+const BASE = "https://heicpdf.to";
+
+const pages = [
+  { path: "", priority: 1 },
+  { path: "/privacy", priority: 0.5 },
+  { path: "/terms", priority: 0.5 },
+] as const;
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: "https://heicpdf.to",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 1,
-      alternates: {
-        languages: {
-          en: "https://heicpdf.to",
-          "x-default": "https://heicpdf.to",
-        },
+  return pages.flatMap(({ path, priority }) => {
+    const langs = {
+      en: `${BASE}${path}`,
+      fr: `${BASE}/fr${path}`,
+      "x-default": `${BASE}${path}`,
+    };
+    return [
+      {
+        url: langs.en,
+        lastModified: new Date(),
+        changeFrequency: "monthly",
+        priority,
+        alternates: { languages: langs },
       },
-    },
-    {
-      url: "https://heicpdf.to/privacy",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.5,
-      alternates: {
-        languages: {
-          en: "https://heicpdf.to/privacy",
-          "x-default": "https://heicpdf.to/privacy",
-        },
+      {
+        url: langs.fr,
+        lastModified: new Date(),
+        changeFrequency: "monthly",
+        priority,
+        alternates: { languages: langs },
       },
-    },
-    {
-      url: "https://heicpdf.to/terms",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.5,
-      alternates: {
-        languages: {
-          en: "https://heicpdf.to/terms",
-          "x-default": "https://heicpdf.to/terms",
-        },
-      },
-    },
-  ];
+    ];
+  });
 }
