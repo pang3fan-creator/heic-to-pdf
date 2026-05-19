@@ -237,6 +237,10 @@
       {
         "q": "Why can't I view HEIC photos on Windows?",
         "a": "HEIC is Apple's format, so Windows doesn't know what to do with it out of the box — no thumbnails, no previews. Microsoft does offer a HEIF extension in the Store, but the simplest fix is a quick HEIC to PDF conversion. PDFs open on any device, every time, without needing extra codecs or extensions. That's why HEIC to PDF conversion is the go-to solution for sharing photos across platforms."
+      },
+      {
+        "q": "Why don't tools like PDF24 support HEIC to PDF?",
+        "a": "HEIC is built on a patented compression technology (HEVC/H.265), so online services that process files on their servers have to pay licensing fees to support it. That's why big-name converters like PDF24 don't offer HEIC to PDF — not because the format is rare, but because the licensing costs aren't worth it for them. We operate differently. This tool runs entirely in your browser, so nothing ever touches a server. No server-side processing means no licensing problem. The HEIC to PDF conversion happens locally on your machine, which lets us support HEIC without any of the usual hurdles — and your files never leave your device."
       }
     ]
   },
