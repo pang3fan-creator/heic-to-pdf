@@ -242,3 +242,10 @@ src/
 - AI 搜索引擎（ChatGPT、Perplexity）使用 `/llms.txt` 获取网站摘要
 - 实现方式：Route Handler `src/app/llms.txt/route.ts`，返回 `text/plain`，内联纯文本内容
 - middleware matcher 排除 `.*\\..*`（含点号 URL），所以路由不受 next-intl 影响
+
+## Git 操作陷阱
+
+- **简单跨分支修改**：直接 `git checkout target-branch` 编辑提交，不要用 stash——stash 增加了不必要的复杂度，容易丢失工作区内容
+- **`git reset --soft` 后 index 内有全部已暂存内容**：此时 `git add` 只是追加暂存，`git commit` 会包含所有已暂存文件，不是只有刚 `git add` 的那个。如需只提交单文件，先 `git restore --staged .` 清空暂存，再 `git add <file>`
+- **同 commit 的两个分支间切换**：`git checkout` 会携带未提交的工作区变更（包括 index 和 working tree），注意分支隔离
+- **简单场景**：不要用 stash/reset/rebase 等复杂操作，优先用直接编辑 + 提交
