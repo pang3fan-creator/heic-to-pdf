@@ -21,6 +21,10 @@
         "href": "/"
       },
       {
+        "label": "Blog",
+        "href": "/blog"
+      },
+      {
         "label": "Confidentialité",
         "href": "/privacy"
       },
@@ -43,6 +47,10 @@
           {
             "label": "Accueil",
             "href": "/"
+          },
+          {
+            "label": "Blog",
+            "href": "/blog"
           }
         ]
       },
@@ -379,6 +387,61 @@
     ]
   },
   "blog": {
+    "index": {
+      "language": "fr",
+      "title": "Blog HEIC en PDF",
+      "description": "Conseils, comparatifs et guides sur les formats d'image, la conversion de fichiers et les flux de travail numériques — pensés pour les utilisateurs macOS et iOS qui tiennent à la qualité.",
+      "eyebrow": "Articles & guides",
+      "categoryLabel": "Sujets du blog",
+      "sidebarLabel": "Barre latérale du blog",
+      "categories": [
+        "Tous",
+        "HEIC",
+        "PDF",
+        "macOS",
+        "iOS",
+        "Confidentialité"
+      ],
+      "posts": [
+        {
+          "eyebrow": "Tutoriel",
+          "title": "Comment convertir HEIC en PDF : guide privé et instantané (2026)",
+          "excerpt": "Un guide complet pour convertir vos photos HEIC en PDF dans votre navigateur — sans envoi de fichiers ni logiciel à installer.",
+          "date": "15 mai 2026",
+          "publishedAtIso": "2026-05-15T00:00:00+00:00",
+          "readTime": "10 min de lecture",
+          "href": "/blog/how-to-convert-heic-to-pdf"
+        }
+      ],
+      "sidebar": {
+        "mostReadHeading": "Les plus lus",
+        "topicsHeading": "Sujets",
+        "ctaHeading": "Besoin de convertir ?",
+        "ctaText": "Convertissez vos images HEIC en PDF instantanément avec un traitement local dans le navigateur.",
+        "ctaLabel": "Essayer HEIC en PDF",
+        "mostRead": [
+          {
+            "title": "Comment convertir HEIC en PDF : guide privé et instantané (2026)",
+            "meta": "10 min de lecture",
+            "href": "/blog/how-to-convert-heic-to-pdf"
+          }
+        ],
+        "topics": [
+          {
+            "name": "HEIC",
+            "count": "1"
+          },
+          {
+            "name": "PDF",
+            "count": "1"
+          },
+          {
+            "name": "Confidentialité",
+            "count": "1"
+          }
+        ]
+      }
+    },
     "howToConvertHeicToPdf": {
       "guideSection": {
         "title": "Au-delà des bases",

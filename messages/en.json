@@ -21,6 +21,10 @@
         "href": "/"
       },
       {
+        "label": "Blog",
+        "href": "/blog"
+      },
+      {
         "label": "Privacy",
         "href": "/privacy"
       },
@@ -283,6 +287,10 @@
           {
             "label": "Home",
             "href": "/"
+          },
+          {
+            "label": "Blog",
+            "href": "/blog"
           }
         ]
       },
@@ -431,6 +439,61 @@
     ]
   },
   "blog": {
+    "index": {
+      "language": "en",
+      "title": "HEIC to PDF Blog",
+      "description": "Tips, benchmarks, and deep dives on image formats, file conversion, and digital productivity — written for macOS and iOS users who care about quality.",
+      "eyebrow": "Articles & guides",
+      "categoryLabel": "Blog topics",
+      "sidebarLabel": "Blog sidebar",
+      "categories": [
+        "All",
+        "HEIC",
+        "PDF",
+        "macOS",
+        "iOS",
+        "Privacy"
+      ],
+      "posts": [
+        {
+          "eyebrow": "Tutorial",
+          "title": "How to Convert HEIC to PDF: A Private & Instant Guide (2026)",
+          "excerpt": "A complete walkthrough for converting HEIC photos to PDF in your browser — no uploads, no software to install.",
+          "date": "May 15, 2026",
+          "publishedAtIso": "2026-05-15T00:00:00+00:00",
+          "readTime": "10 min read",
+          "href": "/blog/how-to-convert-heic-to-pdf"
+        }
+      ],
+      "sidebar": {
+        "mostReadHeading": "Most Read",
+        "topicsHeading": "Topics",
+        "ctaHeading": "Need to convert?",
+        "ctaText": "Convert your HEIC images to PDF instantly with local browser processing.",
+        "ctaLabel": "Try HEIC to PDF",
+        "mostRead": [
+          {
+            "title": "How to Convert HEIC to PDF: A Private & Instant Guide (2026)",
+            "meta": "10 min read",
+            "href": "/blog/how-to-convert-heic-to-pdf"
+          }
+        ],
+        "topics": [
+          {
+            "name": "HEIC",
+            "count": "1"
+          },
+          {
+            "name": "PDF",
+            "count": "1"
+          },
+          {
+            "name": "Privacy",
+            "count": "1"
+          }
+        ]
+      }
+    },
     "heicVsJpeg": {
       "language": "en",
       "title": "HEIC vs JPEG: Which Image Format Should You Use in 2026?",

@@ -4,6 +4,8 @@ const BASE = "https://heicpdf.to";
 
 const pages = [
   { path: "", priority: 1 },
+  { path: "/blog", priority: 0.7 },
+  { path: "/blog/how-to-convert-heic-to-pdf", priority: 0.8 },
   { path: "/privacy", priority: 0.5 },
   { path: "/terms", priority: 0.5 },
 ] as const;
