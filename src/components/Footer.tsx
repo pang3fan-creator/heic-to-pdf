@@ -62,6 +62,9 @@ export default function Footer() {
           <a href="https://aiagentsdirectory.com/agent/heicpdfto?utm_source=badge&utm_medium=referral&utm_campaign=free_listing&utm_content=heicpdfto" target="_blank" rel="noopener noreferrer" className="footer-badge">
             <img src="https://aiagentsdirectory.com/featured-badge.svg?v=2024" alt="HEICPDF.TO - Featured AI Agent on AI Agents Directory" width="200" height="50" />
           </a>
+          <a href="https://sellwithboost.com" target="_blank" rel="noopener noreferrer" className="footer-badge">
+            <img src="https://sellwithboost.com/badge/listing.svg" alt="Listed on Sell With Boost" style={{ height: 40, width: 'auto' }} />
+          </a>
         </div>
       </div>
     </footer>
