@@ -22,49 +22,19 @@ npm run test:watch   # 监听模式运行测试
 
 - `agent-browser` CLI 已安装（`~/.agent-browser/browsers` 含 Chrome）。UI 问题优先用 `agent-browser open <url>` + `agent-browser snapshot -i` + `agent-browser eval` 验证视觉效果而非推算
 - `npx playwright` 也可用（浏览器在 `~/Library/Caches/ms-playwright/`）
-- **预先存在的测试失败**：`src/app/[locale]/blog/how-to-convert-heic-to-pdf/page.test.tsx` 因 vitest 中 `next/navigation` 模块解析问题失败，非代码改动引起
 
-## 项目结构
+## 关键文件
 
-```
-src/
-├── app/[locale]/page.tsx     # 主页面
-├── app/auth/                 # OAuth 回调页（非 locale 路由，需排除 middleware）
-├── components/
-│   ├── ConversionContainer.tsx # 状态机调度（idle/editor/converting/complete）
-│   ├── EditorOverlay.tsx      # 全屏编辑器（缩略图+排序+预览）
-│   ├── PreviewModal.tsx       # 大图预览弹窗
-│   ├── DropZone.tsx           # idle+converting+complete 三态合一
-│   ├── GlobalDropOverlay.tsx  # 全局拖拽覆盖层
-│   ├── Navbar.tsx             # 顶部导航栏（含主题切换）
-│   ├── Footer.tsx             # 页脚（含语言切换器）
-│   ├── LanguageSwitcher.tsx   # 语言切换下拉菜单
-│   ├── Breadcrumb.tsx         # 面包屑导航
-│   └── __tests__/             # 组件单元测试
-├── hooks/
-│   ├── useHeicConversion.ts   # 核心状态机（解码/转换/下载）
-│   └── __tests__/
-├── lib/
-│   ├── cloud/
-│   │   ├── types.ts             # CloudProvider, OAuthConfig, TokenStore
-│   │   ├── oauth-core.ts        # PKCE生成、popup管理、token管理
-│   │   ├── dropbox/{config,auth}.ts
-│   │   └── google-drive/{config,auth,utils}.ts
-│   ├── conversion-types.ts    # 类型定义 + 常量
-│   ├── heic-worker.ts         # libheif Web Worker（HEIC→RGBA）
-│   ├── image-decoder.ts       # 统一图片解码层（HEIC→Worker, 其他→createImageBitmap）
-│   ├── pdf-generator.ts       # pdf-lib PDF 生成
-│   ├── preview-renderer.ts    # Canvas PDF 页面预览渲染
-│   ├── dropbox-utils.ts       # Dropbox Chooser（导入）
-│   ├── dropbox-auth.ts        # PKCE OAuth + 直接上传 API
-│   └── __tests__/
-├── app/sitemap.ts             # sitemap 生成
-├── app/robots.ts              # robots.txt 生成
-├── i18n/routing.ts            # 国际化路由配置（locales、pathnames）
-├── middleware.ts               # next-intl 路由中间件（matcher 排除 /auth/ 等）
-├── types/libheif-js.d.ts       # libheif 类型声明
-└── types/css.d.ts               # CSS 模块类型声明（`declare module "*.css"`）
-```
+| 区域 | 关键路径 |
+|------|---------|
+| 页面 | `app/[locale]/page.tsx`（首页）, `app/[locale]/blog/`, `app/[locale]/privacy/`, `app/[locale]/terms/` |
+| 组件 | `ConversionContainer`, `EditorOverlay`, `DropZone`, `Navbar`, `Footer`, `Breadcrumb`, `GuideSection` |
+| 核心 Hook | `hooks/useHeicConversion.ts`（状态机：解码→转换→下载） |
+| 解码层 | `lib/image-decoder.ts`（HEIC→Worker, 其他→createImageBitmap）, `lib/heic-worker.ts` |
+| PDF 生成 | `lib/pdf-generator.ts`（pdf-lib）, `lib/preview-renderer.ts` |
+| 云存储 | `lib/cloud/oauth-core.ts`, `lib/cloud/dropbox/`, `lib/cloud/google-drive/` |
+| 国际化 | `i18n/routing.ts`, `i18n/request.ts`（deepMerge 回退）, `middleware.ts` |
+| SEO | `app/sitemap.ts`, `app/robots.ts`, `app/llms.txt/route.ts` |
 
 ## 常见坑点
 
@@ -76,9 +46,7 @@ src/
 - **NEXT_LOCALE cookie**：next-intl 通过此 cookie 持久化用户语言选择，浏览器测试时需清除
 - **Meta description**：严格控制在 160 字符以内（SEO 要求）
 - **metadata 本地化**：`layout.tsx` 的 `generateMetadata` 中 title.default、description、openGraph、twitter 均需用 `getTranslations` 获取翻译，不可硬编码
-- **首页组件硬编码**：`GlobalDropOverlay.tsx`（Drop images anywhere）、`Navbar.tsx`（aria-label）、`Footer.tsx`（aria-label）可能有硬编码英文，需用翻译替换
-- **GuideSection**：首页的 GuideSection 使用 `blog.howToConvertHeicToPdf.guideSection` 命名空间，首页翻译时需额外覆盖此命名空间
-- **结构化数据**：隐私/条款等法律页面也需添加 WebPage + BreadcrumbList 的 JSON-LD
+- **GuideSection**：首页的 GuideSection 使用独立顶级命名空间 `guideSection`（en.json + fr.json 中定义）
 
 ### next-intl 路由规则 (关键!)
 
@@ -89,16 +57,23 @@ src/
 - 过滤语言段: `segments.filter((s, i) => i !== 0 || !SUPPORTED_LOCALES.includes(s))`
 - **非 locale 路径**（如 `/auth/*`）需要在 `middleware.ts` 的 matcher 中显式排除，且需要自己的 layout（含 `<html>`/`<body>` 标签）
 
-### 翻译文本前缀
-
-- 翻译值的文本可能已包含前缀字符（如 `"startOver": "← Start Over"`），JSX 中不要再重复添加 `&larr;`，否则会显示双箭头
-
 ### 多语言 URL 拼接
 
 ```markdown
 错误: /${locale}/path → 产生 /frpath
 错误: /${locale === "en" ? "" : locale}/path → 产生 //path
 正确: 使用 buildUrl(locale, "/path") 从 @/lib/url 导入
+
+### 正文内链本地化
+
+- `dangerouslySetInnerHTML` 中的链接不会被 `getLocalizedPath` 处理
+- 在翻译正文中用 `{converterHref}` 占位符替换 `href="/"`，page.tsx 组装 article 时 replace 为本地化路径：
+  ```ts
+  sections: rawArticle.sections.map((s) => ({
+    ...s,
+    body: s.body.replace(/\{converterHref\}/g, converterHref),
+  })),
+  ```
 ```
 
 ### 图片格式与解码
@@ -123,17 +98,9 @@ src/
 - 修改 Web Worker 或 pdf-lib 相关代码后，若出现 `MODULE_NOT_FOUND: vendor-chunks/pdf-lib.js`，需清除缓存
 - 修改布局/服务端组件后也可能触发：`rm -rf .next/cache` 后重新 `npm run build`
 
-### favicon 404
-
-- `next.config.ts` 中通过 `async redirects()` 将 `/favicon.ico` 301 重定向到已有图标文件（如 `/favicon-32x32.png`）
-
 ### CSS 模式
 
 - **样式方案**：纯手写 CSS + 内联 `style={{}}`，**未使用 Tailwind CSS**，不要添加 Tailwind 类名
-- **毛玻璃**：`background: color-mix(in srgb, var(--surface) 60%, transparent); backdrop-filter: blur(20px)`
-- **竖向 range slider**：`input[type=range] { writing-mode: vertical-lr; direction: rtl; }` 交换宽高语义
-- **CSS tooltip**：`button[title]:hover::after { content: attr(title); position: left: 100%; ... }`
-- 浮层面板使用 `position: absolute; top: 50%; transform: translateY(-50%)` 实现垂直居中
 - **CSS 作用域陷阱**：`.drop-zone .split-btn-wrap` 会匹配 drop-zone 下所有实例。不同状态（idle/converting/complete）切换时需用 extra class（`.drop-zone.complete-mode .split-btn-wrap`）覆盖旧规则
 - **flex 按钮对齐**：同一 flex 容器内多个按钮需用相同 `display: inline-flex; align-items: center; line-height`，且考虑 border 占用的高度（`padding` 补偿）
 
@@ -150,32 +117,14 @@ src/
 - 计算滚动条宽度 `window.innerWidth - document.documentElement.clientWidth`，补偿到 `paddingRight` 防止页面抖动
 - useEffect cleanup 中恢复原始 overflow 和 paddingRight
 
-### Cloud OAuth 弹窗通信
+### Cloud OAuth（Dropbox / Google Drive）
 
-- 某些 provider（如 Google）的 OAuth 页面设置 `Cross-Origin-Opener-Policy`，破坏弹窗通信
-- 方案：`oauth-core.ts` 实现 BroadcastChannel + localStorage 轮询双备援
-- `notifyOpener()` 同时使用 BroadcastChannel 和 `window.opener.postMessage()`
-- `openOAuthPopup()` 首次检测到 COOP 后不再访问 `popup.closed`，减少 console 噪声
-- **关键坑**：授权成功后需重新调用 `getAccessToken()` 获取新 token（`uploadTo*` 函数容易遗漏）
-
-### Dropbox 集成
-
-- **环境变量**：`.env.local` → `NEXT_PUBLIC_DROPBOX_APP_KEY`
-- **OAuth 层**：通过 `src/lib/cloud/dropbox/auth.ts` 适配，核心在 `oauth-core.ts`
-- **导入**：Dropbox Chooser API（`Dropbox.choose()`）
-- **导出**：PKCE OAuth + `/files/upload`
-- **弹窗**：`window.open()` 弹窗模式
-
-### Google Drive 集成
-
-- **环境变量**：`NEXT_PUBLIC_GOOGLE_CLIENT_ID` + `GOOGLE_CLIENT_SECRET`（服务端） + `NEXT_PUBLIC_GOOGLE_API_KEY`
-- **OAuth**：使用全页面重定向而非弹窗（Google 的 OAuth 页面设置 COOP 头）
-- **Token 交换**：通过 `proxyUrl: "/api/auth/google/token"` 服务端代理转发，`client_secret` 不暴露到客户端。服务端使用 `undici` 的 `ProxyAgent`，支持 `HTTPS_PROXY` 环境变量（本地开发需要科学上网时设置）
-- **导入**：Google Picker API（需启用 Google Picker API + Google Drive API）
-- **API Key 要求**：`NEXT_PUBLIC_GOOGLE_API_KEY` 必须设置，且 Key 的 API 限制须包含以上两个 API
-- **Picker 视图**：使用 `DocsView().setMimeTypes(...)` 过滤文件类型
-- **上传**：multipart 格式（元数据 JSON + 文件 blob）
-- **回调路由**：`/auth/google/callback`（已在 middleware matcher 中排除）
+- **关键坑**：授权成功后需重新调用 `getAccessToken()` 获取新 token
+- Google OAuth 页面有 COOP 头，必须用全页面重定向（不能用弹窗）；Dropbox 可用弹窗
+- `oauth-core.ts` 实现 BroadcastChannel + localStorage 双备援
+- **环境变量**：`NEXT_PUBLIC_DROPBOX_APP_KEY`, `NEXT_PUBLIC_GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `NEXT_PUBLIC_GOOGLE_API_KEY`
+- Google token 通过 `/api/auth/google/token` 服务端代理，`client_secret` 不暴露客户端
+- Google 回调 `/auth/google/callback`，dropbox 回调 `/auth/dropbox/callback`（均已在 middleware 排除）
 
 ### Split Button 下拉菜单
 
@@ -185,12 +134,9 @@ src/
 
 ### Complete 状态 / Merge 功能
 
-- **完成页**：不再全屏固定覆盖层，改在 DropZone 内联显示（idle→converting→complete 三态在 DropZone 内切换）
-- **云存储状态**：使用统一的 `cloudStatus`（`provider + status`）管理各网盘上传状态
-- complete 状态中 `blobType: "pdf" | "zip"` 区分输出类型
-- **Merge 关**：`npm install jszip`，`resolvePdfNames()` 处理同名冲突（1.jpg→1.pdf, 1.png→1-1.pdf）
-- **单张图**：无论 merge 开关如何，直接下载 PDF（不打包 zip）
-- Merge 开关通过 `settingsRef.merge` 持久化，跨编辑器会话保持
+- DropZone 内联三态切换（idle→converting→complete），非全屏覆盖层
+- **单张图不打包 zip**：无论 merge 开关如何，单文件直接下载 PDF
+- `resolvePdfNames()` 处理同名冲突（1.jpg→1.pdf, 1.png→1-1.pdf）
 
 ### 安全响应头 / CSP
 
@@ -213,6 +159,7 @@ src/
 | 规范           | 说明                                              |
 | -------------- | ------------------------------------------------- |
 | Schema 类型    | 工具页面用 `WebApplication`，博客用 `BlogPosting` |
+| BlogPosting 必填 | headline, image (ImageObject 1200×630), datePublished, author |
 | 日期格式       | ISO 8601 含时区 (`2026-03-16T00:00:00+00:00`)     |
 | 多语言支持     | Schema 文本从翻译文件获取，`inLanguage` 标识语言  |
 | @graph 模式    | 多 Schema 用 `@graph` 组织，配合 `@id` 引用       |
@@ -231,6 +178,26 @@ src/
 
 新增页面时需同步更新 `src/app/sitemap.ts` 的 `pages` 数组
 - sitemap 中每种语言版本的 URL 都需添加 `alternates.languages`（含 hreflang 标签），不只是默认语言
+- `lastModified` 使用每页实际修改日期，不用 `new Date()`
+
+### 新增博客文章检查清单
+
+- `messages/en.json` → `blog.<slug>` 命名空间（SEO title ≤46 chars + brand = ≤60，description ~155 chars）
+- `messages/fr.json` → 同上，`article.sections` 需完整翻译
+- `src/app/[locale]/blog/<slug>/page.tsx` → BLOG_PATH, generateMetadata（BlogPosting + image + OG image + twitter image）, breadcrumb
+- `src/app/[locale]/blog/<slug>/page.test.tsx`
+- `src/app/sitemap.ts` → pages 数组新增，固定 lastMod 日期
+- `messages/en.json` + `fr.json` → `blog.index.posts` 和 `sidebar.mostRead` 各加一条
+- `src/app/llms.txt/route.ts` → Useful Links 新增
+- 侧边栏 mostRead 只保留真实存在的文章，related 可暂空（模块保留）
+
+### 删除博客文章检查清单
+
+- 删除 `src/app/[locale]/blog/<slug>/` 目录
+- `messages/en.json` + `fr.json` → 删除 `blog.<slug>` 命名空间，更新 `blog.index`（posts, mostRead, topics）
+- `src/app/sitemap.ts` → 移除对应条目
+- `src/app/llms.txt/route.ts` → 移除或替换引用
+- 全文 grep `<slug>` 确认无遗留引用
 
 ### Open Graph / Twitter Card
 

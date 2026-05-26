@@ -27,7 +27,7 @@ HEICPDF.TO is a free online tool that converts Apple HEIC/HEIF photos to PDF doc
 - Home: https://heicpdf.to
 - Privacy Policy: https://heicpdf.to/privacy
 - Terms of Service: https://heicpdf.to/terms
-- How to Convert HEIC to PDF (Guide): https://heicpdf.to/blog/how-to-convert-heic-to-pdf
+- HEIC vs JPEG (Guide): https://heicpdf.to/blog/heic-vs-jpeg
 - Pricing (AI-readable): https://heicpdf.to/pricing.md
 
 ## FAQ

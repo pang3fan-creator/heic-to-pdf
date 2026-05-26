@@ -53,16 +53,26 @@ describe("Blog index page", () => {
   it("renders the localized blog index shell", () => {
     renderBlogIndex();
 
-    expect(screen.getByRole("heading", { name: "HEIC to PDF Blog" })).toBeTruthy();
-    expect(screen.getByText("Articles & guides")).toBeTruthy();
-    expect(screen.getAllByRole("link", { name: /How to Convert HEIC to PDF/i })[0].getAttribute("href")).toBe(
-      "/blog/how-to-convert-heic-to-pdf",
+    expect(screen.getByRole("heading", { name: "Image Format Guides & Insights" })).toBeTruthy();
+
+    expect(screen.getAllByRole("link", { name: /HEIC vs JPEG/i })[0].getAttribute("href")).toBe(
+      "/blog/heic-vs-jpeg",
     );
     expect(screen.getByRole("heading", { name: "Most Read" })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "Topics" })).toBeTruthy();
     expect(screen.getByRole("link", { name: "Try HEIC to PDF" }).getAttribute("href")).toBe(
       "/",
     );
+  });
+
+  it("renders breadcrumb with Home link and current Blog page", () => {
+    renderBlogIndex();
+
+    const breadcrumb = screen.getByRole("navigation", { name: "Breadcrumb" });
+    expect(breadcrumb).toBeTruthy();
+    const homeLink = screen.getByRole("link", { name: "Home" });
+    expect(homeLink.getAttribute("href")).toBe("/");
+    expect(screen.getByText("Blog")).toBeTruthy();
   });
 
   it("keeps the index structure accessible", () => {
@@ -72,6 +82,18 @@ describe("Blog index page", () => {
     expect(container.querySelector(".blog-index-featured")).toBeTruthy();
     expect(container.querySelector(".blog-index-main")).toBeTruthy();
     expect(container.querySelector(".blog-index-sidebar")).toBeTruthy();
+  });
+
+  it("renders the HEIC vs JPEG cover image on the featured post", () => {
+    renderBlogIndex();
+
+    const image = screen.getByRole("img", {
+      name: "HEIC vs JPEG image format comparison cover",
+    });
+
+    expect(image.getAttribute("src")).toBe("/images/blog/heic-vs-jpeg-cover.png");
+    expect(image.getAttribute("width")).toBe("1200");
+    expect(image.getAttribute("height")).toBe("675");
   });
 
   it("adds CollectionPage structured data with the current language", () => {
@@ -84,15 +106,26 @@ describe("Blog index page", () => {
       (item: { "@type"?: string }) => item["@type"] === "CollectionPage",
     );
 
-    expect(collectionPage.name).toBe("HEIC to PDF Blog");
+    expect(collectionPage.name).toBe("Image Format Guides & Insights");
     expect(collectionPage.inLanguage).toBe("en");
     expect(collectionPage.hasPart).toHaveLength(1);
+    expect(collectionPage.hasPart[0].image.url).toBe(
+      "https://heicpdf.to/images/blog/heic-vs-jpeg-cover.png",
+    );
+
+    const breadcrumbList = structuredData["@graph"].find(
+      (item: { "@type"?: string }) => item["@type"] === "BreadcrumbList",
+    );
+    expect(breadcrumbList).toBeTruthy();
+    expect(breadcrumbList.itemListElement).toHaveLength(2);
+    expect(breadcrumbList.itemListElement[0].name).toBe("Home");
+    expect(breadcrumbList.itemListElement[1].name).toBe("Blog");
   });
 
   it("generates canonical blog index metadata", async () => {
     const metadata = await generateMetadata({ params: Promise.resolve({ locale: "en" }) });
 
-    expect(metadata.title).toBe("HEIC to PDF Blog");
+    expect(metadata.title).toBe("Image Format Guides & HEIC Tips for Mac & iOS");
     expect(metadata.description).toContain("Tips, benchmarks, and deep dives");
     expect(metadata.alternates).toEqual({
       canonical: "https://heicpdf.to/blog",

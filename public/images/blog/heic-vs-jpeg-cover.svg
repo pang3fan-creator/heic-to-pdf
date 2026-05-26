@@ -1,0 +1,35 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="675" fill="#F7F4EE"/>
+  <rect x="0" y="0" width="1200" height="675" fill="url(#grid)" opacity="0.32"/>
+  <rect x="72" y="64" width="1056" height="547" rx="34" fill="#FFFDF9" stroke="#D8D0C3" stroke-width="2"/>
+  <path d="M120 153C120 127.043 141.043 106 167 106H485C510.957 106 532 127.043 532 153V530H120V153Z" fill="#E8F7F1" stroke="#58A780" stroke-width="3"/>
+  <path d="M668 153C668 127.043 689.043 106 715 106H1033C1058.96 106 1080 127.043 1080 153V530H668V153Z" fill="#EEF1FF" stroke="#6076D9" stroke-width="3"/>
+  <rect x="160" y="154" width="332" height="216" rx="22" fill="#FFFFFF" stroke="#A9CDBD" stroke-width="2"/>
+  <circle cx="244" cy="225" r="36" fill="#86C7A7"/>
+  <path d="M186 331L267 260L323 313L371 240L466 331H186Z" fill="#2F8A64" opacity="0.82"/>
+  <rect x="706" y="154" width="332" height="216" rx="22" fill="#FFFFFF" stroke="#B8C1EF" stroke-width="2"/>
+  <circle cx="790" cy="225" r="36" fill="#92A3F0"/>
+  <path d="M732 331L813 260L869 313L917 240L1012 331H732Z" fill="#5167C8" opacity="0.82"/>
+  <rect x="170" y="403" width="116" height="38" rx="19" fill="#D7EFE4"/>
+  <rect x="308" y="403" width="151" height="38" rx="19" fill="#D7EFE4"/>
+  <rect x="717" y="403" width="145" height="38" rx="19" fill="#DDE3FF"/>
+  <rect x="884" y="403" width="116" height="38" rx="19" fill="#DDE3FF"/>
+  <text x="326" y="497" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="78" font-weight="800" fill="#1E6F50">HEIC</text>
+  <text x="874" y="497" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="78" font-weight="800" fill="#4055B8">JPEG</text>
+  <rect x="542" y="205" width="116" height="116" rx="58" fill="#262421"/>
+  <path d="M570 263H630" stroke="#FFF7EA" stroke-width="10" stroke-linecap="round"/>
+  <path d="M608 237L634 263L608 289" stroke="#FFF7EA" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="600" y="385" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#262421">format comparison</text>
+  <g opacity="0.9">
+    <rect x="145" y="552" width="910" height="3" rx="1.5" fill="#D8D0C3"/>
+    <rect x="145" y="552" width="392" height="3" rx="1.5" fill="#58A780"/>
+    <circle cx="537" cy="553.5" r="10" fill="#58A780"/>
+    <text x="145" y="584" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#6A6257">smaller files</text>
+    <text x="922" y="584" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#6A6257">wider compatibility</text>
+  </g>
+  <defs>
+    <pattern id="grid" width="34" height="34" patternUnits="userSpaceOnUse">
+      <path d="M34 0H0V34" stroke="#CFC6B8" stroke-width="1"/>
+    </pattern>
+  </defs>
+</svg>

@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BlogIndexShell, { type BlogIndexData, type BlogIndexPost } from "@/components/blog/BlogIndexShell";
+import Breadcrumb from "@/components/Breadcrumb";
 import { buildAlternates } from "@/lib/url";
 import { routing } from "@/i18n/routing";
 
@@ -49,15 +50,20 @@ export async function generateMetadata({
 
 export default function BlogIndexPage() {
   const t = useTranslations("blog.index");
+  const tnav = useTranslations("nav");
   const locale = t("language");
+  const breadcrumbItems = [
+    { label: tnav("breadcrumbHome"), href: getLocalizedPath(locale, "/") },
+    { label: tnav("breadcrumbBlog") },
+  ];
   const posts = (t.raw("posts") as BlogIndexPost[]).map((post) => ({
     ...post,
     href: getLocalizedPath(locale, post.href),
   }));
   const sidebar = t.raw("sidebar") as BlogIndexData["sidebar"];
   const data: BlogIndexData = {
-    eyebrow: t("eyebrow"),
-    title: t("title"),
+
+    title: t("heading"),
     description: t("description"),
     categoryLabel: t("categoryLabel"),
     sidebarLabel: t("sidebarLabel"),
@@ -79,7 +85,7 @@ export default function BlogIndexPage() {
       {
         "@type": "Blog",
         "@id": `${blogUrl}#blog`,
-        name: t("title"),
+        name: t("heading"),
         description: t("description"),
         url: blogUrl,
         inLanguage: locale,
@@ -87,7 +93,7 @@ export default function BlogIndexPage() {
       {
         "@type": "CollectionPage",
         "@id": `${blogUrl}#collection`,
-        name: t("title"),
+        name: t("heading"),
         description: t("description"),
         url: blogUrl,
         inLanguage: locale,
@@ -100,7 +106,23 @@ export default function BlogIndexPage() {
           description: post.excerpt,
           url: `${BASE_URL}${post.href}`,
           datePublished: post.publishedAtIso,
+          image: {
+            "@type": "ImageObject",
+            url: post.image ? `${BASE_URL}${post.image.src}` : "https://heicpdf.to/og-image.png",
+            width: post.image?.width ?? 1200,
+            height: post.image?.height ?? 630,
+          },
           inLanguage: locale,
+        })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${blogUrl}#breadcrumb`,
+        itemListElement: breadcrumbItems.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: item.label,
+          item: item.href ? `${BASE_URL}${item.href}` : undefined,
         })),
       },
     ],
@@ -114,7 +136,7 @@ export default function BlogIndexPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <main>
-        <BlogIndexShell data={data} />
+        <BlogIndexShell data={data} breadcrumb={<Breadcrumb items={breadcrumbItems} />} />
       </main>
       <Footer />
     </>

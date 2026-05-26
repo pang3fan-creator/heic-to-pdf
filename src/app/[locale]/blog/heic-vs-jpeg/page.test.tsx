@@ -49,13 +49,13 @@ function renderBlogArticle() {
   );
 }
 
-describe("How to Convert HEIC to PDF blog article page", () => {
+describe("HEIC vs JPEG blog article page", () => {
   it("renders the article shell from localized content", () => {
     renderBlogArticle();
 
     expect(
       screen.getAllByRole("heading", {
-        name: "How to Convert HEIC to PDF: A Private & Instant Guide (2026)",
+        name: "HEIC vs JPEG: Which Image Format Should You Use in 2026?",
       }).length,
     ).toBeGreaterThanOrEqual(1);
     expect(screen.getByRole("progressbar", { name: "Reading progress" })).toBeTruthy();
@@ -77,9 +77,15 @@ describe("How to Convert HEIC to PDF blog article page", () => {
     );
 
     expect(blogPosting.headline).toBe(
-      "How to Convert HEIC to PDF: A Private Guide",
+      "HEIC vs JPEG: Which Image Format Should You Use in 2026?",
     );
     expect(blogPosting.inLanguage).toBe("en");
+    expect(blogPosting.image).toEqual({
+      "@type": "ImageObject",
+      url: "https://heicpdf.to/og-image.png",
+      width: 1200,
+      height: 630,
+    });
   });
 
   it("keeps one page-level main landmark", () => {
@@ -92,14 +98,14 @@ describe("How to Convert HEIC to PDF blog article page", () => {
   it("generates canonical blog metadata", async () => {
     const metadata = await generateMetadata({ params: Promise.resolve({ locale: "en" }) });
 
-    expect(metadata.title).toBe("How to Convert HEIC to PDF: A Private Guide");
-    expect(metadata.description).toContain("without uploading your photos");
+    expect(metadata.title).toBe("HEIC vs JPEG: Which Format Should You Use?");
+    expect(metadata.description).toContain("HEIC vs JPEG: a practical guide");
     expect(metadata.alternates).toEqual({
-      canonical: "https://heicpdf.to/blog/how-to-convert-heic-to-pdf",
+      canonical: "https://heicpdf.to/blog/heic-vs-jpeg",
       languages: {
-        en: "https://heicpdf.to/blog/how-to-convert-heic-to-pdf",
-        fr: "https://heicpdf.to/fr/blog/how-to-convert-heic-to-pdf",
-        "x-default": "https://heicpdf.to/blog/how-to-convert-heic-to-pdf",
+        en: "https://heicpdf.to/blog/heic-vs-jpeg",
+        fr: "https://heicpdf.to/fr/blog/heic-vs-jpeg",
+        "x-default": "https://heicpdf.to/blog/heic-vs-jpeg",
       },
     });
   });

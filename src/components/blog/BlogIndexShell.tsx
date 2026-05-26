@@ -6,10 +6,15 @@ export type BlogIndexPost = {
   publishedAtIso: string;
   readTime: string;
   href: string;
+  image?: {
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+  };
 };
 
 export type BlogIndexData = {
-  eyebrow: string;
   title: string;
   description: string;
   categoryLabel: string;
@@ -54,10 +59,33 @@ function BlogCardArt({ label }: { label: string }) {
   );
 }
 
+function BlogPostImage({ post }: { post: BlogIndexPost }) {
+  if (!post.image) {
+    return <BlogCardArt label={post.eyebrow} />;
+  }
+
+  return (
+    <div className="blog-index-art blog-index-art-cover">
+      <img
+        src={post.image.src}
+        alt={post.image.alt}
+        width={post.image.width}
+        height={post.image.height}
+      />
+    </div>
+  );
+}
+
 /**
  * Renders the localized blog index layout adapted from the reference HTML template.
  */
-export default function BlogIndexShell({ data }: { data: BlogIndexData }) {
+export default function BlogIndexShell({
+  data,
+  breadcrumb,
+}: {
+  data: BlogIndexData;
+  breadcrumb?: React.ReactNode;
+}) {
   const [featuredPost, ...secondaryPosts] = data.posts;
   const cardPosts = secondaryPosts;
 
@@ -65,7 +93,8 @@ export default function BlogIndexShell({ data }: { data: BlogIndexData }) {
     <div className="blog-index-page">
       <section className="blog-index-hero">
         <div className="container">
-          <p className="blog-index-eyebrow">{data.eyebrow}</p>
+          {breadcrumb}
+
           <h1>{data.title}</h1>
           <p className="blog-index-deck">{data.description}</p>
           <hr />
@@ -88,7 +117,7 @@ export default function BlogIndexShell({ data }: { data: BlogIndexData }) {
         <div className="blog-index-main">
           {featuredPost && (
             <a className="blog-index-featured" href={featuredPost.href}>
-              <BlogCardArt label={featuredPost.eyebrow} />
+              <BlogPostImage post={featuredPost} />
               <div className="blog-index-featured-body">
                 <p className="blog-index-post-tag">{featuredPost.eyebrow}</p>
                 <h2>{featuredPost.title}</h2>
@@ -106,7 +135,7 @@ export default function BlogIndexShell({ data }: { data: BlogIndexData }) {
             <div className="blog-index-grid">
               {cardPosts.map((post) => (
                 <a className="blog-index-card" href={post.href} key={`${post.href}-${post.title}`}>
-                  <BlogCardArt label={post.eyebrow} />
+                  <BlogPostImage post={post} />
                   <div className="blog-index-card-body">
                     <p className="blog-index-post-tag">{post.eyebrow}</p>
                     <h3>{post.title}</h3>

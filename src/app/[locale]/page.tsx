@@ -29,6 +29,12 @@ export default async function HomePage({
         name: "HEICPDF.TO - HEIC to PDF Converter",
         url: "https://heicpdf.to",
         description: schemaDescription,
+        image: {
+          "@type": "ImageObject",
+          url: "https://heicpdf.to/og-image.png",
+          width: 1200,
+          height: 630,
+        },
         operatingSystem: "All",
         applicationCategory: ["Multimedia", "Utilities"],
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

@@ -1,4 +1,5 @@
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { routing } from "@/i18n/routing";
 
 const checkIcon = (
   <svg
@@ -17,12 +18,15 @@ const checkIcon = (
 );
 
 export default function AboutSection() {
+  const locale = useLocale();
   const t = useTranslations("about");
   const reasons = t.raw("reasons") as string[];
   const table = t.raw("table") as {
     headers: string[];
     rows: string[][];
   };
+  const articleHref =
+    locale === routing.defaultLocale ? "/blog/heic-vs-jpeg" : `/${locale}/blog/heic-vs-jpeg`;
 
   return (
     <section className="section" id="about">
@@ -31,6 +35,10 @@ export default function AboutSection() {
           <div className="about-text">
             <h2>{t("title")}</h2>
             <p>{t("description")}</p>
+            <p>
+              {t("guideLinkLead")}{" "}
+              <a href={articleHref}>{t("guideLinkLabel")}</a>
+            </p>
             <ul>
               {reasons.map((reason, i) => (
                 <li key={i}>

@@ -9,7 +9,7 @@ type GuidePart = {
 };
 
 export default function GuideSection() {
-  const t = useTranslations("blog.howToConvertHeicToPdf.guideSection");
+  const t = useTranslations("guideSection");
   const parts = t.raw("parts") as GuidePart[];
 
   return (
