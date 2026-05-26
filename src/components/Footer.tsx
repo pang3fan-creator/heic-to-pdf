@@ -65,6 +65,9 @@ export default function Footer() {
           <a href="https://sellwithboost.com" target="_blank" rel="noopener noreferrer nofollow" className="footer-badge">
             <img src="https://sellwithboost.com/badge/listing.svg" alt="Listed on Sell With Boost" style={{ height: 40, width: 'auto' }} />
           </a>
+          <a href="https://www.toolpilot.ai" target="_blank" rel="noopener noreferrer nofollow" className="footer-badge">
+            <img src="https://www.toolpilot.ai/cdn/shop/files/f-w_690x151_crop_center.png" alt="ToolPilot.ai" style={{ height: 40, width: 'auto' }} />
+          </a>
         </div>
       </div>
     </footer>

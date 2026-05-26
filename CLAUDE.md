@@ -59,7 +59,6 @@ npm run test:watch   # 监听模式运行测试
 
 ### 多语言 URL 拼接
 
-```markdown
 错误: /${locale}/path → 产生 /frpath
 错误: /${locale === "en" ? "" : locale}/path → 产生 //path
 正确: 使用 buildUrl(locale, "/path") 从 @/lib/url 导入
@@ -73,8 +72,6 @@ npm run test:watch   # 监听模式运行测试
     ...s,
     body: s.body.replace(/\{converterHref\}/g, converterHref),
   })),
-  ```
-```
 
 ### 图片格式与解码
 
@@ -156,18 +153,18 @@ npm run test:watch   # 监听模式运行测试
 
 - **注入位置**：全局 Organization schema 在 `layout.tsx` 的 `<head>` 注入；页面级 schema（WebApplication/FAQPage/WebPage/BlogPosting）在各 `page.tsx` 的 `<main>` 前注入
 
-| 规范           | 说明                                              |
-| -------------- | ------------------------------------------------- |
-| Schema 类型    | 工具页面用 `WebApplication`，博客用 `BlogPosting` |
-| BlogPosting 必填 | headline, image (ImageObject 1200×630), datePublished, author |
-| 日期格式       | ISO 8601 含时区 (`2026-03-16T00:00:00+00:00`)     |
-| 多语言支持     | Schema 文本从翻译文件获取，`inLanguage` 标识语言  |
-| @graph 模式    | 多 Schema 用 `@graph` 组织，配合 `@id` 引用       |
+| 规范               | 说明                                                         |
+| ------------------ | ------------------------------------------------------------ |
+| Schema 类型        | 工具页面用 `WebApplication`，博客用 `BlogPosting`            |
+| BlogPosting 必填   | headline, image (ImageObject 1200×630), datePublished, author |
+| 日期格式           | ISO 8601 含时区 (`2026-03-16T00:00:00+00:00`)                |
+| 多语言支持         | Schema 文本从翻译文件获取，`inLanguage` 标识语言             |
+| @graph 模式        | 多 Schema 用 `@graph` 组织，配合 `@id` 引用                  |
 | @graph 与 @context | `@context` 放在 `@graph` 外层 wrapper 上，graph 内条目不重复添加 |
-| BreadcrumbList | 只包含实际存在的页面，不支持 `inLanguage` 属性    |
-| SearchAction   | 仅当有实际搜索功能时添加                          |
+| BreadcrumbList     | 只包含实际存在的页面，不支持 `inLanguage` 属性               |
+| SearchAction       | 仅当有实际搜索功能时添加                                     |
 | 全局 Schema 本地化 | `layout.tsx` 的 Organization 需用 `getTranslations()` 动态获取描述，不能硬编码 |
-| isPartOf 引用检查 | 引用 `#website` 等 ID 前需确认该 ID 在全局 schema 中存在（当前仅 `#organization`） |
+| isPartOf 引用检查  | 引用 `#website` 等 ID 前需确认该 ID 在全局 schema 中存在（当前仅 `#organization`） |
 
 ### hreflang 规范
 
