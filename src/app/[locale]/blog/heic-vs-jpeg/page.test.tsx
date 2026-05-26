@@ -82,7 +82,7 @@ describe("HEIC vs JPEG blog article page", () => {
     expect(blogPosting.inLanguage).toBe("en");
     expect(blogPosting.image).toEqual({
       "@type": "ImageObject",
-      url: "https://heicpdf.to/og-image.png",
+      url: "https://heicpdf.to/images/blog/heic-vs-jpeg-og.png",
       width: 1200,
       height: 630,
     });
@@ -108,5 +108,21 @@ describe("HEIC vs JPEG blog article page", () => {
         "x-default": "https://heicpdf.to/blog/heic-vs-jpeg",
       },
     });
+    expect(metadata.openGraph?.images).toEqual([
+      {
+        url: "https://heicpdf.to/images/blog/heic-vs-jpeg-og.png",
+        width: 1200,
+        height: 630,
+        alt: "HEIC vs JPEG: Which Format Should You Use?",
+      },
+    ]);
+    expect(metadata.twitter?.images).toEqual([
+      {
+        url: "https://heicpdf.to/images/blog/heic-vs-jpeg-og.png",
+        width: 1200,
+        height: 630,
+        alt: "HEIC vs JPEG: Which Format Should You Use?",
+      },
+    ]);
   });
 });

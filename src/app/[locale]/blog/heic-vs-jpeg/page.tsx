@@ -10,6 +10,19 @@ import { routing } from "@/i18n/routing";
 
 const BLOG_PATH = "/blog/heic-vs-jpeg";
 const ARTICLE_URL = `https://heicpdf.to${BLOG_PATH}`;
+const OG_IMAGE_URL = "https://heicpdf.to/images/blog/heic-vs-jpeg-og.png";
+const OG_IMAGE_WIDTH = 1200;
+const OG_IMAGE_HEIGHT = 630;
+const WORDS_PER_MINUTE = 200;
+
+function calculateReadingTime(sections: Array<{ body: string }>): string {
+  const text = sections
+    .map((s) => s.body.replace(/<[^>]*>/g, "").replace(/\s+/g, " "))
+    .join(" ");
+  const words = text.trim().split(/\s+/).length;
+  const minutes = Math.max(1, Math.ceil(words / WORDS_PER_MINUTE));
+  return `${minutes} min read`;
+}
 
 function getLocalizedPath(locale: string, path: string) {
   return locale === routing.defaultLocale ? path : `/${locale}${path}`;
@@ -30,9 +43,9 @@ export async function generateMetadata({
   const articleUrl = getArticleUrl(locale);
 
   const ogImage = {
-    url: "https://heicpdf.to/og-image.png",
-    width: 1200,
-    height: 630,
+    url: OG_IMAGE_URL,
+    width: OG_IMAGE_WIDTH,
+    height: OG_IMAGE_HEIGHT,
     alt: t("title"),
   };
 
@@ -72,9 +85,11 @@ export default function BlogArticlePage() {
   const rawArticle = t.raw("article") as BlogArticleData;
   const converterHref = getLocalizedPath(locale, "/");
   const articleHref = getLocalizedPath(locale, BLOG_PATH);
+  const readingTime = calculateReadingTime(rawArticle.sections);
   const article = {
     ...rawArticle,
     publishedAtIso: t("publishedAtIso"),
+    readingTime,
     converterHref,
     articleHref,
     sections: rawArticle.sections.map((s) => ({
@@ -96,9 +111,9 @@ export default function BlogArticlePage() {
         dateModified: t("modifiedAtIso"),
         image: {
           "@type": "ImageObject",
-          url: "https://heicpdf.to/og-image.png",
-          width: 1200,
-          height: 630,
+          url: OG_IMAGE_URL,
+          width: OG_IMAGE_WIDTH,
+          height: OG_IMAGE_HEIGHT,
         },
         author: {
           "@type": "Person",

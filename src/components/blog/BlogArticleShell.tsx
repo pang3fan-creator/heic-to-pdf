@@ -12,6 +12,7 @@ export type BlogArticleData = {
   };
   publishedAtLabel: string;
   publishedAtIso: string;
+  readingTime?: string;
   sections: Array<{
     id: string;
     heading: string;
@@ -72,6 +73,12 @@ export default function BlogArticleShell({
             <span>{article.author.role}</span>
             <span className="blog-byline-separator">·</span>
             <time dateTime={article.publishedAtIso}>{article.publishedAtLabel}</time>
+            {article.readingTime && (
+              <>
+                <span className="blog-byline-separator">·</span>
+                <span>{article.readingTime}</span>
+              </>
+            )}
           </div>
         </div>
       </header>
