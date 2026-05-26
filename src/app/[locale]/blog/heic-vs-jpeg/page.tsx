@@ -8,7 +8,7 @@ import Breadcrumb from "@/components/Breadcrumb";
 import { buildAlternates } from "@/lib/url";
 import { routing } from "@/i18n/routing";
 
-const BLOG_PATH = "/blog/how-to-convert-heic-to-pdf";
+const BLOG_PATH = "/blog/heic-vs-jpeg";
 const ARTICLE_URL = `https://heicpdf.to${BLOG_PATH}`;
 
 function getLocalizedPath(locale: string, path: string) {
@@ -26,8 +26,15 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "blog.howToConvertHeicToPdf" });
+  const t = await getTranslations({ locale, namespace: "blog.heicVsJpeg" });
   const articleUrl = getArticleUrl(locale);
+
+  const ogImage = {
+    url: "https://heicpdf.to/og-image.png",
+    width: 1200,
+    height: 630,
+    alt: t("title"),
+  };
 
   return {
     title: t("title"),
@@ -42,28 +49,38 @@ export async function generateMetadata({
       type: "article",
       publishedTime: t("publishedAtIso"),
       authors: [t("author.name")],
+      images: [ogImage],
     },
     twitter: {
       card: "summary_large_image",
       title: t("title"),
       description: t("description"),
+      images: [ogImage],
     },
   };
 }
 
 export default function BlogArticlePage() {
-  const t = useTranslations("blog.howToConvertHeicToPdf");
+  const t = useTranslations("blog.heicVsJpeg");
   const tnav = useTranslations("nav");
   const locale = t("language");
   const breadcrumbItems = [
-    { label: tnav("breadcrumbHome"), href: "/" },
-    { label: tnav("breadcrumbBlog") },
+    { label: tnav("breadcrumbHome"), href: getLocalizedPath(locale, "/") },
+    { label: tnav("breadcrumbBlog"), href: getLocalizedPath(locale, "/blog") },
     { label: t("title") },
   ];
+  const rawArticle = t.raw("article") as BlogArticleData;
+  const converterHref = getLocalizedPath(locale, "/");
+  const articleHref = getLocalizedPath(locale, BLOG_PATH);
   const article = {
-    ...(t.raw("article") as BlogArticleData),
-    converterHref: getLocalizedPath(locale, "/"),
-    articleHref: getLocalizedPath(locale, BLOG_PATH),
+    ...rawArticle,
+    publishedAtIso: t("publishedAtIso"),
+    converterHref,
+    articleHref,
+    sections: rawArticle.sections.map((s) => ({
+      ...s,
+      body: s.body.replace(/\{converterHref\}/g, converterHref),
+    })),
   };
   const articleUrl = getArticleUrl(locale);
   const structuredData = {
@@ -72,11 +89,17 @@ export default function BlogArticlePage() {
       {
         "@type": "BlogPosting",
         "@id": `${articleUrl}#article`,
-        headline: t("title"),
+        headline: rawArticle.title,
         description: t("description"),
         url: articleUrl,
         datePublished: t("publishedAtIso"),
         dateModified: t("modifiedAtIso"),
+        image: {
+          "@type": "ImageObject",
+          url: "https://heicpdf.to/og-image.png",
+          width: 1200,
+          height: 630,
+        },
         author: {
           "@type": "Person",
           name: t("author.name"),
@@ -88,6 +111,8 @@ export default function BlogArticlePage() {
           logo: {
             "@type": "ImageObject",
             url: "https://heicpdf.to/heicpdf-logo-256.png",
+            width: 256,
+            height: 256,
           },
         },
         mainEntityOfPage: {

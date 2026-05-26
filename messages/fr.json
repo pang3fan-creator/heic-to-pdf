@@ -21,6 +21,10 @@
         "href": "/"
       },
       {
+        "label": "Blog",
+        "href": "/blog"
+      },
+      {
         "label": "Confidentialité",
         "href": "/privacy"
       },
@@ -43,6 +47,19 @@
           {
             "label": "Accueil",
             "href": "/"
+          }
+        ]
+      },
+      {
+        "title": "Blog",
+        "links": [
+          {
+            "label": "Guide HEIC vs JPEG",
+            "href": "/blog/heic-vs-jpeg"
+          },
+          {
+            "label": "Tous les articles",
+            "href": "/blog"
           }
         ]
       },
@@ -322,6 +339,8 @@
   "about": {
     "title": "Pourquoi convertir ses HEIC en PDF ?",
     "description": "Si vous possédez un iPhone, vous photographiez sans doute en HEIC sans y penser — c'est le format par défaut depuis iOS 11, et il économise beaucoup d'espace par rapport au JPEG. Selon Apple, les fichiers HEIC sont jusqu'à 50 % plus petits que les JPEG à qualité égale, ce qui vous permet de conserver des milliers de photos supplémentaires sur votre téléphone. Le problème ? Essayez d'en envoyer une à un ami sur Windows ou de l'ouvrir sur un téléphone Android — le fichier reste inaccessible. C'est exactement pour cela que la conversion HEIC en PDF est si pratique : le PDF est le format qui fait l'unanimité. Il s'ouvre partout, s'imprime partout, et fonctionne aussi bien sur PC, Mac, tablette que smartphone. Pas de problème de compatibilité, pas de messages d'erreur, pas de lutte avec des formats non pris en charge — un fichier qui fonctionne du premier coup.",
+    "guideLinkLead": "Besoin d'un comparatif plus détaillé ?",
+    "guideLinkLabel": "Comparer HEIC et JPEG plus en détail",
     "reasons": [
       "Windows et Android ne peuvent pas afficher les fichiers HEIC nativement — ils apparaissent comme des fichiers impossibles à ouvrir. Une simple conversion HEIC en PDF résout instantanément ce problème en rendant vos photos visibles sur n'importe quel PC, ordinateur portable ou téléphone. Pas de codecs, pas de logiciel spécial, pas de réglages compliqués. Prenez une photo avec votre iPhone et envoyez-la par e-mail à quelqu'un sur Windows : il pourra ouvrir le PDF immédiatement, sans explication.",
       "Le PDF est l'un des formats les plus universels qui soient. Que ce soit sur un Mac, un Chromebook ou un vieux PC Windows, les PDF s'ouvrent sans difficulté. Pas besoin d'installer de décodeur HEIC ni de se soucier de la compatibilité — vos photos sont prêtes à être consultées sur n'importe quel appareil. Une conversion HEIC en PDF élimine la question de savoir si le destinataire pourra réellement ouvrir ce que vous lui envoyez, ce qui est particulièrement utile lorsque vous partagez avec des personnes moins à l'aise avec la technologie.",
@@ -336,15 +355,60 @@
         "PDF"
       ],
       "rows": [
-        ["Compression", "Meilleure", "Bonne", "Réglable"],
-        ["Compatibilité", "Limitée", "Large", "Universelle"],
-        ["Multi-page", "✓", "✗", "✓"],
-        ["Retouches", "✓", "✓", "Limitée"],
-        ["Impression", "Limitée", "Limitée", "Maximale"],
-        ["Taille", "Petite", "Moyenne", "Moyenne"],
-        ["Partage", "Limité", "Bon", "Universel"],
-        ["Annotations", "✗", "✗", "✓"],
-        ["Standard", "Apple", "Courant", "ISO"]
+        [
+          "Compression",
+          "Meilleure",
+          "Bonne",
+          "Réglable"
+        ],
+        [
+          "Compatibilité",
+          "Limitée",
+          "Large",
+          "Universelle"
+        ],
+        [
+          "Multi-page",
+          "✓",
+          "✗",
+          "✓"
+        ],
+        [
+          "Retouches",
+          "✓",
+          "✓",
+          "Limitée"
+        ],
+        [
+          "Impression",
+          "Limitée",
+          "Limitée",
+          "Maximale"
+        ],
+        [
+          "Taille",
+          "Petite",
+          "Moyenne",
+          "Moyenne"
+        ],
+        [
+          "Partage",
+          "Limité",
+          "Bon",
+          "Universel"
+        ],
+        [
+          "Annotations",
+          "✗",
+          "✗",
+          "✓"
+        ],
+        [
+          "Standard",
+          "Apple",
+          "Courant",
+          "ISO"
+        ]
       ]
     }
   },
@@ -379,28 +443,164 @@
     ]
   },
   "blog": {
-    "howToConvertHeicToPdf": {
-      "guideSection": {
-        "title": "Au-delà des bases",
-        "description": "Informations utiles sur la conversion HEIC en PDF : méthodes natives, qualité de sortie et astuces pour convertir vos HEIC en PDF",
-        "parts": [
+    "index": {
+      "language": "fr",
+      "title": "Guides & astuces HEIC — formats d'image",
+      "heading": "Guides & astuces — formats d'image",
+      "description": "Conseils, comparatifs et guides sur les formats d'image, la conversion de fichiers et les flux de travail numériques — pensés pour les utilisateurs macOS et iOS qui tiennent à la qualité.",
+
+      "categoryLabel": "Sujets du blog",
+      "sidebarLabel": "Barre latérale du blog",
+      "categories": [
+        "Tous",
+        "HEIC",
+        "PDF",
+        "macOS",
+        "iOS",
+        "Confidentialité"
+      ],
+      "posts": [
+        {
+          "eyebrow": "Comparatif de formats",
+          "title": "HEIC vs JPEG : quel format d'image choisir en 2026 ?",
+          "excerpt": "Comparez le poids, la qualité, la compatibilité et les fonctionnalités des formats HEIC et JPEG pour choisir celui qui correspond à vos besoins.",
+          "date": "26 mai 2026",
+          "publishedAtIso": "2026-05-26T00:00:00+00:00",
+          "readTime": "8 min de lecture",
+          "href": "/blog/heic-vs-jpeg",
+          "image": {
+            "src": "/images/blog/heic-vs-jpeg-cover.png",
+            "alt": "Image de couverture comparant les formats HEIC et JPEG",
+            "width": 1200,
+            "height": 675
+          }
+        }
+      ],
+      "sidebar": {
+        "mostReadHeading": "Les plus lus",
+        "topicsHeading": "Sujets",
+        "ctaHeading": "Besoin de convertir ?",
+        "ctaText": "Convertissez vos images HEIC en PDF instantanément avec un traitement local dans le navigateur.",
+        "ctaLabel": "Essayer HEIC en PDF",
+        "mostRead": [
           {
-            "id": "native-options",
-            "heading": "Convertir sur macOS ou Windows",
-            "body": "<p>Tout le monde ne se tourne pas immédiatement vers un outil en ligne pour la conversion HEIC en PDF — et c'est compréhensible. Sur Mac, vous pouvez ouvrir une photo HEIC dans Aperçu et l'exporter en PDF (Fichier → Exporter au format… → PDF). Besoin d'en fusionner plusieurs en un seul PDF ? Ouvrez-les toutes dans Aperçu, sélectionnez les vignettes, puis allez dans Fichier → Imprimer → Enregistrer au format PDF. Cela fonctionne, mais pour plus de quelques photos, le processus devient vite fastidieux.</p><p>Sur Windows c'est plus compliqué. HEIC n'est pas pris en charge nativement, vous aurez besoin de l'extension HEIF Image Extension du Microsoft Store. Ensuite, vous pouvez voir les fichiers HEIC dans l'application Photos et imprimer chaque image au format PDF via Microsoft Print to PDF. Mais une par une — il n'y a pas de conversion HEIC en PDF par lot intégrée dans Windows.</p><p>C'est là qu'un outil dédié comme celui-ci prend tout son sens. Glissez vos fichiers dans ce convertisseur et ils sont traités ensemble en un seul lot. Vous pouvez les organiser, ajuster la mise en page et télécharger le résultat en moins d'une minute.</p>"
+            "title": "HEIC vs JPEG : quel format d'image choisir en 2026 ?",
+            "meta": "8 min de lecture",
+            "href": "/blog/heic-vs-jpeg"
+          }
+        ],
+        "topics": [
+          {
+            "name": "HEIC",
+            "count": "1"
           },
           {
-            "id": "heic-vs-heif",
-            "heading": "HEIC vs HEIF — quelle est la différence ?",
-            "body": "<p>Vous avez peut-être vu le terme HEIF (High Efficiency Image File Format) en cherchant des outils de conversion HEIC en PDF. HEIC est en fait le nom qu'Apple donne à son implémentation du standard HEIF plus large. Considérez HEIF comme le format conteneur et HEIC comme la version Apple.</p><p>Pourquoi cela importe : HEIF n'est plus seulement utilisé par Apple. Les récents téléphones Android et certains appareils photo numériques prennent désormais également en charge le format HEIF par défaut. Ainsi, si vous recevez des fichiers de différentes sources, ils peuvent être étiquetés différemment — mais la conversion HEIC en PDF fonctionne exactement de la même manière.</p><p>Notre outil gère à la fois HEIC et HEIF sans aucune étape supplémentaire. Glissez-les, convertissez-les. Pas de configuration, pas de complication.</p>"
+            "name": "JPEG",
+            "count": "1"
+          }
+        ]
+      }
+    },
+    "heicVsJpeg": {
+      "language": "fr",
+      "title": "HEIC vs JPEG : quel format choisir ?",
+      "description": "Comparez les formats HEIC et JPEG sur le poids, la qualité d'image, la compatibilité et les flux de travail pour choisir le format adapté à chaque situation.",
+      "publishedAtIso": "2026-05-26T00:00:00+00:00",
+      "modifiedAtIso": "2026-05-26T00:00:00+00:00",
+      "author": {
+        "name": "Stefan"
+      },
+      "article": {
+        "eyebrow": "Comparatif",
+        "title": "HEIC vs JPEG : quel format d'image choisir en 2026 ?",
+        "description": "Un guide pratique comparant HEIC et JPEG sur le poids, la qualité d'image, la compatibilité, les fonctionnalités avancées et les flux de travail réels.",
+        "publishedAtLabel": "26 mai 2026",
+        "backToTop": "Retour en haut",
+        "readingProgressLabel": "Progression de lecture",
+        "sidebarLabel": "Barre latérale",
+        "authorLabel": "Auteur",
+        "author": {
+          "name": "Stefan",
+          "role": "Ingénierie & Design",
+          "initials": "S",
+          "bio": "Ingénierie et design chez HEICPDF.TO. Développe des outils respectueux de la vie privée pour une conversion de fichiers rapide et sous le contrôle de l'utilisateur."
+        },
+        "sidebar": {
+          "mostReadHeading": "Les plus lus",
+          "mostRead": [
+            {
+              "title": "HEIC vs JPEG : quel format d'image choisir en 2026 ?",
+              "meta": "8 min de lecture"
+            }
+          ],
+          "ctaHeading": "Besoin de convertir ?",
+          "ctaText": "Convertissez vos images HEIC en PDF instantanément avec un traitement local dans le navigateur.",
+          "ctaLabel": "Essayer HEIC en PDF",
+          "topicsHeading": "Sujets",
+          "topics": [
+            "HEIC",
+            "JPEG",
+            "HEIF",
+            "Formats",
+            "Apple"
+          ]
+        },
+        "relatedHeading": "Articles similaires",
+        "related": [],
+        "sections": [
+          {
+            "id": "introduction",
+            "heading": "Quelle est la différence entre HEIC et JPEG ?",
+            "body": "<p>Si vous avez déjà essayé de téléverser une photo iPhone sur un site administratif, un portail de candidature, ou même simplement envoyé une image par e-mail à un collègue sous Windows, vous connaissez sans doute ce moment d'agacement : le fichier ne passe pas. Il ne s'affiche pas, ne se téléverse pas, et le message d'erreur ne vous apprend rien. Le coupable, c'est presque toujours le format.</p><p>HEIC et JPEG sont deux manières très différentes d'enregistrer une photo. Le JPEG existe depuis 1992 et il est reconnu par quasiment tous les appareils, logiciels et sites web de la planète — un peu comme une prise électrique universelle. Le HEIC — abréviation de High Efficiency Image Container — est la déclinaison qu'Apple a adoptée du standard HEIF (High Efficiency Image File Format), introduit avec iOS 11 en 2017. C'est devenu le format photo par défaut sur les iPhone parce qu'il stocke des images de haute qualité dans un fichier environ deux fois plus léger qu'un JPEG équivalent.</p><p>Mais le choix ne se résume pas à « nouveau format bien, ancien format mal ». C'est un compromis entre efficacité de stockage et compatibilité universelle. La question HEIC ou JPEG n'a pas de réponse unique. Cet article fait le point sur cinq dimensions — poids des fichiers, qualité d'image, compatibilité, fonctionnalités avancées et cas d'usage concrets — pour vous aider à choisir le format qui correspond à <em>votre</em> usage.</p>"
           },
           {
-            "id": "quality-options",
-            "heading": "Qualité et options de sortie",
-            "body": "<p>Lorsque vous convertissez des HEIC en PDF avec cet outil, vous n'êtes pas limité à un format unique. Avant la conversion, vous pouvez ajuster le format de papier (A4, Lettre ou conserver les dimensions d'origine), choisir les marges (de zéro à large) et sélectionner l'orientation portrait ou paysage. Un curseur de qualité vous permet de réduire à environ 70 % pour des fichiers adaptés aux e-mails, ou de rester à 100 % pour un archivage haute qualité.</p><p>Pour les lots, vous pouvez fusionner toutes les photos en un seul PDF multi-pages ou conserver chaque image dans son propre fichier. L'ordre des pages est entièrement personnalisable — faites simplement glisser les vignettes dans l'éditeur avant de lancer la conversion. Tout s'exécute localement, vous pouvez donc ajuster et recommencer autant de fois que nécessaire.</p>"
+            "id": "file-size",
+            "heading": "Poids de fichier — combien d'espace le HEIC fait-il vraiment gagner ?",
+            "body": "<p>Le chiffre qu'on voit partout, c'est que les fichiers HEIC pèsent environ la moitié d'un JPEG de qualité comparable. Dans les grandes lignes, c'est exact — mais la réalité varie selon le sujet photographié et les réglages de l'appareil.</p><p>La différence tient à la compression. Le JPEG utilise une méthode qui date de plusieurs décennies, la Discrete Cosine Transform (DCT). C'est efficace, mais plus vraiment au niveau des standards actuels. Le HEIC, lui, s'appuie sur la compression HEVC (H.265) — la même famille de codecs qui alimente le streaming vidéo 4K. Cette compression moderne permet de conserver une qualité visuelle comparable, voire supérieure, dans un espace nettement réduit.</p><p>Voici un aperçu par scénario :</p><table class=\"blog-comparison-table\"><thead><tr><th>Scénario</th><th>HEIC / HEIF</th><th>JPEG</th><th>Différence approximative</th></tr></thead><tbody><tr><td>Photo iPhone 12 MP</td><td>~1,5–2,5 Mo</td><td>~3–5 Mo</td><td><span class=\"blog-tag blog-tag-wins\">Souvent 40–50 % plus petit</span></td></tr><tr><td>Photo iPhone 48 MP</td><td>Très variable</td><td>Très variable</td><td><span class=\"blog-tag blog-tag-neutral\">HEIC généralement plus petit à qualité similaire</span></td></tr><tr><td>Live Photo</td><td>HEIC + courte vidéo associée</td><td>Pas d'équivalent direct</td><td><span class=\"blog-tag blog-tag-neutral\">Comparaison pas directe</span></td></tr><tr><td>Rafales / grands ensembles de photos</td><td>Stockage total plus faible</td><td>Stockage total plus élevé</td><td><span class=\"blog-tag blog-tag-wins\">Les gains s'accumulent sur de nombreux fichiers</span></td></tr></tbody></table><p>Concrètement, si vous prenez des centaines de photos par mois — comme la plupart des utilisateurs d'iPhone — la différence de stockage se fait vite sentir. Sur une année, garder ses photos en HEIC plutôt qu'en JPEG peut représenter des gigaoctets économisés, en local comme sur iCloud. Des fichiers plus légers, c'est aussi une synchronisation et un partage plus rapides au sein de l'écosystème Apple. Mais il y a un hic : ce gain de place n'a d'intérêt que si la personne qui reçoit le fichier peut vraiment l'ouvrir. On y revient plus loin.</p>"
+          },
+          {
+            "id": "image-quality",
+            "heading": "Qualité d'image — plus petit veut-il dire moins bon ?",
+            "body": "<p>On pourrait croire qu'un fichier plus léger donne forcément une image moins bonne. Mais avec le HEIC, ce n'est pas si simple. La compression HEVC est plus sophistiquée que la DCT du JPEG : elle peut atteindre une qualité visuelle comparable avec un débit environ deux fois plus faible — ou une qualité nettement meilleure à poids égal.</p><p>Où est-ce que ça se voit ? Dans les dégradés subtils — ciels au coucher du soleil, fonds de studio, grandes zones de couleur lisse — la compression JPEG laisse parfois apparaître des effets de bandes et des artefacts en blocs, surtout quand on pousse la compression. Le HEIC gère ces transitions avec plus de finesse. Il gère aussi une profondeur de 10 bits par couche, ce qui donne des transitions tonales plus douces et moins de cassures — à condition que l'écran suive. Le JPEG, lui, reste généralement en 8 bits dans les usages courants.</p><p>Le HEIC peut aussi conserver les données HDR (High Dynamic Range), les profils couleur étendus comme Display P3, et les informations de profondeur qui servent aux effets de mode Portrait. Le JPEG, par conception, est un format SDR 8 bits né dans les années 1990 — il n'a jamais été pensé pour transporter toutes ces données modernes.</p><p>Cela dit, pour l'immense majorité des usages du quotidien — réseaux sociaux, écran de téléphone, petits tirages — un JPEG bien encodé avec un niveau de qualité correct reste tout à fait satisfaisant. Les vraies différences se jouent aux extrêmes : très forte compression en JPEG, ou flux professionnels où la profondeur des couleurs et la précision des dégradés comptent vraiment.</p>"
+          },
+          {
+            "id": "compatibility",
+            "heading": "Compatibilité — le vrai compromis",
+            "body": "<p>Le HEIC a l'avantage sur le stockage et la qualité d'image. Mais en matière de compatibilité, c'est le JPEG qui domine — et pour beaucoup d'utilisateurs, c'est ça qui tranche.</p><p>Dans l'écosystème Apple, le HEIC passe tout seul. Les iPhone, iPad et Mac le gèrent nativement depuis 2017. Mais dès qu'un fichier sort de cet univers, les choses se compliquent. Voici un comparatif par plateforme :</p><table class=\"blog-comparison-table\"><thead><tr><th>Plateforme / Scénario</th><th>HEIC / HEIF</th><th>JPEG</th></tr></thead><tbody><tr><td>iPhone / iPad / macOS</td><td><span class=\"blog-tag blog-tag-wins\">Prise en charge native</span></td><td><span class=\"blog-tag blog-tag-wins\">Prise en charge native</span></td></tr><tr><td>Windows</td><td>Prise en charge avec les extensions HEIF ou applications spécifiques</td><td><span class=\"blog-tag blog-tag-wins\">Prise en charge native</span></td></tr><tr><td>Android</td><td><span class=\"blog-tag blog-tag-neutral\">Bien pris en charge sur les versions récentes, mais pas partout</span></td><td><span class=\"blog-tag blog-tag-wins\">Prise en charge native</span></td></tr><tr><td>Navigateurs web</td><td>Limité et incohérent</td><td><span class=\"blog-tag blog-tag-wins\">Universel</span></td></tr><tr><td>Pièces jointes par e-mail</td><td>Peut ne pas s'afficher correctement pour le destinataire</td><td><span class=\"blog-tag blog-tag-wins\">Fiable</span></td></tr><tr><td>Formulaires web / téléversements</td><td>Souvent refusé</td><td><span class=\"blog-tag blog-tag-wins\">Généralement accepté</span></td></tr><tr><td>Plateformes sociales</td><td>Souvent auto-converti ou non pris en charge</td><td><span class=\"blog-tag blog-tag-wins\">Fiable</span></td></tr><tr><td>Imprimeries / flux de bureau</td><td>Risqué</td><td><span class=\"blog-tag blog-tag-wins\">Fiable</span></td></tr><tr><td>Adobe / applications pro</td><td><span class=\"blog-tag blog-tag-neutral\">Pris en charge dans les versions récentes</span></td><td><span class=\"blog-tag blog-tag-wins\">Fiable</span></td></tr></tbody></table><p>Windows illustre bien le problème. Les versions récentes savent ouvrir du HEIC, mais il faut souvent la bonne extension ou la bonne application — et ce n'est pas évident pour quelqu'un qui reçoit juste une photo qu'il n'arrive pas à lire. Quiconque a déjà dû soumettre un dossier d'assurance ou une demande de location avec des photos d'iPhone a sans doute rencontré ce mur : le champ d'envoi refuse les fichiers, ou ne réagit tout simplement pas.</p><p>Pour partager une photo isolée d'une plateforme à l'autre, le JPEG reste le choix le plus sûr. Mais il y a une autre option qui vaut le détour. Si vous devez transmettre plusieurs photos iPhone sous forme de document — par exemple des reçus pour un remboursement, les pages numérisées d'un contrat signé, ou un ensemble d'images à archiver proprement — le PDF peut être plus adapté qu'aucun des deux formats image. Un <a href=\"{converterHref}\">convertisseur HEIC en PDF privé</a> vous permet de transformer vos photos iPhone directement en PDF, en local dans le navigateur, sans passer par une conversion en JPEG.</p>"
+          },
+          {
+            "id": "features",
+            "heading": "Au-delà des images fixes — ce que chaque format peut faire",
+            "body": "<p>HEIC et JPEG ne sont pas deux façons différentes de faire la même chose — ils appartiennent à deux générations distinctes de la technologie d'image.</p><p>Le HEIC, qui s'appuie sur le conteneur HEIF, ne se limite pas à une image fixe. Il peut embarquer des séquences d'images, des vignettes, des cartes de profondeur, des métadonnées HDR et d'autres données issues de la photo computationnelle des téléphones modernes. C'est ce qui permet, par exemple, aux Live Photos d'Apple d'associer une image fixe HEIC à des données de mouvement. C'est aussi comme ça que le HEIC transporte les informations de profondeur qui autorisent les retouches du mode Portrait après coup.</p><p>Le JPEG, lui, fait une chose, et il la fait bien : il stocke une image matricielle. Mais il le fait au sein d'un écosystème qui a trois décennies de rodage derrière lui. Visionneuses, navigateurs, CMS, imprimantes, logiciels d'édition — sur tous les systèmes d'exploitation, le JPEG est reconnu sans discussion. Il embarque des métadonnées standardisées (EXIF, XMP, profils ICC) et des fonctions comme le JPEG progressif qui permettent un affichage progressif sur le web, ce qui reste utile pour la performance des pages.</p><div class=\"blog-emphasis-box\"><strong>Pour faire simple :</strong> le HEIC propose des capacités d'image plus modernes, mais c'est surtout dans l'écosystème Apple qu'on en profite pleinement. Le JPEG ne cherche pas à impressionner — et c'est justement pour ça qu'il fonctionne partout, sans qu'on ait à y penser.</div>"
+          },
+          {
+            "id": "decision-guide",
+            "heading": "Lequel choisir ?",
+            "body": "<p>En bref : tout dépend de ce que vous faites. Voici un petit guide pratique :</p><table class=\"blog-comparison-table\"><thead><tr><th>Scénario</th><th>Recommandation</th></tr></thead><tbody><tr><td>Photos quotidiennes sur iPhone et stockage dans l'écosystème Apple</td><td><span class=\"blog-tag blog-tag-wins\">HEIC</span> — économise de l'espace, préserve la qualité</td></tr><tr><td>Envoi d'une image unique à une personne dont vous ne connaissez pas l'appareil</td><td><span class=\"blog-tag blog-tag-wins\">JPEG</span> — compatibilité maximale</td></tr><tr><td>Soumission à un formulaire web, CMS ou portail d'emploi</td><td><span class=\"blog-tag blog-tag-wins\">JPEG</span> — accepté sans surprise</td></tr><tr><td>Plusieurs reçus, documents signés ou pages de devoir</td><td><span class=\"blog-tag blog-tag-wins\">PDF</span> — un seul fichier propre, plusieurs pages</td></tr><tr><td>Archivage de lots de photos</td><td><span class=\"blog-tag blog-tag-neutral\">Conserver les originaux HEIC</span> — exporter en JPEG ou PDF pour la diffusion</td></tr><tr><td>Édition photo professionnelle</td><td><span class=\"blog-tag blog-tag-neutral\">RAW privilégié</span> — HEIC ou JPEG comme formats d'export et de livraison</td></tr><tr><td>Impression ou flux de bureau</td><td><span class=\"blog-tag blog-tag-neutral\">JPEG pour les images seules</span> — PDF pour les documents de plusieurs pages</td></tr></tbody></table><p>La question HEIC ou JPEG a une réponse un peu ennuyeuse mais rassurante : ça dépend de l'usage. Le HEIC s'impose quand l'espace de stockage compte et que vous restez dans l'univers Apple. Le JPEG reste la valeur sûre pour envoyer une image à n'importe qui, n'importe où, sur n'importe quel appareil. Et quand il s'agit de transformer plusieurs photos en un document propre et unique — reçus, formulaires signés, dossiers à rendre — le PDF prend le relais là où aucun des deux formats image n'a vraiment été conçu pour ça.</p><p>Si vous photographiez régulièrement avec un iPhone et que vous devez partager vos photos sous forme de documents, vous pouvez <a href=\"{converterHref}\">convertir des photos HEIC en PDF en ligne</a> — entièrement dans votre navigateur, sans téléversement ni logiciel à installer.</p>"
           }
         ]
       }
     }
+  },
+  "guideSection": {
+    "title": "Au-delà des bases",
+    "description": "Informations utiles sur la conversion HEIC en PDF : méthodes natives, qualité de sortie et astuces pour convertir vos HEIC en PDF",
+    "parts": [
+      {
+        "id": "native-options",
+        "heading": "Convertir sur macOS ou Windows",
+        "body": "<p>Tout le monde ne se tourne pas immédiatement vers un outil en ligne pour la conversion HEIC en PDF — et c'est compréhensible. Sur Mac, vous pouvez ouvrir une photo HEIC dans Aperçu et l'exporter en PDF (Fichier → Exporter au format… → PDF). Besoin d'en fusionner plusieurs en un seul PDF ? Ouvrez-les toutes dans Aperçu, sélectionnez les vignettes, puis allez dans Fichier → Imprimer → Enregistrer au format PDF. Cela fonctionne, mais pour plus de quelques photos, le processus devient vite fastidieux.</p><p>Sur Windows c'est plus compliqué. HEIC n'est pas pris en charge nativement, vous aurez besoin de l'extension HEIF Image Extension du Microsoft Store. Ensuite, vous pouvez voir les fichiers HEIC dans l'application Photos et imprimer chaque image au format PDF via Microsoft Print to PDF. Mais une par une — il n'y a pas de conversion HEIC en PDF par lot intégrée dans Windows.</p><p>C'est là qu'un outil dédié comme celui-ci prend tout son sens. Glissez vos fichiers dans ce convertisseur et ils sont traités ensemble en un seul lot. Vous pouvez les organiser, ajuster la mise en page et télécharger le résultat en moins d'une minute.</p>"
+      },
+      {
+        "id": "heic-vs-heif",
+        "heading": "HEIC vs HEIF — quelle est la différence ?",
+        "body": "<p>Vous avez peut-être vu le terme HEIF (High Efficiency Image File Format) en cherchant des outils de conversion HEIC en PDF. HEIC est en fait le nom qu'Apple donne à son implémentation du standard HEIF plus large. Considérez HEIF comme le format conteneur et HEIC comme la version Apple.</p><p>Pourquoi cela importe : HEIF n'est plus seulement utilisé par Apple. Les récents téléphones Android et certains appareils photo numériques prennent désormais également en charge le format HEIF par défaut. Ainsi, si vous recevez des fichiers de différentes sources, ils peuvent être étiquetés différemment — mais la conversion HEIC en PDF fonctionne exactement de la même manière.</p><p>Notre outil gère à la fois HEIC et HEIF sans aucune étape supplémentaire. Glissez-les, convertissez-les. Pas de configuration, pas de complication.</p>"
+      },
+      {
+        "id": "quality-options",
+        "heading": "Qualité et options de sortie",
+        "body": "<p>Lorsque vous convertissez des HEIC en PDF avec cet outil, vous n'êtes pas limité à un format unique. Avant la conversion, vous pouvez ajuster le format de papier (A4, Lettre ou conserver les dimensions d'origine), choisir les marges (de zéro à large) et sélectionner l'orientation portrait ou paysage. Un curseur de qualité vous permet de réduire à environ 70 % pour des fichiers adaptés aux e-mails, ou de rester à 100 % pour un archivage haute qualité.</p><p>Pour les lots, vous pouvez fusionner toutes les photos en un seul PDF multi-pages ou conserver chaque image dans son propre fichier. L'ordre des pages est entièrement personnalisable — faites simplement glisser les vignettes dans l'éditeur avant de lancer la conversion. Tout s'exécute localement, vous pouvez donc ajuster et recommencer autant de fois que nécessaire.</p>"
+      }
+    ]
   }
 }

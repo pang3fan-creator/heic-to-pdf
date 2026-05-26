@@ -11,6 +11,7 @@ export type BlogArticleData = {
     bio: string;
   };
   publishedAtLabel: string;
+  publishedAtIso: string;
   sections: Array<{
     id: string;
     heading: string;
@@ -21,6 +22,7 @@ export type BlogArticleData = {
     mostRead: Array<{
       title: string;
       meta: string;
+      href?: string;
     }>;
     ctaHeading: string;
     ctaText: string;
@@ -39,6 +41,7 @@ export type BlogArticleData = {
     title: string;
     excerpt: string;
     date: string;
+    href?: string;
   }>;
   backToTop: string;
 };
@@ -68,7 +71,7 @@ export default function BlogArticleShell({
             <span className="blog-byline-separator">·</span>
             <span>{article.author.role}</span>
             <span className="blog-byline-separator">·</span>
-            <time dateTime="2026-05-12">{article.publishedAtLabel}</time>
+            <time dateTime={article.publishedAtIso}>{article.publishedAtLabel}</time>
           </div>
         </div>
       </header>
@@ -86,15 +89,26 @@ export default function BlogArticleShell({
         <aside className="blog-sidebar" aria-label={article.sidebarLabel}>
           <section className="blog-sidebar-section">
             <h2 className="blog-sidebar-heading">{article.sidebar.mostReadHeading}</h2>
-            {article.sidebar.mostRead.map((item, index) => (
-              <a className="blog-most-read-item" href={article.articleHref} key={item.title}>
-                <span className="blog-most-read-number">
-                  {(index + 1).toString().padStart(2, "0")}
-                </span>
-                <span className="blog-most-read-title">{item.title}</span>
-                <span className="blog-most-read-meta">{item.meta}</span>
-              </a>
-            ))}
+            {article.sidebar.mostRead.map((item, index) => {
+              const content = (
+                <>
+                  <span className="blog-most-read-number">
+                    {(index + 1).toString().padStart(2, "0")}
+                  </span>
+                  <span className="blog-most-read-title">{item.title}</span>
+                  <span className="blog-most-read-meta">{item.meta}</span>
+                </>
+              );
+              return item.href ? (
+                <a className="blog-most-read-item" href={item.href} key={item.title}>
+                  {content}
+                </a>
+              ) : (
+                <div className="blog-most-read-item" key={item.title}>
+                  {content}
+                </div>
+              );
+            })}
           </section>
 
           <section className="blog-sidebar-section">
@@ -132,24 +146,35 @@ export default function BlogArticleShell({
         </div>
       </section>
 
-      {article.related.length > 0 && (
-        <section className="blog-related-section">
-          <h2>{article.relatedHeading}</h2>
+      <section className="blog-related-section">
+        <h2>{article.relatedHeading}</h2>
+        {article.related.length > 0 && (
           <div className="blog-related-grid">
-            {article.related.map((item) => (
-              <a className="blog-related-card" href={article.articleHref} key={item.title}>
-                <div className="blog-related-image">{item.eyebrow}</div>
-                <div className="blog-related-card-body">
-                  <p className="blog-related-eyebrow">{item.eyebrow}</p>
-                  <h3>{item.title}</h3>
-                  <p>{item.excerpt}</p>
-                  <time>{item.date}</time>
+            {article.related.map((item) => {
+              const content = (
+                <>
+                  <div className="blog-related-image">{item.eyebrow}</div>
+                  <div className="blog-related-card-body">
+                    <p className="blog-related-eyebrow">{item.eyebrow}</p>
+                    <h3>{item.title}</h3>
+                    <p>{item.excerpt}</p>
+                    <time>{item.date}</time>
+                  </div>
+                </>
+              );
+              return item.href ? (
+                <a className="blog-related-card" href={item.href} key={item.title}>
+                  {content}
+                </a>
+              ) : (
+                <div className="blog-related-card" key={item.title}>
+                  {content}
                 </div>
-              </a>
-            ))}
+              );
+            })}
           </div>
-        </section>
-      )}
+        )}
+      </section>
     </div>
   );
 }

@@ -34,6 +34,13 @@ vi.mock("@/components/Footer", () => ({
   default: () => createElement("footer"),
 }));
 
+vi.mock("@/i18n/routing", () => ({
+  routing: {
+    locales: ["en", "fr"],
+    defaultLocale: "en",
+  },
+}));
+
 function renderBlogArticle() {
   return render(
     <NextIntlClientProvider locale="en" messages={messages}>
@@ -42,13 +49,13 @@ function renderBlogArticle() {
   );
 }
 
-describe("How to Convert HEIC to PDF blog article page", () => {
+describe("HEIC vs JPEG blog article page", () => {
   it("renders the article shell from localized content", () => {
     renderBlogArticle();
 
     expect(
       screen.getAllByRole("heading", {
-        name: "How to Convert HEIC to PDF: A Private & Instant Guide (2026)",
+        name: "HEIC vs JPEG: Which Image Format Should You Use in 2026?",
       }).length,
     ).toBeGreaterThanOrEqual(1);
     expect(screen.getByRole("progressbar", { name: "Reading progress" })).toBeTruthy();
@@ -56,7 +63,7 @@ describe("How to Convert HEIC to PDF blog article page", () => {
     expect(screen.getByRole("link", { name: "Try HEIC to PDF" }).getAttribute("href")).toBe(
       "/",
     );
-    expect(screen.getByRole("heading", { name: "Related Articles" })).toBeTruthy();
+    expect(screen.getByRole("region", { name: "Author" })).toBeTruthy();
   });
 
   it("adds BlogPosting structured data with the current language", () => {
@@ -65,11 +72,20 @@ describe("How to Convert HEIC to PDF blog article page", () => {
 
     expect(script).toBeTruthy();
     const structuredData = JSON.parse(script?.textContent ?? "{}");
-    expect(structuredData["@type"]).toBe("BlogPosting");
-    expect(structuredData.headline).toBe(
-      "How to Convert HEIC to PDF: A Private Guide",
+    const blogPosting = structuredData["@graph"].find(
+      (item: { "@type"?: string }) => item["@type"] === "BlogPosting",
     );
-    expect(structuredData.inLanguage).toBe("en");
+
+    expect(blogPosting.headline).toBe(
+      "HEIC vs JPEG: Which Image Format Should You Use in 2026?",
+    );
+    expect(blogPosting.inLanguage).toBe("en");
+    expect(blogPosting.image).toEqual({
+      "@type": "ImageObject",
+      url: "https://heicpdf.to/og-image.png",
+      width: 1200,
+      height: 630,
+    });
   });
 
   it("keeps one page-level main landmark", () => {
@@ -82,13 +98,14 @@ describe("How to Convert HEIC to PDF blog article page", () => {
   it("generates canonical blog metadata", async () => {
     const metadata = await generateMetadata({ params: Promise.resolve({ locale: "en" }) });
 
-    expect(metadata.title).toBe("How to Convert HEIC to PDF: A Private Guide");
-    expect(metadata.description).toContain("Learn how to convert HEIC to PDF locally in your browser");
+    expect(metadata.title).toBe("HEIC vs JPEG: Which Format Should You Use?");
+    expect(metadata.description).toContain("HEIC vs JPEG: a practical guide");
     expect(metadata.alternates).toEqual({
-      canonical: "https://heicpdf.to/blog/how-to-convert-heic-to-pdf",
+      canonical: "https://heicpdf.to/blog/heic-vs-jpeg",
       languages: {
-        en: "https://heicpdf.to/blog/how-to-convert-heic-to-pdf",
-        "x-default": "https://heicpdf.to/blog/how-to-convert-heic-to-pdf",
+        en: "https://heicpdf.to/blog/heic-vs-jpeg",
+        fr: "https://heicpdf.to/fr/blog/heic-vs-jpeg",
+        "x-default": "https://heicpdf.to/blog/heic-vs-jpeg",
       },
     });
   });
