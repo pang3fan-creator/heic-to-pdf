@@ -2731,6 +2731,8 @@ a:hover {
     font-size: clamp(28px, 8vw, 36px);
   }
   .blog-article-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas: "main";
     padding: 0 16px;
   }
   .blog-author-footer {
@@ -2738,6 +2740,10 @@ a:hover {
     text-align: center;
   }
   .blog-comparison-table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     font-size: 13px;
   }
   .policy-header {
@@ -2753,6 +2759,12 @@ a:hover {
   .policy-body .emph-box {
     padding: 14px 0 14px 18px;
     font-size: 16px;
+  }
+  .policy-body .data-table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .section {
     padding: 56px 0;
@@ -2805,7 +2817,7 @@ a:hover {
     top: 64px;
     left: 0;
     right: 0;
-    background: var(--nav-bg);
+    background: var(--surface-raised);
     backdrop-filter: blur(var(--nav-blur));
     -webkit-backdrop-filter: blur(var(--nav-blur));
     border: 1px solid var(--border);
