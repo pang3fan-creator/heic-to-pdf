@@ -54,3 +54,5 @@ next-env.d.ts
 
 # ccb configuration (can include secrets)
 .ccb/
+
+/docs/
