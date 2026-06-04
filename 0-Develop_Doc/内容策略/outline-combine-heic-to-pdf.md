@@ -5,6 +5,18 @@
 
 ---
 
+## 内容定位
+
+这篇文章定位为"**多张 HEIC → 单个多页 PDF**"场景教程，不是通用的 HEIC to PDF 教程。
+
+| 做 | 不做 |
+|---|------|
+| 讲什么时候需要合并多张 HEIC | 写通用的 HEIC 转 PDF 步骤 |
+| 各平台只点出"合并"的特殊点 | 展开成完整平台转换教程 |
+| 强调多页 PDF 的场景价值（合同、发票、笔记） | 和首页 GuideSection 重复 |
+
+---
+
 ## 基本信息
 
 | 字段 | 内容 |
@@ -12,7 +24,7 @@
 | **URL** | `/blog/combine-heic-to-pdf` |
 | **H1** | How to Combine Multiple HEIC Photos Into One PDF |
 | **Meta title** | How to Combine Multiple HEIC Photos Into One PDF |
-| **Meta description** | A practical guide to merging multiple HEIC photos into a single PDF document — on iPhone, Mac, Windows, and online without uploading. |
+| **Meta description** | Learn how to combine multiple HEIC photos into one PDF on iPhone, Mac, Windows, or in your browser — no uploads needed. |
 | **主关键词** | `combine heic to pdf` |
 | **次关键词** | `merge heic to pdf`, `multiple heic to one pdf`, `batch heic to pdf`, `combine heic into pdf` |
 | **内容类型** | 多场景教程（how-to guide） |
@@ -37,15 +49,14 @@
 
 ---
 
-### Section 2 — Combine HEIC to PDF on iPhone
+### Section 2 — On iPhone (合并场景)
 
-**要点：**
-- 方法一：用 iPhone 自带 Files App 合并（简易但功能有限）
-  - 选择多张图片 → 右上角菜单 → 创建 PDF
+**要点（只讲合并特殊点）：**
+- 如果照片已保存在 Files App，可以选中多张 → 右上角菜单 → 创建 PDF
   - 优点：无需额外软件
-  - 缺点：只能选照片本身，不能调整顺序和设置
-- 方法二：用 Safari 访问在线工具
-  - 自然引出：用浏览器访问 HEICPDF.TO，上传多张 HEIC，打开 Merge 开关
+  - 局限：只能操作 Files 里的文件，不能直接从照片库选；顺序调整有限
+- Safari 访问在线工具是更灵活的选择
+  - 自然引出：打开 HEICPDF.TO，上传多张，打开 Merge
 
 **关键词分布：**
 - `combine heic to pdf on iphone`
@@ -55,30 +66,28 @@
 
 ---
 
-### Section 3 — Combine HEIC to PDF on Mac
+### Section 3 — On Mac (合并场景)
 
-**要点：**
-- 方法一：Mac 自带 Preview 合并
-  - 打开 Preview → 缩略图侧栏 → 选中多张 → File → Print → Save as PDF
-  - 优点：免费，系统自带
-  - 缺点：Preview 打开多张 HEIC 会卡，大文件内存占用高
-- 方法二：用浏览器在线合并
-  - 自然引出：拖拽上传到 HEICPDF.TO，一键合并
+**要点（只讲合并特殊点）：**
+- 最直接的方法：Finder 选中多个 HEIC 文件 → 右键 Quick Actions → Create PDF
+  - Apple 官方推荐方案，按选择顺序合并
+  - 优点：系统自带，操作最简单
+- Preview 也可行，但打开多张 HEIC 大文件时可能卡顿
+- 浏览器在线合并是更轻量的替代方案
 
 **关键词分布：**
 - `combine heic to pdf on mac`
-- `merge heic files mac preview`
+- `merge heic files on mac`
 
 ---
 
-### Section 4 — Combine HEIC to PDF on Windows
+### Section 4 — On Windows (合并场景)
 
-**要点：**
-- Windows 原生不支持 HEIC 预览和合并
-  - 需安装 HEIF 图像扩展（Microsoft Store，可能收费）
+**要点（只讲合并特殊点）：**
+- Windows 预览 HEIC 文件可能需要安装 HEIF 图像扩展（Microsoft Store）
   - 安装后可用 Photos 应用打印为 PDF
-- 推荐在线方案（浏览器端，无需安装扩展）
-  - 自然引出 HEICPDF.TO
+  - 如果扩展未安装或不可用，HEIC 文件可能无法正常预览
+- 浏览器在线合并方案无需任何扩展，可跨设备使用
 
 **关键词分布：**
 - `combine heic to pdf on windows`
@@ -86,17 +95,13 @@
 
 ---
 
-### Section 5 — Online Solution (推荐方案)
+### Section 5 — When an Online Browser-Based Tool Makes Sense
 
 **要点：**
-- 介绍 HEICPDF.TO 的核心优势：
-  - ✅ 浏览器端本地转换，不上传服务器
-  - ✅ 支持多张图片一次拖入
-  - ✅ Merge 开关一键合并
-  - ✅ 支持调整图片顺序
-  - ✅ 免费，无需注册
-- 操作步骤简述（2-3 句描述流程即可，不要写详细步骤）
-- 与其他方案对比总结表
+- 跨平台方案：不需要安装软件或扩展，任何设备有浏览器就行
+- 隐私优势：文件在本地处理，不上传服务器
+- 适合批量场景：多张拖入 → 合并 → 下载为一个 PDF
+- 可选：与平台原生方案的对比总结表
 
 **建议对比表：**
 
@@ -168,7 +173,8 @@
 
 ## 法语版本
 
-- URL: `/blog/combiner-plusieurs-heic-en-un-seul-pdf`
-- H1: Comment combiner plusieurs photos HEIC en un seul PDF
-- 关键词: `combiner plusieurs heic en pdf`
-- 正文使用法语表达，不翻译时用英文原文 + 法语解释
+- URL: `/blog/fusionner-heic-en-pdf`
+- H1: Comment fusionner plusieurs photos HEIC en un seul PDF
+- 关键词: `fusionner heic en pdf`、`combiner des photos HEIC en PDF`
+- 正文建议混合使用 `fusionner` 和 `combiner`，避免重复同一个词
+- 法语 URL 使用 `fusionner` 更自然
