@@ -51,12 +51,14 @@
 
 ### Section 2 — On iPhone (合并场景)
 
-**要点（只讲合并特殊点）：**
-- 如果照片已保存在 Files App，可以选中多张 → 右上角菜单 → 创建 PDF
+**要点（只写方法概览，不写编号步骤）：**
+- 如果照片已保存在 Files App，可以选中多张 → 创建 PDF
   - 优点：无需额外软件
   - 局限：只能操作 Files 里的文件，不能直接从照片库选；顺序调整有限
 - Safari 访问在线工具是更灵活的选择
   - 自然引出：打开 HEICPDF.TO，上传多张，打开 Merge
+
+**写法要求：** 每个方法 2-3 句概览，重点解释"是否适合合并多张 HEIC"，不教用户完成每个点击
 
 **关键词分布：**
 - `combine heic to pdf on iphone`
@@ -68,12 +70,14 @@
 
 ### Section 3 — On Mac (合并场景)
 
-**要点（只讲合并特殊点）：**
-- 最直接的方法：Finder 选中多个 HEIC 文件 → 右键 Quick Actions → Create PDF
+**要点（只写方法概览，不写编号步骤）：**
+- 最直接的方法：Finder 选中多个 HEIC 文件 → Quick Actions → Create PDF
   - Apple 官方推荐方案，按选择顺序合并
   - 优点：系统自带，操作最简单
 - Preview 也可行，但打开多张 HEIC 大文件时可能卡顿
 - 浏览器在线合并是更轻量的替代方案
+
+**写法要求：** 每个方法 2-3 句概览，重点解释"是否适合合并多张 HEIC"，不教用户完成每个点击
 
 **关键词分布：**
 - `combine heic to pdf on mac`
@@ -83,11 +87,15 @@
 
 ### Section 4 — On Windows (合并场景)
 
-**要点（只讲合并特殊点）：**
+**要点（只写方法概览，不写编号步骤）：**
 - Windows 预览 HEIC 文件可能需要安装 HEIF 图像扩展（Microsoft Store）
   - 安装后可用 Photos 应用打印为 PDF
   - 如果扩展未安装或不可用，HEIC 文件可能无法正常预览
+- **局限：** Windows 原生方案通常适合查看/打印单张，不适合自然的批量合并
+  - 原生工作流围绕"打开或打印图片"设计，而非"将一批图片整理成一个多页文档"
 - 浏览器在线合并方案无需任何扩展，可跨设备使用
+
+**写法要求：** 每个方法 2-3 句概览，重点解释"是否适合合并多张 HEIC"，不教用户完成每个点击
 
 **关键词分布：**
 - `combine heic to pdf on windows`
@@ -108,15 +116,15 @@
 | 方案 | 平台 | 需要安装 | 隐私安全 | 批量合并 | 推荐？ |
 |------|:----:|:-------:|:-------:|:-------:|:-----:|
 | iPhone Files App | iOS | ❌ | ✅ 本地 | ⚠️ 有限 | — |
-| Mac Preview | macOS | ❌ | ✅ 本地 | ⚠️ 卡顿 | — |
-| Windows Photos | Windows | ⚠️ 扩展 | ✅ 本地 | ⚠️ 有限 | — |
-| HEICPDF.TO | 全平台 | ❌ | ✅ 纯本地 | ✅ 一键合并 | ⭐ |
+| Mac Finder Create PDF | macOS | ❌ | ✅ 本地 | ⚠️ 较流畅但大文件可卡顿 | — |
+| Windows Photos | Windows | ⚠️ 扩展 | ✅ 本地 | ❌ 不适合批量合并 | — |
+| 浏览器本地工具 | 全平台 | ❌ | ✅ 纯本地 | ✅ 一键合并 | ⭐ |
 
 **关键词分布：**
 - `combine heic to pdf online`
 - `merge heic files without uploading`
 
-**CTA：** 本节结尾 1 处，锚文本用自然短语，如 `combine your HEIC photos into a single PDF`
+**CTA：** 本节结尾 1 处，锚文本用自然短语，如 `create one PDF from your HEIC photos`
 
 ---
 
@@ -131,20 +139,14 @@
 
 ## Related Articles
 
-```json
-[
-  {
-    "eyebrow": "Format Comparison",
-    "title": "HEIC vs JPEG: Which Image Format Should You Use in 2026?",
-    "excerpt": "Compare HEIC and JPEG across file size, image quality, compatibility, and real-world use cases."
-  },
-  {
-    "eyebrow": "Guide",
-    "title": "How to Open HEIC Files on Windows, Mac, and the Web",
-    "excerpt": "A practical guide to viewing HEIC photos across devices and browsers."
-  }
-]
-```
+⚠️ 只链接真实存在的文章。未发布的文章标注为 future candidate，不对应实际链接。
+
+已发布：
+- **HEIC vs JPEG: Which Image Format Should You Use in 2026?**
+  - `eyebrow`: Format Comparison
+
+Future candidate（待发布后加入 related）：
+- How to Open HEIC Files on Windows, Mac, and the Web
 
 ---
 
@@ -166,15 +168,19 @@
 2. **数据表述保守：** 不写绝对数字，用 `often`、`can be`、`depending on`
 3. **不要写详细操作步骤（step-by-step）** — 那不是本文目的，工具的操作步骤由首页 GuideSection 承接
 4. **内链自然：** 不重复堆叠 `HEIC to PDF` `convert HEIC to PDF` 这些首页主词
-5. **全文 800-1200 词**
-6. **不用 HowTo Schema**，用 BlogPosting
+5. **关键词自然混用：** 不要在正文频繁重复完整词 `combine heic to pdf`，应混用自然表达：
+   - `combine multiple HEIC photos into one PDF`
+   - `merge HEIC files into a single PDF`
+   - `create one PDF from several HEIC photos`
+   - `turn a batch of HEIC images into one document`
+6. **全文 800-1200 词**
+7. **不用 HowTo Schema**，用 BlogPosting
 
 ---
 
 ## 法语版本
 
-- URL: `/blog/fusionner-heic-en-pdf`
+- URL: 与英文共用 slug `/blog/combine-heic-to-pdf`（项目路由策略：英法共用 slug，通过 locale 区分）
 - H1: Comment fusionner plusieurs photos HEIC en un seul PDF
 - 关键词: `fusionner heic en pdf`、`combiner des photos HEIC en PDF`
 - 正文建议混合使用 `fusionner` 和 `combiner`，避免重复同一个词
-- 法语 URL 使用 `fusionner` 更自然
