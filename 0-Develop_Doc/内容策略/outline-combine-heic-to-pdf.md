@@ -132,8 +132,13 @@
 
 | 位置 | 链接到 | 锚文本 |
 |------|-------|--------|
-| Section 5 | 首页 `/` | `combine your HEIC photos into a single PDF online` |
+| Section 5 | 首页 `/` | `create one PDF from your HEIC photos` |
 | 全文不超过 2 次 | — | 第二个可选在 Section 2 或 3 |
+
+**写法要求：**
+- 英文正文可以自然提到 `HEICPDF.TO`，但不要写成硬广；重点表达 browser-based local processing。
+- 首页内链只放 1 次即可，除非正文确实需要在 iPhone 或 Mac 段落补充一个自然入口。
+- 不使用 `HEIC to PDF`、`convert HEIC to PDF` 这类首页核心词作为反复锚文本。
 
 ---
 
@@ -173,7 +178,10 @@ Future candidate（待发布后加入 related）：
    - `merge HEIC files into a single PDF`
    - `create one PDF from several HEIC photos`
    - `turn a batch of HEIC images into one document`
-6. **全文 800-1200 词**
+6. **全文 1200-1600 词**
+   - 1200 词左右是最低建议，适合保持简洁。
+   - 1400-1600 词更理想，可以给 iPhone、Mac、Windows、在线方案各自留出足够解释空间。
+   - 不建议低于 1000 词，否则容易变成浅层方法拼盘，缺少独立信息增益。
 7. **不用 HowTo Schema**，用 BlogPosting
 
 ---
@@ -182,5 +190,20 @@ Future candidate（待发布后加入 related）：
 
 - URL: 与英文共用 slug `/blog/combine-heic-to-pdf`（项目路由策略：英法共用 slug，通过 locale 区分）
 - H1: Comment fusionner plusieurs photos HEIC en un seul PDF
-- 关键词: `fusionner heic en pdf`、`combiner des photos HEIC en PDF`
+- 关键词: `fusionner heic en pdf`、`combiner des photos HEIC en PDF`、`convertir plusieurs HEIC en un seul PDF`
 - 正文建议混合使用 `fusionner` 和 `combiner`，避免重复同一个词
+
+---
+
+## 发布实现清单
+
+交给 Claude Code 落地时，同步处理：
+
+- `messages/en.json` / `messages/fr.json` 新增文章内容与 SEO metadata。
+- `/blog` index posts 增加这篇文章，sidebar topics/counts 同步更新。
+- 新文章 sidebar mostRead 至少包含已发布的 `HEIC vs JPEG`。
+- `/blog/heic-vs-jpeg` 的 related 可反链到新文章。
+- `src/app/sitemap.ts` 新增 `/blog/combine-heic-to-pdf`，并包含 en/fr alternates。
+- `src/app/llms.txt/route.ts` Useful Links 新增这篇文章。
+- 生成文章 cover 图和专属 OG 图；BlogPosting.image 使用 1200x630 OG 图。
+- 文章使用 `BlogPosting` schema，不使用 `HowTo` schema。

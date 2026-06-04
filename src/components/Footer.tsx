@@ -1,7 +1,17 @@
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { routing } from "@/i18n/routing";
 import LanguageSwitcher from "./LanguageSwitcher";
 
+function localizeHref(href: string, locale: string) {
+  if (!href.startsWith("/") || locale === routing.defaultLocale) {
+    return href;
+  }
+
+  return `/${locale}${href}`;
+}
+
 export default function Footer() {
+  const locale = useLocale();
   const t = useTranslations("footer");
   const tnav = useTranslations("nav");
   const columns = t.raw("columns") as Array<{
@@ -38,7 +48,7 @@ export default function Footer() {
               <ul>
                 {col.links.map((link, j) => (
                   <li key={j}>
-                    <a href={link.href}>{link.label}</a>
+                    <a href={localizeHref(link.href, locale)}>{link.label}</a>
                   </li>
                 ))}
               </ul>

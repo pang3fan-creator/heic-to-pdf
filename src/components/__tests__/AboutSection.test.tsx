@@ -38,6 +38,12 @@ describe("AboutSection", () => {
     });
 
     expect(link.getAttribute("href")).toBe("/blog/heic-vs-jpeg");
+
+    const combineLink = screen.getByRole("link", {
+      name: "Learn how to combine multiple HEIC photos into one PDF",
+    });
+
+    expect(combineLink.getAttribute("href")).toBe("/blog/combine-heic-to-pdf");
   });
 
   it("renders a localized supporting link in French", () => {
@@ -48,5 +54,11 @@ describe("AboutSection", () => {
     });
 
     expect(link.getAttribute("href")).toBe("/fr/blog/heic-vs-jpeg");
+
+    const combineLink = screen.getByRole("link", {
+      name: "Apprendre à fusionner plusieurs photos HEIC en un seul PDF",
+    });
+
+    expect(combineLink.getAttribute("href")).toBe("/fr/blog/combine-heic-to-pdf");
   });
 });

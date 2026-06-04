@@ -37,6 +37,7 @@ export default function PrivacyPage() {
     { label: t("pageTitle") },
   ];
   const { canonical } = buildAlternates(locale, "/privacy");
+  const homeUrl = buildAlternates(locale, "").canonical;
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -58,7 +59,7 @@ export default function PrivacyPage() {
             "@type": "ListItem",
             position: 1,
             name: breadcrumbItems[0].label,
-            item: "https://heicpdf.to/",
+            item: homeUrl,
           },
           {
             "@type": "ListItem",

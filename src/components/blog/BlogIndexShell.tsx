@@ -1,3 +1,5 @@
+import BlogSidebar from "@/components/blog/BlogSidebar";
+
 export type BlogIndexPost = {
   eyebrow: string;
   title: string;
@@ -6,6 +8,7 @@ export type BlogIndexPost = {
   publishedAtIso: string;
   readTime: string;
   href: string;
+  categorySlugs: string[];
   image?: {
     src: string;
     alt: string;
@@ -19,11 +22,15 @@ export type BlogIndexData = {
   description: string;
   categoryLabel: string;
   sidebarLabel: string;
-  categories: string[];
+  categories: Array<{
+    label: string;
+    slug: string;
+    href: string;
+    active: boolean;
+  }>;
   posts: BlogIndexPost[];
   sidebar: {
     mostReadHeading: string;
-    topicsHeading: string;
     ctaHeading: string;
     ctaText: string;
     ctaLabel: string;
@@ -31,10 +38,6 @@ export type BlogIndexData = {
       title: string;
       meta: string;
       href: string;
-    }>;
-    topics: Array<{
-      name: string;
-      count: string;
     }>;
   };
   converterHref: string;
@@ -102,14 +105,15 @@ export default function BlogIndexShell({
       </section>
 
       <nav className="blog-index-category-bar" aria-label={data.categoryLabel}>
-        {data.categories.map((category, index) => (
-          <span
-            className={`blog-index-category${index === 0 ? " active" : ""}`}
-            aria-current={index === 0 ? "true" : undefined}
-            key={category}
+        {data.categories.map((category) => (
+          <a
+            className={`blog-index-category${category.active ? " active" : ""}`}
+            aria-current={category.active ? "true" : undefined}
+            href={category.href}
+            key={category.slug}
           >
-            {category}
-          </span>
+            {category.label}
+          </a>
         ))}
       </nav>
 
@@ -152,37 +156,18 @@ export default function BlogIndexShell({
           )}
         </div>
 
-        <aside className="blog-index-sidebar" aria-label={data.sidebarLabel}>
-          <section className="blog-index-sidebar-section">
-            <h2 className="blog-index-sidebar-heading">{data.sidebar.mostReadHeading}</h2>
-            {data.sidebar.mostRead.map((item, index) => (
-              <a className="blog-index-most-read" href={item.href} key={item.title}>
-                <span className="blog-index-most-read-number">#{index + 1}</span>
-                <span className="blog-index-most-read-title">{item.title}</span>
-                <span className="blog-index-most-read-meta">{item.meta}</span>
-              </a>
-            ))}
-          </section>
-
-          <section className="blog-index-sidebar-section">
-            <h2 className="blog-index-sidebar-heading">{data.sidebar.topicsHeading}</h2>
-            {data.sidebar.topics.map((topic) => (
-              <div className="blog-index-topic" key={topic.name}>
-                <span className="blog-index-topic-icon" aria-hidden="true">
-                  {topic.name.slice(0, 1)}
-                </span>
-                <span>{topic.name}</span>
-                <span className="blog-index-topic-count">{topic.count}</span>
-              </div>
-            ))}
-          </section>
-
-          <section className="blog-index-cta">
-            <h2>{data.sidebar.ctaHeading}</h2>
-            <p>{data.sidebar.ctaText}</p>
-            <a href={data.converterHref}>{data.sidebar.ctaLabel}</a>
-          </section>
-        </aside>
+        <BlogSidebar
+          variant="index"
+          ariaLabel={data.sidebarLabel}
+          mostReadHeading={data.sidebar.mostReadHeading}
+          mostRead={data.sidebar.mostRead}
+          cta={{
+            heading: data.sidebar.ctaHeading,
+            text: data.sidebar.ctaText,
+            label: data.sidebar.ctaLabel,
+            href: data.converterHref,
+          }}
+        />
       </div>
     </div>
   );

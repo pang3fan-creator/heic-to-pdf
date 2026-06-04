@@ -6,6 +6,7 @@ const pages = [
   { path: "", priority: 1, lastMod: new Date() },
   { path: "/blog", priority: 0.7, lastMod: new Date("2026-05-26") },
   { path: "/blog/heic-vs-jpeg", priority: 0.8, lastMod: new Date("2026-05-26") },
+  { path: "/blog/combine-heic-to-pdf", priority: 0.8, lastMod: new Date("2026-06-04") },
   { path: "/privacy", priority: 0.5, lastMod: new Date("2026-05-19") },
   { path: "/terms", priority: 0.5, lastMod: new Date("2026-05-19") },
 ] as const;

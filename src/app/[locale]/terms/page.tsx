@@ -37,6 +37,7 @@ export default function TermsPage() {
     { label: t("pageTitle") },
   ];
   const { canonical } = buildAlternates(locale, "/terms");
+  const homeUrl = buildAlternates(locale, "").canonical;
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -58,7 +59,7 @@ export default function TermsPage() {
             "@type": "ListItem",
             position: 1,
             name: breadcrumbItems[0].label,
-            item: "https://heicpdf.to/",
+            item: homeUrl,
           },
           {
             "@type": "ListItem",

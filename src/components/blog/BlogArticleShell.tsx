@@ -1,4 +1,5 @@
 import ReadingProgress from "@/components/blog/ReadingProgress";
+import BlogSidebar from "@/components/blog/BlogSidebar";
 
 export type BlogArticleData = {
   eyebrow: string;
@@ -23,13 +24,11 @@ export type BlogArticleData = {
     mostRead: Array<{
       title: string;
       meta: string;
-      href?: string;
+      href: string;
     }>;
     ctaHeading: string;
     ctaText: string;
     ctaLabel: string;
-    topicsHeading: string;
-    topics: string[];
   };
   relatedHeading: string;
   readingProgressLabel: string;
@@ -43,6 +42,12 @@ export type BlogArticleData = {
     excerpt: string;
     date: string;
     href?: string;
+    image?: {
+      src: string;
+      alt: string;
+      width: number;
+      height: number;
+    };
   }>;
   backToTop: string;
 };
@@ -93,52 +98,18 @@ export default function BlogArticleShell({
           ))}
         </article>
 
-        <aside className="blog-sidebar" aria-label={article.sidebarLabel}>
-          <section className="blog-sidebar-section">
-            <h2 className="blog-sidebar-heading">{article.sidebar.mostReadHeading}</h2>
-            {article.sidebar.mostRead.map((item, index) => {
-              const content = (
-                <>
-                  <span className="blog-most-read-number">
-                    {(index + 1).toString().padStart(2, "0")}
-                  </span>
-                  <span className="blog-most-read-title">{item.title}</span>
-                  <span className="blog-most-read-meta">{item.meta}</span>
-                </>
-              );
-              return item.href ? (
-                <a className="blog-most-read-item" href={item.href} key={item.title}>
-                  {content}
-                </a>
-              ) : (
-                <div className="blog-most-read-item" key={item.title}>
-                  {content}
-                </div>
-              );
-            })}
-          </section>
-
-          <section className="blog-sidebar-section">
-            <div className="blog-sidebar-cta">
-              <h2>{article.sidebar.ctaHeading}</h2>
-              <p>{article.sidebar.ctaText}</p>
-              <a className="blog-sidebar-cta-button" href={article.converterHref}>
-                {article.sidebar.ctaLabel}
-              </a>
-            </div>
-          </section>
-
-          <section className="blog-sidebar-section">
-            <h2 className="blog-sidebar-heading">{article.sidebar.topicsHeading}</h2>
-            <div className="blog-topic-list">
-              {article.sidebar.topics.map((topic) => (
-                <span className="blog-topic-pill" key={topic}>
-                  {topic}
-                </span>
-              ))}
-            </div>
-          </section>
-        </aside>
+        <BlogSidebar
+          variant="article"
+          ariaLabel={article.sidebarLabel}
+          mostReadHeading={article.sidebar.mostReadHeading}
+          mostRead={article.sidebar.mostRead}
+          cta={{
+            heading: article.sidebar.ctaHeading,
+            text: article.sidebar.ctaText,
+            label: article.sidebar.ctaLabel,
+            href: article.converterHref,
+          }}
+        />
       </div>
 
       <div style={{ textAlign: "center" }}>
@@ -160,7 +131,18 @@ export default function BlogArticleShell({
             {article.related.map((item) => {
               const content = (
                 <>
-                  <div className="blog-related-image">{item.eyebrow}</div>
+                  <div className="blog-related-image">
+                    {item.image ? (
+                      <img
+                        src={item.image.src}
+                        alt={item.image.alt}
+                        width={item.image.width}
+                        height={item.image.height}
+                      />
+                    ) : (
+                      item.eyebrow
+                    )}
+                  </div>
                   <div className="blog-related-card-body">
                     <p className="blog-related-eyebrow">{item.eyebrow}</p>
                     <h3>{item.title}</h3>

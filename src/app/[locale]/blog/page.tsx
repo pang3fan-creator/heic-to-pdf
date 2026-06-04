@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { useTranslations } from "next-intl";
+import { use } from "react";
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -10,6 +11,7 @@ import { routing } from "@/i18n/routing";
 
 const BLOG_PATH = "/blog";
 const BASE_URL = "https://heicpdf.to";
+const ALL_TOPIC_SLUG = "all";
 
 function getLocalizedPath(locale: string, path: string) {
   return locale === routing.defaultLocale ? path : `/${locale}${path}`;
@@ -17,6 +19,16 @@ function getLocalizedPath(locale: string, path: string) {
 
 function getBlogUrl(locale: string) {
   return `${BASE_URL}${getLocalizedPath(locale, BLOG_PATH)}`;
+}
+
+function getTopicParam(searchParams?: { topic?: string | string[] }) {
+  const topic = searchParams?.topic;
+  return Array.isArray(topic) ? topic[0] : topic;
+}
+
+function getTopicHref(locale: string, slug: string) {
+  const blogPath = getLocalizedPath(locale, BLOG_PATH);
+  return slug === ALL_TOPIC_SLUG ? blogPath : `${blogPath}?topic=${encodeURIComponent(slug)}`;
 }
 
 export async function generateMetadata({
@@ -48,7 +60,12 @@ export async function generateMetadata({
   };
 }
 
-export default function BlogIndexPage() {
+export default function BlogIndexPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ topic?: string | string[] }>;
+}) {
+  const resolvedSearchParams = searchParams ? use(searchParams) : undefined;
   const t = useTranslations("blog.index");
   const tnav = useTranslations("nav");
   const locale = t("language");
@@ -60,6 +77,22 @@ export default function BlogIndexPage() {
     ...post,
     href: getLocalizedPath(locale, post.href),
   }));
+  const categories = (t.raw("categories") as Array<{ label: string; slug: string }>).map(
+    (category) => ({
+      ...category,
+      href: getTopicHref(locale, category.slug),
+      active: false,
+    }),
+  );
+  const requestedTopic = getTopicParam(resolvedSearchParams);
+  const validTopic = categories.some((category) => category.slug === requestedTopic)
+    ? requestedTopic
+    : undefined;
+  const activeTopic = validTopic ?? ALL_TOPIC_SLUG;
+  const filteredPosts =
+    activeTopic === ALL_TOPIC_SLUG
+      ? posts
+      : posts.filter((post) => post.categorySlugs.includes(activeTopic));
   const sidebar = t.raw("sidebar") as BlogIndexData["sidebar"];
   const data: BlogIndexData = {
 
@@ -67,8 +100,11 @@ export default function BlogIndexPage() {
     description: t("description"),
     categoryLabel: t("categoryLabel"),
     sidebarLabel: t("sidebarLabel"),
-    categories: t.raw("categories") as string[],
-    posts,
+    categories: categories.map((category) => ({
+      ...category,
+      active: category.slug === activeTopic,
+    })),
+    posts: filteredPosts,
     sidebar: {
       ...sidebar,
       mostRead: sidebar.mostRead.map((item) => ({
@@ -106,6 +142,10 @@ export default function BlogIndexPage() {
           description: post.excerpt,
           url: `${BASE_URL}${post.href}`,
           datePublished: post.publishedAtIso,
+          author: {
+            "@type": "Person",
+            name: t("authorName"),
+          },
           image: {
             "@type": "ImageObject",
             url: post.image ? `${BASE_URL}${post.image.src}` : "https://heicpdf.to/og-image.png",

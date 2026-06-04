@@ -58,8 +58,8 @@
             "href": "/blog/heic-vs-jpeg"
           },
           {
-            "label": "Tous les articles",
-            "href": "/blog"
+            "label": "Fusionner HEIC en PDF",
+            "href": "/blog/combine-heic-to-pdf"
           }
         ]
       },
@@ -341,6 +341,8 @@
     "description": "Si vous possédez un iPhone, vous photographiez sans doute en HEIC sans y penser — c'est le format par défaut depuis iOS 11, et il économise beaucoup d'espace par rapport au JPEG. Selon Apple, les fichiers HEIC sont jusqu'à 50 % plus petits que les JPEG à qualité égale, ce qui vous permet de conserver des milliers de photos supplémentaires sur votre téléphone. Le problème ? Essayez d'en envoyer une à un ami sur Windows ou de l'ouvrir sur un téléphone Android — le fichier reste inaccessible. C'est exactement pour cela que la conversion HEIC en PDF est si pratique : le PDF est le format qui fait l'unanimité. Il s'ouvre partout, s'imprime partout, et fonctionne aussi bien sur PC, Mac, tablette que smartphone. Pas de problème de compatibilité, pas de messages d'erreur, pas de lutte avec des formats non pris en charge — un fichier qui fonctionne du premier coup.",
     "guideLinkLead": "Besoin d'un comparatif plus détaillé ?",
     "guideLinkLabel": "Comparer HEIC et JPEG plus en détail",
+    "combineGuideLinkLead": "Vous travaillez avec un lot de photos iPhone ?",
+    "combineGuideLinkLabel": "Apprendre à fusionner plusieurs photos HEIC en un seul PDF",
     "reasons": [
       "Windows et Android ne peuvent pas afficher les fichiers HEIC nativement — ils apparaissent comme des fichiers impossibles à ouvrir. Une simple conversion HEIC en PDF résout instantanément ce problème en rendant vos photos visibles sur n'importe quel PC, ordinateur portable ou téléphone. Pas de codecs, pas de logiciel spécial, pas de réglages compliqués. Prenez une photo avec votre iPhone et envoyez-la par e-mail à quelqu'un sur Windows : il pourra ouvrir le PDF immédiatement, sans explication.",
       "Le PDF est l'un des formats les plus universels qui soient. Que ce soit sur un Mac, un Chromebook ou un vieux PC Windows, les PDF s'ouvrent sans difficulté. Pas besoin d'installer de décodeur HEIC ni de se soucier de la compatibilité — vos photos sont prêtes à être consultées sur n'importe quel appareil. Une conversion HEIC en PDF élimine la question de savoir si le destinataire pourra réellement ouvrir ce que vous lui envoyez, ce qui est particulièrement utile lorsque vous partagez avec des personnes moins à l'aise avec la technologie.",
@@ -449,15 +451,34 @@
       "heading": "Guides & astuces — formats d'image",
       "description": "Conseils, comparatifs et guides sur les formats d'image, la conversion de fichiers et les flux de travail numériques — pensés pour les utilisateurs macOS et iOS qui tiennent à la qualité.",
 
+      "authorName": "Stefan",
       "categoryLabel": "Sujets du blog",
       "sidebarLabel": "Barre latérale du blog",
       "categories": [
-        "Tous",
-        "HEIC",
-        "PDF",
-        "macOS",
-        "iOS",
-        "Confidentialité"
+        {
+          "label": "Tous",
+          "slug": "all"
+        },
+        {
+          "label": "HEIC",
+          "slug": "heic"
+        },
+        {
+          "label": "PDF",
+          "slug": "pdf"
+        },
+        {
+          "label": "macOS",
+          "slug": "macos"
+        },
+        {
+          "label": "iOS",
+          "slug": "ios"
+        },
+        {
+          "label": "Confidentialité",
+          "slug": "privacy"
+        }
       ],
       "posts": [
         {
@@ -468,9 +489,37 @@
           "publishedAtIso": "2026-05-26T00:00:00+00:00",
           "readTime": "8 min de lecture",
           "href": "/blog/heic-vs-jpeg",
+          "categorySlugs": [
+            "heic",
+            "jpeg",
+            "ios",
+            "macos"
+          ],
           "image": {
             "src": "/images/blog/heic-vs-jpeg-cover.png",
             "alt": "Image de couverture comparant les formats HEIC et JPEG",
+            "width": 1200,
+            "height": 675
+          }
+        },
+        {
+          "eyebrow": "Guide pratique",
+          "title": "Fusionner des photos HEIC en un seul PDF",
+          "excerpt": "Apprenez à regrouper plusieurs photos HEIC en un seul PDF sur iPhone, Mac, Windows ou dans votre navigateur — traitement local, sans envoi de fichiers.",
+          "date": "4 juin 2026",
+          "publishedAtIso": "2026-06-04T00:00:00+00:00",
+          "readTime": "7 min de lecture",
+          "href": "/blog/combine-heic-to-pdf",
+          "categorySlugs": [
+            "heic",
+            "pdf",
+            "ios",
+            "macos",
+            "privacy"
+          ],
+          "image": {
+            "src": "/images/blog/combine-heic-to-pdf-cover.png",
+            "alt": "Fusionner plusieurs photos HEIC en un seul PDF",
             "width": 1200,
             "height": 675
           }
@@ -478,7 +527,6 @@
       ],
       "sidebar": {
         "mostReadHeading": "Les plus lus",
-        "topicsHeading": "Sujets",
         "ctaHeading": "Besoin de convertir ?",
         "ctaText": "Convertissez vos images HEIC en PDF instantanément avec un traitement local dans le navigateur.",
         "ctaLabel": "Essayer HEIC en PDF",
@@ -487,16 +535,11 @@
             "title": "HEIC vs JPEG : quel format d'image choisir en 2026 ?",
             "meta": "8 min de lecture",
             "href": "/blog/heic-vs-jpeg"
-          }
-        ],
-        "topics": [
-          {
-            "name": "HEIC",
-            "count": "1"
           },
           {
-            "name": "JPEG",
-            "count": "1"
+            "title": "Fusionner des photos HEIC en un seul PDF",
+            "meta": "7 min de lecture",
+            "href": "/blog/combine-heic-to-pdf"
           }
         ]
       }
@@ -507,6 +550,7 @@
       "description": "Comparez les formats HEIC et JPEG sur le poids, la qualité d'image, la compatibilité et les flux de travail pour choisir le format adapté à chaque situation.",
       "publishedAtIso": "2026-05-26T00:00:00+00:00",
       "modifiedAtIso": "2026-05-26T00:00:00+00:00",
+      "readingTimeFormat": "{minutes} min de lecture",
       "author": {
         "name": "Stefan"
       },
@@ -529,8 +573,9 @@
           "mostReadHeading": "Les plus lus",
           "mostRead": [
             {
-              "title": "HEIC vs JPEG : quel format d'image choisir en 2026 ?",
-              "meta": "8 min de lecture"
+              "title": "Fusionner des photos HEIC en un seul PDF",
+              "meta": "7 min de lecture",
+              "href": "/blog/combine-heic-to-pdf"
             }
           ],
           "ctaHeading": "Besoin de convertir ?",
@@ -546,7 +591,21 @@
           ]
         },
         "relatedHeading": "Articles similaires",
-        "related": [],
+        "related": [
+          {
+            "eyebrow": "Guide pratique",
+            "title": "Fusionner des photos HEIC en un seul PDF",
+            "excerpt": "Apprenez à regrouper plusieurs photos HEIC dans un PDF organisé pour reçus, contrats, notes et flux de travail dans le navigateur.",
+            "date": "4 juin 2026",
+            "href": "/blog/combine-heic-to-pdf",
+            "image": {
+              "src": "/images/blog/combine-heic-to-pdf-cover.png",
+              "alt": "Fusionner plusieurs photos HEIC en un seul PDF",
+              "width": 1200,
+              "height": 675
+            }
+          }
+        ],
         "sections": [
           {
             "id": "introduction",
@@ -576,7 +635,104 @@
           {
             "id": "decision-guide",
             "heading": "Lequel choisir ?",
-            "body": "<p>En bref : tout dépend de ce que vous faites. Voici un petit guide pratique :</p><table class=\"blog-comparison-table\"><thead><tr><th>Scénario</th><th>Recommandation</th></tr></thead><tbody><tr><td>Photos quotidiennes sur iPhone et stockage dans l'écosystème Apple</td><td><span class=\"blog-tag blog-tag-wins\">HEIC</span> — économise de l'espace, préserve la qualité</td></tr><tr><td>Envoi d'une image unique à une personne dont vous ne connaissez pas l'appareil</td><td><span class=\"blog-tag blog-tag-wins\">JPEG</span> — compatibilité maximale</td></tr><tr><td>Soumission à un formulaire web, CMS ou portail d'emploi</td><td><span class=\"blog-tag blog-tag-wins\">JPEG</span> — accepté sans surprise</td></tr><tr><td>Plusieurs reçus, documents signés ou pages de devoir</td><td><span class=\"blog-tag blog-tag-wins\">PDF</span> — un seul fichier propre, plusieurs pages</td></tr><tr><td>Archivage de lots de photos</td><td><span class=\"blog-tag blog-tag-neutral\">Conserver les originaux HEIC</span> — exporter en JPEG ou PDF pour la diffusion</td></tr><tr><td>Édition photo professionnelle</td><td><span class=\"blog-tag blog-tag-neutral\">RAW privilégié</span> — HEIC ou JPEG comme formats d'export et de livraison</td></tr><tr><td>Impression ou flux de bureau</td><td><span class=\"blog-tag blog-tag-neutral\">JPEG pour les images seules</span> — PDF pour les documents de plusieurs pages</td></tr></tbody></table><p>La question HEIC ou JPEG a une réponse un peu ennuyeuse mais rassurante : ça dépend de l'usage. Le HEIC s'impose quand l'espace de stockage compte et que vous restez dans l'univers Apple. Le JPEG reste la valeur sûre pour envoyer une image à n'importe qui, n'importe où, sur n'importe quel appareil. Et quand il s'agit de transformer plusieurs photos en un document propre et unique — reçus, formulaires signés, dossiers à rendre — le PDF prend le relais là où aucun des deux formats image n'a vraiment été conçu pour ça.</p><p>Si vous photographiez régulièrement avec un iPhone et que vous devez partager vos photos sous forme de documents, vous pouvez <a href=\"{converterHref}\">convertir des photos HEIC en PDF en ligne</a> — entièrement dans votre navigateur, sans téléversement ni logiciel à installer.</p>"
+            "body": "<p>En bref : tout dépend de ce que vous faites. Voici un petit guide pratique :</p><table class=\"blog-comparison-table\"><thead><tr><th>Scénario</th><th>Recommandation</th></tr></thead><tbody><tr><td>Photos quotidiennes sur iPhone et stockage dans l'écosystème Apple</td><td><span class=\"blog-tag blog-tag-wins\">HEIC</span> — économise de l'espace, préserve la qualité</td></tr><tr><td>Envoi d'une image unique à une personne dont vous ne connaissez pas l'appareil</td><td><span class=\"blog-tag blog-tag-wins\">JPEG</span> — compatibilité maximale</td></tr><tr><td>Soumission à un formulaire web, CMS ou portail d'emploi</td><td><span class=\"blog-tag blog-tag-wins\">JPEG</span> — accepté sans surprise</td></tr><tr><td>Plusieurs reçus, documents signés ou pages de devoir</td><td><span class=\"blog-tag blog-tag-wins\">PDF</span> — un seul fichier propre, plusieurs pages</td></tr><tr><td>Archivage de lots de photos</td><td><span class=\"blog-tag blog-tag-neutral\">Conserver les originaux HEIC</span> — exporter en JPEG ou PDF pour la diffusion</td></tr><tr><td>Édition photo professionnelle</td><td><span class=\"blog-tag blog-tag-neutral\">RAW privilégié</span> — HEIC ou JPEG comme formats d'export et de livraison</td></tr><tr><td>Impression ou flux de bureau</td><td><span class=\"blog-tag blog-tag-neutral\">JPEG pour les images seules</span> — PDF pour les documents de plusieurs pages</td></tr></tbody></table><p>La question HEIC ou JPEG a une réponse un peu ennuyeuse mais rassurante : ça dépend de l'usage. Le HEIC s'impose quand l'espace de stockage compte et que vous restez dans l'univers Apple. Le JPEG reste la valeur sûre pour envoyer une image à n'importe qui, n'importe où, sur n'importe quel appareil. Et quand il s'agit de transformer plusieurs photos en un document propre et unique — reçus, formulaires signés, dossiers à rendre — le PDF prend le relais là où aucun des deux formats image n'a vraiment été conçu pour ça.</p><p>Si c'est votre cas, notre guide pour <a href=\"{combineHeicToPdfHref}\">fusionner plusieurs photos HEIC en un seul PDF</a> présente les options sur iPhone, Mac, Windows et dans le navigateur.</p><p>Si vous photographiez régulièrement avec un iPhone et que vous devez partager vos photos sous forme de documents, vous pouvez <a href=\"{converterHref}\">convertir des photos HEIC en PDF en ligne</a> — entièrement dans votre navigateur, sans téléversement ni logiciel à installer.</p>"
+          }
+        ]
+      }
+    },
+    "combineHeicToPdf": {
+      "language": "fr",
+      "title": "Fusionner des photos HEIC en un seul PDF",
+      "description": "Apprenez à regrouper plusieurs photos HEIC en un seul PDF sur iPhone, Mac, Windows ou dans votre navigateur — traitement 100 % local, sans envoi de fichiers.",
+      "publishedAtIso": "2026-06-04T00:00:00+00:00",
+      "modifiedAtIso": "2026-06-04T00:00:00+00:00",
+      "readingTimeFormat": "{minutes} min de lecture",
+      "author": {
+        "name": "Stefan"
+      },
+      "article": {
+        "eyebrow": "Guide pratique",
+        "title": "Fusionner des photos HEIC en un seul PDF",
+        "description": "Un guide pratique pour fusionner plusieurs photos HEIC en un seul PDF sur iPhone, Mac, Windows et via des outils en ligne — pour que vos reçus, contrats et notes restent organisés dans un seul fichier.",
+        "publishedAtLabel": "4 juin 2026",
+        "backToTop": "Retour en haut",
+        "readingProgressLabel": "Progression de lecture",
+        "sidebarLabel": "Barre latérale",
+        "authorLabel": "Auteur",
+        "author": {
+          "name": "Stefan",
+          "role": "Ingénierie & Design",
+          "initials": "S",
+          "bio": "Ingénierie et design chez HEICPDF.TO. Développe des outils respectueux de la vie privée pour une conversion de fichiers rapide et sous le contrôle de l'utilisateur."
+        },
+        "sections": [
+          {
+            "id": "introduction",
+            "heading": "Pourquoi fusionner plusieurs photos HEIC en un seul PDF ?",
+            "body": "<p>Vous rentrez d'une réunion avec cinq photos d'un contrat signé. Vous photographiez trois reçus pour une note de frais. Vous scannez six pages de notes manuscrites avec l'appareil photo de votre iPhone. Dans chaque cas, vous vous retrouvez avec une pile éparse de fichiers HEIC — et vous avez besoin d'en faire un document unique, propre et organisé.</p><p>Pour regrouper des photos HEIC en un seul PDF, sélectionnez plusieurs fichiers HEIC, organisez-les dans le bon ordre et exportez le résultat sous forme d'un seul document de plusieurs pages. Un outil local dans le navigateur est la méthode multiplateforme la plus simple — il fonctionne sur iPhone, Mac et Windows sans envoyer vos fichiers nulle part. Vos données restent sur votre appareil tout au long du processus.</p><p>Convertir les photos HEIC en PDF une par une fonctionne, mais c'est fastidieux. Et envoyer six fichiers PDF distincts parce que vous n'avez pas pu les fusionner au préalable crée des frictions, pour vous comme pour le destinataire. La solution consiste à combiner plusieurs photos HEIC en un seul PDF — un fichier unique facile à partager, archiver ou imprimer.</p><p>Comment regrouper des photos HEIC dans un même PDF sur iPhone, Mac, Windows et directement dans votre navigateur. Chaque section se concentre spécifiquement sur le scénario de fusion : prendre plusieurs images et produire un seul document de plusieurs pages, pas seulement des conversions individuelles.</p>"
+          },
+          {
+            "id": "iphone",
+            "heading": "Fusionner des photos HEIC en un seul PDF sur iPhone",
+            "body": "<p>Si vos photos HEIC sont déjà enregistrées dans l'application Fichiers — par exemple, après les avoir transférées depuis une carte SD ou téléchargées depuis un service cloud — iOS propose un moyen simple de les fusionner en un seul PDF. Dans l'application Fichiers, sélectionnez plusieurs images, appuyez sur le bouton de partage et choisissez <a href=\"https://support.apple.com/guide/iphone/create-a-pdf-iph1f3a49e1a/ios\" target=\"_blank\" rel=\"noopener\">Créer un PDF</a>. Le système les combine en un seul document dans l'ordre où vous les avez sélectionnées. Aucune application supplémentaire, aucun téléchargement, aucun coût.</p><p>Il y a deux limites notables. Premièrement, cela ne fonctionne qu'avec les fichiers déjà stockés dans l'application Fichiers. Les photos qui se trouvent dans la photothèque de l'iPhone ne peuvent pas être sélectionnées directement via ce processus — vous devez d'abord les enregistrer dans Fichiers, ce qui ajoute des étapes supplémentaires. Deuxièmement, la réorganisation des pages après la création du PDF se limite à un simple glisser-déposer dans l'aperçu ; il n'y a pas d'éditeur pour le format de papier, les marges ou l'orientation.</p><p>Pour plus de flexibilité — notamment si vous souhaitez fusionner des photos HEIC directement depuis votre photothèque ou si vous avez besoin d'un contrôle plus fin sur le résultat — ouvrir dans Safari un outil qui fonctionne localement dans le navigateur est une alternative pratique. Vous pouvez importer plusieurs photos HEIC à la fois, activer l'option de fusion, ajuster les paramètres de page et télécharger un seul PDF combiné, le tout sans rien installer ni créer de compte. Les fichiers sont traités localement dans le navigateur, ils ne quittent donc jamais votre appareil.</p>"
+          },
+          {
+            "id": "mac",
+            "heading": "Fusionner des photos HEIC en un seul PDF sur Mac",
+            "body": "<p>Sous macOS, le panneau Actions rapides du Finder offre le chemin le plus direct pour fusionner plusieurs fichiers HEIC en un seul PDF. Sélectionnez les photos HEIC que vous souhaitez combiner directement dans le Finder, faites un clic droit, pointez sur Actions rapides et choisissez <a href=\"https://support.apple.com/guide/mac-help/create-a-pdf-mchlp2716/mac\" target=\"_blank\" rel=\"noopener\">Créer un PDF</a>. macOS génère un seul PDF de plusieurs pages à partir des fichiers sélectionnés, en conservant l'ordre de sélection. C'est intégré au système, ne nécessite aucun logiciel supplémentaire et fonctionne de manière fiable pour la plupart des besoins quotidiens.</p><p>Aperçu peut également être utilisé pour cette tâche, bien qu'il soit moins adapté aux flux de travail HEIC par lot. Ouvrir plusieurs photos HEIC haute résolution dans Aperçu — en particulier celles provenant d'iPhone récents avec des capteurs de 48 mégapixels — peut provoquer des ralentissements notables sur les Mac plus anciens. L'application est optimisée pour la visualisation et l'annotation de documents plutôt que pour le traitement par lot de fichiers image volumineux.</p><p>Si vous préférez ne pas gérer de gros fichiers HEIC via le Finder ou Aperçu — ou si vous avez besoin de contrôles complémentaires comme le format de papier, les marges et les paramètres de qualité de sortie — un outil qui fonctionne localement dans le navigateur et traite les fichiers sur votre appareil offre une alternative plus légère qui ne mobilise pas les ressources système de la même manière.</p>"
+          },
+          {
+            "id": "windows",
+            "heading": "Fusionner des photos HEIC en un seul PDF sur Windows",
+            "body": "<p>Windows ne prend pas en charge l'aperçu HEIC de manière native, ce qui rend la fusion de plusieurs photos HEIC en un seul PDF plus complexe que sur les plateformes Apple. La première étape consiste à installer les <a href=\"https://apps.microsoft.com/detail/9pmmsr1cgpwg\" target=\"_blank\" rel=\"noopener\">extensions d'image HEIF</a> depuis le Microsoft Store — une extension gratuite qui ajoute la prise en charge HEIC à l'application Photos et à l'Explorateur de fichiers. Une fois installées, vous pouvez ouvrir un fichier HEIC dans Photos et l'imprimer en PDF via l'imprimante virtuelle Microsoft Print to PDF.</p><p>Le problème est que ce flux de travail a été conçu pour traiter une image à la fois. L'application Photos de Windows est conçue pour ouvrir, visualiser et imprimer des images individuelles — pas pour sélectionner un lot d'images et les transformer en un seul document de plusieurs pages. Vous pouvez fusionner les PDF après coup à l'aide d'un outil séparé ou imprimer toutes les images dans un seul PDF via une imprimante virtuelle, mais le processus implique des étapes supplémentaires et ne correspond pas à ce que le système d'exploitation a été conçu pour faire par défaut.</p><p>Pour rassembler vos photos HEIC dans un document sur Windows sans installer d'extensions, un outil local dans le navigateur est la solution la plus simple. Il gère tout le flux de travail en local : importer vos fichiers, les organiser, configurer les paramètres de page et télécharger un PDF fusionné. Aucune extension nécessaire, aucun problème de compatibilité entre HEIC et le système d'exploitation.</p>"
+          },
+          {
+            "id": "browser-tool",
+            "heading": "Quand utiliser un outil local dans le navigateur",
+            "body": "<p>Chaque approche par plateforme décrite ci-dessus a sa place — mais elles partagent toutes une contrainte commune : elles ont été conçues pour visualiser ou imprimer des fichiers individuels, pas pour fusionner un lot de photos HEIC en un seul document de plusieurs pages bien propre. Un outil local dans le navigateur conçu exactement pour ce flux de travail comble cette lacune.</p><p>Voici comment les options se comparent :</p><table class=\"blog-comparison-table\"><thead><tr><th>Approche</th><th>Plateforme</th><th>Installation</th><th>Confidentialité</th><th>Fusion par lot</th><th>Recommandé</th></tr></thead><tbody><tr><td>iPhone — app Fichiers</td><td>iOS</td><td>Non</td><td>Locale</td><td>Limitée</td><td>—</td></tr><tr><td>Mac — Finder Actions rapides</td><td>macOS</td><td>Non</td><td>Locale</td><td>Fluide — les fichiers volumineux peuvent ralentir</td><td>—</td></tr><tr><td>Windows — Photos</td><td>Windows</td><td>Extensions</td><td>Locale</td><td>Pas conçu pour le lot</td><td>—</td></tr><tr><td>Outil local dans le navigateur</td><td>Toutes</td><td>Non</td><td>Entièrement locale</td><td>Fusion en un clic</td><td>⭐</td></tr></tbody></table><p>Ce qui distingue un outil local dans le navigateur, c'est qu'il est conçu spécifiquement pour cette tâche : sélectionner plusieurs photos HEIC, les disposer sur un canevas, configurer les paramètres de page et exporter un seul PDF. Comme tout le traitement s'effectue localement dans le navigateur via WebAssembly et JavaScript côté client, vos fichiers ne quittent jamais votre appareil. Pas de téléchargement, pas de traitement côté serveur, pas de compte requis.</p><p>C'est également la seule option véritablement multiplateforme : le même outil fonctionne sur Safari iPhone, Chrome Mac, Edge Windows et tout autre navigateur moderne, sans configuration ni installation par plateforme. Si vous avez régulièrement besoin de fusionner des photos HEIC en un seul PDF — que ce soit pour des notes de frais, des documents signés ou des scans groupés — les méthodes natives peuvent vous rendre service pour une utilisation occasionnelle, mais un outil conçu pour ce travail simplifie le processus à chaque fois que vous l'utilisez.</p>"
+          },
+          {
+            "id": "faq",
+            "heading": "Questions fréquentes sur le regroupement de photos HEIC en PDF",
+            "body": "<h3>Peut-on regrouper des photos HEIC en un seul PDF sur iPhone ?</h3><p>Oui. Utilisez l'application Fichiers sur iOS : sélectionnez plusieurs photos HEIC, appuyez sur le bouton de partage et choisissez Créer un PDF. Le résultat est un seul fichier de plusieurs pages. Cela fonctionne avec toutes les images déjà stockées dans Fichiers, mais les photos de votre photothèque doivent d'abord être enregistrées dans Fichiers.</p><h3>Comment fusionner des fichiers HEIC en un seul PDF sur Windows ?</h3><p>Installez les extensions d'image HEIF depuis le Microsoft Store pour activer l'aperçu HEIC, puis utilisez un outil local dans le navigateur pour les regrouper en un seul PDF sans logiciel supplémentaire. Les flux de travail natifs de Windows traitent une image à la fois et ne sont pas conçus pour la création par lot de PDF de plusieurs pages.</p><h3>Est-il sûr d'utiliser un outil en ligne pour regrouper des HEIC en PDF ?</h3><p>Cela dépend de l'outil. Un outil local dans le navigateur qui traite les fichiers entièrement sur votre appareil — via WebAssembly et JavaScript côté client — n'envoie pas vos fichiers vers un serveur. Vos photos restent privées et rien ne quitte votre appareil pendant la conversion. Vérifiez toujours qu'un service décrit son architecture comme locale ou côté client avant d'y déposer des documents sensibles.</p><h3>Peut-on réorganiser les photos HEIC avant de créer le PDF ?</h3><p>Oui. Avec un outil local dans le navigateur, vous pouvez faire glisser les vignettes pour réorganiser les pages avant d'exporter le PDF. Cela vous donne un contrôle total sur l'ordre des pages. Les méthodes natives — comme Fichiers sur iPhone ou Actions rapides sur Mac — utilisent l'ordre dans lequel les fichiers ont été sélectionnés, ce qui offre moins de flexibilité une fois le PDF créé.</p><h3>Quelle est la méthode la plus simple pour regrouper des HEIC en PDF ?</h3><p>La méthode la plus simple dépend de votre plateforme. Sur Mac, les Actions rapides du Finder sont les plus rapides pour une solution intégrée. Sur iPhone, l'application Fichiers fonctionne si vos photos s'y trouvent déjà. L'option multiplateforme la plus cohérente est un outil local dans le navigateur : ouvrez un onglet, importez plusieurs photos HEIC, organisez-les et téléchargez un seul PDF fusionné — sans installation, sans extension et sans restriction de plateforme.</p>"
+          }
+        ],
+        "sidebar": {
+          "mostReadHeading": "Les plus lus",
+          "mostRead": [
+            {
+              "title": "HEIC vs JPEG : quel format d'image choisir en 2026 ?",
+              "meta": "8 min de lecture",
+              "href": "/blog/heic-vs-jpeg"
+            }
+          ],
+          "ctaHeading": "Besoin de convertir ?",
+          "ctaText": "Convertissez vos images HEIC en PDF instantanément avec un traitement local dans le navigateur.",
+          "ctaLabel": "Essayer HEIC en PDF",
+          "topicsHeading": "Sujets",
+          "topics": [
+            "HEIC",
+            "PDF",
+            "iPhone",
+            "macOS",
+            "Windows",
+            "Productivité"
+          ]
+        },
+        "relatedHeading": "Articles similaires",
+        "related": [
+          {
+            "eyebrow": "Comparatif de formats",
+            "title": "HEIC vs JPEG : quel format d'image choisir en 2026 ?",
+            "excerpt": "Comparez les formats HEIC et JPEG sur le poids, la qualité, la compatibilité et les usages concrets.",
+            "date": "26 mai 2026",
+            "href": "/blog/heic-vs-jpeg",
+            "image": {
+              "src": "/images/blog/heic-vs-jpeg-cover.png",
+              "alt": "Image de couverture comparant les formats HEIC et JPEG",
+              "width": 1200,
+              "height": 675
+            }
           }
         ]
       }

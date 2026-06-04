@@ -58,26 +58,21 @@ function renderFrenchBlogArticle() {
   );
 }
 
-describe("HEIC vs JPEG blog article page", () => {
+describe("Combine HEIC to PDF blog article page", () => {
   it("renders the article shell from localized content", () => {
     const { container } = renderBlogArticle();
 
     expect(
       screen.getAllByRole("heading", {
-        name: "HEIC vs JPEG: Which Image Format Should You Use in 2026?",
+        name: "Combine Multiple HEIC Photos Into One PDF",
       }).length,
     ).toBeGreaterThanOrEqual(1);
     expect(screen.getByRole("progressbar", { name: "Reading progress" })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "Most Read" })).toBeTruthy();
     expect(
       screen
-        .getAllByRole("link", { name: /Combine Multiple HEIC Photos Into One PDF/ })
-        .some((link) => link.getAttribute("href") === "/blog/combine-heic-to-pdf"),
-    ).toBe(true);
-    expect(
-      screen
-        .getAllByRole("link", { name: /combining multiple HEIC photos into one PDF/ })
-        .some((link) => link.getAttribute("href") === "/blog/combine-heic-to-pdf"),
+        .getAllByRole("link", { name: /HEIC vs JPEG: Which Image Format Should You Use in 2026/ })
+        .some((link) => link.getAttribute("href") === "/blog/heic-vs-jpeg"),
     ).toBe(true);
     expect(screen.queryByRole("heading", { name: "Topics" })).toBeNull();
     expect(screen.getByRole("link", { name: "Try HEIC to PDF" }).getAttribute("href")).toBe(
@@ -86,9 +81,9 @@ describe("HEIC vs JPEG blog article page", () => {
     expect(container.querySelector(".blog-convert-cta")).toBeTruthy();
     expect(
       screen.getByRole("img", {
-        name: "Merge multiple HEIC photos into one PDF cover",
+        name: "HEIC vs JPEG image format comparison cover",
       }).getAttribute("src"),
-    ).toBe("/images/blog/combine-heic-to-pdf-cover.png");
+    ).toBe("/images/blog/heic-vs-jpeg-cover.png");
     expect(screen.getByRole("region", { name: "Author" })).toBeTruthy();
   });
 
@@ -103,12 +98,12 @@ describe("HEIC vs JPEG blog article page", () => {
     );
 
     expect(blogPosting.headline).toBe(
-      "HEIC vs JPEG: Which Image Format Should You Use in 2026?",
+      "Combine Multiple HEIC Photos Into One PDF",
     );
     expect(blogPosting.inLanguage).toBe("en");
     expect(blogPosting.image).toEqual({
       "@type": "ImageObject",
-      url: "https://heicpdf.to/images/blog/heic-vs-jpeg-og.png",
+      url: "https://heicpdf.to/images/blog/combine-heic-to-pdf-og.png",
       width: 1200,
       height: 630,
     });
@@ -126,38 +121,40 @@ describe("HEIC vs JPEG blog article page", () => {
 
     expect(
       screen
-        .getAllByRole("link", { name: /Fusionner des photos HEIC en un seul PDF/ })
-        .some((link) => link.getAttribute("href") === "/fr/blog/combine-heic-to-pdf"),
+        .getAllByRole("link", {
+          name: /HEIC vs JPEG : quel format d'image choisir en 2026/,
+        })
+        .some((link) => link.getAttribute("href") === "/fr/blog/heic-vs-jpeg"),
     ).toBe(true);
   });
 
   it("generates canonical blog metadata", async () => {
     const metadata = await generateMetadata({ params: Promise.resolve({ locale: "en" }) });
 
-    expect(metadata.title).toBe("HEIC vs JPEG: Which Format Should You Use?");
-    expect(metadata.description).toContain("HEIC vs JPEG: a practical guide");
+    expect(metadata.title).toBe("Combine Multiple HEIC Photos Into One PDF");
+    expect(metadata.description).toContain("Learn how to combine multiple HEIC photos");
     expect(metadata.alternates).toEqual({
-      canonical: "https://heicpdf.to/blog/heic-vs-jpeg",
+      canonical: "https://heicpdf.to/blog/combine-heic-to-pdf",
       languages: {
-        en: "https://heicpdf.to/blog/heic-vs-jpeg",
-        fr: "https://heicpdf.to/fr/blog/heic-vs-jpeg",
-        "x-default": "https://heicpdf.to/blog/heic-vs-jpeg",
+        en: "https://heicpdf.to/blog/combine-heic-to-pdf",
+        fr: "https://heicpdf.to/fr/blog/combine-heic-to-pdf",
+        "x-default": "https://heicpdf.to/blog/combine-heic-to-pdf",
       },
     });
     expect(metadata.openGraph?.images).toEqual([
       {
-        url: "https://heicpdf.to/images/blog/heic-vs-jpeg-og.png",
+        url: "https://heicpdf.to/images/blog/combine-heic-to-pdf-og.png",
         width: 1200,
         height: 630,
-        alt: "HEIC vs JPEG: Which Format Should You Use?",
+        alt: "Combine Multiple HEIC Photos Into One PDF",
       },
     ]);
     expect(metadata.twitter?.images).toEqual([
       {
-        url: "https://heicpdf.to/images/blog/heic-vs-jpeg-og.png",
+        url: "https://heicpdf.to/images/blog/combine-heic-to-pdf-og.png",
         width: 1200,
         height: 630,
-        alt: "HEIC vs JPEG: Which Format Should You Use?",
+        alt: "Combine Multiple HEIC Photos Into One PDF",
       },
     ]);
   });

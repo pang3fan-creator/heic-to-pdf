@@ -27,6 +27,10 @@ export default function AboutSection() {
   };
   const articleHref =
     locale === routing.defaultLocale ? "/blog/heic-vs-jpeg" : `/${locale}/blog/heic-vs-jpeg`;
+  const combineArticleHref =
+    locale === routing.defaultLocale
+      ? "/blog/combine-heic-to-pdf"
+      : `/${locale}/blog/combine-heic-to-pdf`;
 
   return (
     <section className="section" id="about">
@@ -38,6 +42,10 @@ export default function AboutSection() {
             <p>
               {t("guideLinkLead")}{" "}
               <a href={articleHref}>{t("guideLinkLabel")}</a>
+            </p>
+            <p>
+              {t("combineGuideLinkLead")}{" "}
+              <a href={combineArticleHref}>{t("combineGuideLinkLabel")}</a>
             </p>
             <ul>
               {reasons.map((reason, i) => (

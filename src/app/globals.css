@@ -2135,26 +2135,26 @@ a:hover {
   color: var(--muted);
   font-size: 12px;
 }
-.blog-sidebar-cta {
+.blog-convert-cta {
   padding: 24px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--surface);
   text-align: center;
 }
-.blog-sidebar-cta h2 {
+.blog-convert-cta h2 {
   margin-bottom: 8px;
   font-family: var(--font-display);
   font-size: 18px;
   font-weight: 600;
 }
-.blog-sidebar-cta p {
+.blog-convert-cta p {
   margin-bottom: 16px;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.5;
 }
-.blog-sidebar-cta-button {
+.blog-convert-cta-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2245,12 +2245,18 @@ a:hover {
   justify-content: center;
   width: 100%;
   aspect-ratio: 16 / 9;
+  overflow: hidden;
   background: var(--accent-soft);
   color: var(--accent);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+.blog-related-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .blog-related-card-body {
   padding: 16px;
@@ -2343,6 +2349,13 @@ a:hover {
   color: var(--muted);
   font-size: 13px;
   font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+.blog-index-category:hover {
+  border-color: var(--accent);
+  color: var(--fg);
+  opacity: 1;
 }
 .blog-index-category.active {
   border-color: var(--accent);
@@ -2583,37 +2596,6 @@ a:hover {
   color: var(--muted);
   font-size: 12px;
 }
-.blog-index-cta {
-  padding: 24px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--surface);
-}
-.blog-index-cta h2 {
-  margin-bottom: 8px;
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 600;
-}
-.blog-index-cta p {
-  margin-bottom: 16px;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.5;
-}
-.blog-index-cta a {
-  display: inline-flex;
-  min-height: 40px;
-  align-items: center;
-  justify-content: center;
-  padding: 9px 20px;
-  border-radius: 100px;
-  background: var(--accent);
-  color: var(--bg);
-  font-size: 14px;
-  font-weight: 800;
-}
-
 /* ========== Responsive ========== */
 @media (max-width: 900px) {
   .steps-grid {

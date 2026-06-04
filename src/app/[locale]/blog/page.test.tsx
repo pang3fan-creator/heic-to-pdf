@@ -1,8 +1,9 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
-import { createElement } from "react";
+import { createElement, Suspense } from "react";
 import { describe, expect, it, vi } from "vitest";
 import messages from "../../../../messages/en.json";
+import frMessages from "../../../../messages/fr.json";
 import BlogIndexPage, { generateMetadata } from "./page";
 
 vi.mock("next-intl/server", () => ({
@@ -49,9 +50,37 @@ function renderBlogIndex() {
   );
 }
 
+function createResolvedSearchParams(topic: string) {
+  const searchParams = Promise.resolve({ topic }) as Promise<{ topic: string }> & {
+    status: "fulfilled";
+    value: { topic: string };
+  };
+  searchParams.status = "fulfilled";
+  searchParams.value = { topic };
+  return searchParams;
+}
+
+function renderFilteredBlogIndex(topic: string) {
+  return render(
+    <NextIntlClientProvider locale="en" messages={messages}>
+      <Suspense fallback={null}>
+        <BlogIndexPage searchParams={createResolvedSearchParams(topic)} />
+      </Suspense>
+    </NextIntlClientProvider>,
+  );
+}
+
+function renderFrenchBlogIndex() {
+  return render(
+    <NextIntlClientProvider locale="fr" messages={frMessages}>
+      <BlogIndexPage />
+    </NextIntlClientProvider>,
+  );
+}
+
 describe("Blog index page", () => {
   it("renders the localized blog index shell", () => {
-    renderBlogIndex();
+    const { container } = renderBlogIndex();
 
     expect(screen.getByRole("heading", { name: "Image Format Guides & Insights" })).toBeTruthy();
 
@@ -59,10 +88,51 @@ describe("Blog index page", () => {
       "/blog/heic-vs-jpeg",
     );
     expect(screen.getByRole("heading", { name: "Most Read" })).toBeTruthy();
-    expect(screen.getByRole("heading", { name: "Topics" })).toBeTruthy();
+    expect(screen.queryByRole("heading", { name: "Topics" })).toBeNull();
     expect(screen.getByRole("link", { name: "Try HEIC to PDF" }).getAttribute("href")).toBe(
       "/",
     );
+    expect(container.querySelector(".blog-convert-cta")).toBeTruthy();
+  });
+
+  it("renders topic filters as localized links", () => {
+    renderBlogIndex();
+
+    const topicNav = screen.getByRole("navigation", { name: "Blog topics" });
+    expect(topicNav).toBeTruthy();
+    expect(screen.getByRole("link", { name: "All" }).getAttribute("href")).toBe("/blog");
+    expect(screen.getByRole("link", { name: "PDF" }).getAttribute("href")).toBe(
+      "/blog?topic=pdf",
+    );
+  });
+
+  it("renders French topic filter links with the locale prefix", () => {
+    renderFrenchBlogIndex();
+
+    expect(screen.getByRole("link", { name: "Tous" }).getAttribute("href")).toBe("/fr/blog");
+    expect(screen.getByRole("link", { name: "PDF" }).getAttribute("href")).toBe(
+      "/fr/blog?topic=pdf",
+    );
+  });
+
+  it("filters posts by a valid topic", () => {
+    const { container } = renderFilteredBlogIndex("pdf");
+    const postList = within(container.querySelector(".blog-index-main") as HTMLElement);
+
+    expect(
+      postList.getByRole("link", { name: /Combine Multiple HEIC Photos Into One PDF/ }),
+    ).toBeTruthy();
+    expect(postList.queryByRole("link", { name: /HEIC vs JPEG/i })).toBeNull();
+  });
+
+  it("falls back to all posts for an unknown topic", () => {
+    const { container } = renderFilteredBlogIndex("unknown-topic");
+    const postList = within(container.querySelector(".blog-index-main") as HTMLElement);
+
+    expect(postList.getByRole("link", { name: /HEIC vs JPEG/i })).toBeTruthy();
+    expect(
+      postList.getByRole("link", { name: /Combine Multiple HEIC Photos Into One PDF/ }),
+    ).toBeTruthy();
   });
 
   it("renders breadcrumb with Home link and current Blog page", () => {
@@ -96,6 +166,18 @@ describe("Blog index page", () => {
     expect(image.getAttribute("height")).toBe("675");
   });
 
+  it("renders the Combine HEIC to PDF cover image on its post card", () => {
+    renderBlogIndex();
+
+    const image = screen.getByRole("img", {
+      name: "Merge multiple HEIC photos into one PDF cover",
+    });
+
+    expect(image.getAttribute("src")).toBe("/images/blog/combine-heic-to-pdf-cover.png");
+    expect(image.getAttribute("width")).toBe("1200");
+    expect(image.getAttribute("height")).toBe("675");
+  });
+
   it("adds CollectionPage structured data with the current language", () => {
     const { container } = renderBlogIndex();
     const script = container.querySelector('script[type="application/ld+json"]');
@@ -108,9 +190,12 @@ describe("Blog index page", () => {
 
     expect(collectionPage.name).toBe("Image Format Guides & Insights");
     expect(collectionPage.inLanguage).toBe("en");
-    expect(collectionPage.hasPart).toHaveLength(1);
+    expect(collectionPage.hasPart).toHaveLength(2);
     expect(collectionPage.hasPart[0].image.url).toBe(
       "https://heicpdf.to/images/blog/heic-vs-jpeg-cover.png",
+    );
+    expect(collectionPage.hasPart[1].image.url).toBe(
+      "https://heicpdf.to/images/blog/combine-heic-to-pdf-cover.png",
     );
 
     const breadcrumbList = structuredData["@graph"].find(

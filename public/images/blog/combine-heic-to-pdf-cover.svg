@@ -1,0 +1,55 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="675" fill="#F7F4EE"/>
+  <rect width="1200" height="675" fill="url(#grid)" opacity="0.32"/>
+  <rect x="72" y="64" width="1056" height="547" rx="34" fill="#FFFDF9" stroke="#D8D0C3" stroke-width="2"/>
+
+  <g transform="translate(128 126)">
+    <rect x="0" y="0" width="214" height="264" rx="24" fill="#E8F7F1" stroke="#58A780" stroke-width="3"/>
+    <rect x="32" y="38" width="150" height="112" rx="16" fill="#FFFFFF" stroke="#A9CDBD" stroke-width="2"/>
+    <circle cx="72" cy="76" r="18" fill="#86C7A7"/>
+    <path d="M48 128L82 98L106 120L128 88L164 128H48Z" fill="#2F8A64" opacity="0.82"/>
+    <text x="107" y="212" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="800" fill="#1E6F50">HEIC</text>
+  </g>
+
+  <g transform="translate(265 104)">
+    <rect x="0" y="0" width="214" height="264" rx="24" fill="#E8F7F1" stroke="#58A780" stroke-width="3"/>
+    <rect x="32" y="38" width="150" height="112" rx="16" fill="#FFFFFF" stroke="#A9CDBD" stroke-width="2"/>
+    <circle cx="72" cy="76" r="18" fill="#86C7A7"/>
+    <path d="M48 128L82 98L106 120L128 88L164 128H48Z" fill="#2F8A64" opacity="0.82"/>
+    <text x="107" y="212" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="800" fill="#1E6F50">HEIC</text>
+  </g>
+
+  <g transform="translate(402 126)">
+    <rect x="0" y="0" width="214" height="264" rx="24" fill="#E8F7F1" stroke="#58A780" stroke-width="3"/>
+    <rect x="32" y="38" width="150" height="112" rx="16" fill="#FFFFFF" stroke="#A9CDBD" stroke-width="2"/>
+    <circle cx="72" cy="76" r="18" fill="#86C7A7"/>
+    <path d="M48 128L82 98L106 120L128 88L164 128H48Z" fill="#2F8A64" opacity="0.82"/>
+    <text x="107" y="212" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="800" fill="#1E6F50">HEIC</text>
+  </g>
+
+  <rect x="626" y="244" width="116" height="116" rx="58" fill="#262421"/>
+  <path d="M654 302H714" stroke="#FFF7EA" stroke-width="10" stroke-linecap="round"/>
+  <path d="M692 276L718 302L692 328" stroke="#FFF7EA" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <g transform="translate(788 106)">
+    <path d="M38 0H242L340 98V420H38V0Z" fill="#EEF1FF" stroke="#6076D9" stroke-width="3"/>
+    <path d="M242 0V98H340" fill="#DDE3FF"/>
+    <path d="M242 0V98H340" stroke="#6076D9" stroke-width="3" stroke-linejoin="round"/>
+    <rect x="82" y="74" width="168" height="112" rx="16" fill="#FFFFFF" stroke="#B8C1EF" stroke-width="2"/>
+    <circle cx="126" cy="112" r="18" fill="#92A3F0"/>
+    <path d="M100 164L136 132L164 156L190 118L232 164H100Z" fill="#5167C8" opacity="0.82"/>
+    <rect x="82" y="220" width="212" height="18" rx="9" fill="#DDE3FF"/>
+    <rect x="82" y="262" width="212" height="18" rx="9" fill="#DDE3FF"/>
+    <rect x="82" y="304" width="152" height="18" rx="9" fill="#DDE3FF"/>
+    <text x="188" y="380" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="800" fill="#4055B8">PDF</text>
+  </g>
+
+  <text x="600" y="517" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="800" fill="#262421">Combine HEIC photos into one PDF</text>
+  <text x="600" y="568" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#6A6257">batch merge · local browser processing · one clean document</text>
+
+  <defs>
+    <pattern id="grid" width="34" height="34" patternUnits="userSpaceOnUse">
+      <path d="M34 0H0V34" stroke="#CFC6B8" stroke-width="1"/>
+    </pattern>
+  </defs>
+</svg>

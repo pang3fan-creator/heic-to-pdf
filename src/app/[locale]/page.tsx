@@ -35,7 +35,7 @@ export default async function HomePage({
           width: 1200,
           height: 630,
         },
-        operatingSystem: "All",
+        operatingSystem: ["iOS", "MacOS", "Android", "Windows", "Web Browser"],
         applicationCategory: ["Multimedia", "Utilities"],
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         featureList: heroT.raw("features") as string[],
