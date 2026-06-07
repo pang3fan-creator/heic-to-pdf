@@ -79,6 +79,19 @@
             "href": "/terms"
           }
         ]
+      },
+      {
+        "title": "Sites partenaires",
+        "links": [
+          {
+            "label": "Extract Keywords",
+            "href": "https://extractkeywords.com/"
+          },
+          {
+            "label": "Schedule Builder",
+            "href": "https://tryschedule.com/"
+          }
+        ]
       }
     ],
     "copyright": "© 2026 HEICPDF.TO. Tous droits réservés.",

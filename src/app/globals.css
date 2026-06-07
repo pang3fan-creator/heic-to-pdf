@@ -1708,6 +1708,13 @@ a:hover {
   grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: 32px;
 }
+.footer-grid > div:first-child {
+  grid-row: span 2;
+}
+.footer-grid > div:nth-child(5) {
+  grid-column: 2;
+  grid-row: 2;
+}
 .footer-brand {
   display: flex;
   align-items: center;
@@ -2620,6 +2627,13 @@ a:hover {
   .footer-grid {
     grid-template-columns: 1fr 1fr;
     gap: 28px;
+  }
+  .footer-grid > div:first-child {
+    grid-row: auto;
+  }
+  .footer-grid > div:nth-child(5) {
+    grid-column: auto;
+    grid-row: auto;
   }
   .blog-article-layout {
     grid-template-columns: 1fr minmax(0, var(--blog-content-w)) 1fr;

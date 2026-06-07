@@ -48,7 +48,11 @@ export default function Footer() {
               <ul>
                 {col.links.map((link, j) => (
                   <li key={j}>
-                    <a href={localizeHref(link.href, locale)}>{link.label}</a>
+                    {link.href.startsWith("http") ? (
+                      <a href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a>
+                    ) : (
+                      <a href={localizeHref(link.href, locale)}>{link.label}</a>
+                    )}
                   </li>
                 ))}
               </ul>
