@@ -78,6 +78,12 @@ export default function Footer() {
           <a href="https://www.toolpilot.ai" target="_blank" rel="noopener noreferrer nofollow" className="footer-badge">
             <img src="https://www.toolpilot.ai/cdn/shop/files/f-w_690x151_crop_center.png" alt="ToolPilot.ai" style={{ height: 40, width: 'auto' }} />
           </a>
+          <a href="https://dofollow.tools" target="_blank" rel="noopener noreferrer nofollow" className="footer-badge">
+            <img src="https://dofollow.tools/badge/badge_dark.svg" alt="Featured on Dofollow.Tools" width="200" height="54" />
+          </a>
+          <a href="https://pitchwall.co/product/heicpdf?utm_source=badge" target="_blank" rel="noopener noreferrer nofollow" className="footer-badge" style={{ display: 'inline-flex' }}>
+            <img src="https://pitchwall.co/images/featured/pitchwall-dark.png" width="180" height="60" alt="Featured on PitchWall" />
+          </a>
         </div>
       </div>
     </footer>
