@@ -84,6 +84,9 @@ export default function Footer() {
           <a href="https://pitchwall.co/product/heicpdf?utm_source=badge" target="_blank" rel="noopener noreferrer nofollow" className="footer-badge" style={{ display: 'inline-flex' }}>
             <img src="https://pitchwall.co/images/featured/pitchwall-dark.png" width="180" height="60" alt="Featured on PitchWall" />
           </a>
+          <a href="https://tooldirs.com" target="_blank" rel="noopener noreferrer" className="footer-badge">
+            <img src="https://tooldirs.com/badge/badge_dark.svg" alt="Featured on ToolDirs" width="200" height="54" />
+          </a>
         </div>
       </div>
     </footer>
