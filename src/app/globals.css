@@ -1787,12 +1787,18 @@ a:hover {
 }
 .footer-badges {
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
   gap: 16px;
+  max-width: 100%;
   margin-top: 24px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
 }
 .footer-badge {
+  flex: 0 0 auto;
   opacity: 0.8;
   transition: opacity 0.2s;
   line-height: 0;
