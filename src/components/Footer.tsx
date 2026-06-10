@@ -91,6 +91,9 @@ export default function Footer() {
           <a href="https://tooldirs.com" target="_blank" rel="noopener noreferrer" className="footer-badge">
             <img src="https://tooldirs.com/badge/badge_dark.svg" alt="Featured on ToolDirs" width="200" height="54" />
           </a>
+          <a href="https://aidirs.best/item/heic-to-pdf" target="_blank" rel="noopener" className="footer-badge">
+            <img src="https://aidirs.best/light.svg" alt="HEIC to PDF - Browser-Based HEIC to PDF Conversion | Aidirs" width="200" height="56" />
+          </a>
         </div>
       </div>
     </footer>
