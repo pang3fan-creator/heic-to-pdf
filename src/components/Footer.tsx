@@ -94,6 +94,9 @@ export default function Footer() {
           <a href="https://aidirs.best/item/heic-to-pdf" target="_blank" rel="noopener" className="footer-badge">
             <img src="https://aidirs.best/light.svg" alt="HEIC to PDF - Browser-Based HEIC to PDF Conversion | Aidirs" width="200" height="56" />
           </a>
+          <a href="https://uno.directory" target="_blank" rel="noopener nofollow" className="footer-badge">
+            <img src="https://uno.directory/uno-directory.svg" alt="Listed on Uno Directory" width="120" height="30" />
+          </a>
         </div>
       </div>
     </footer>
