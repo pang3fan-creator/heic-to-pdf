@@ -7,17 +7,22 @@
 
 ## 内容定位
 
-这篇文章定位为"**在 iPhone 上将 HEIC 转 PDF**"场景教程，不是通用的 HEIC to PDF 教程。
+这篇文章定位为"**在 iPhone 上将 HEIC 转 PDF**"平台场景页，不是通用的 HEIC to PDF 教程。
 
 | 做 | 不做 |
 |---|------|
 | 讲 iPhone 上 HEIC 转 PDF 的几种方法 | 写通用的 HEIC 转 PDF 步骤 |
-| 强调 iOS 生态的特殊性（Files App、快捷指令） | 和首页 GuideSection 重复 |
-| 对比各方案的优缺点 | 推荐 App Store 第三方 App |
+| 强调 iOS 生态的特殊性（Files App、Shortcuts、Safari） | 和首页 GuideSection 重复 |
+| 对比 Files / Shortcuts / Safari 怎么选 | 推荐 App Store 第三方 App |
+| 短提多图合并场景 | 展开成多图合并详细教程 |
 
 **与首页分工：**
 - 首页 = HEIC 转 PDF 工具页（通用）
 - 本文 = iPhone 平台特定场景（信息页）
+
+**与 `/blog/combine-heic-to-pdf` 分工：**
+- combine 文章 = 多图合并为主轴
+- 本文 = Files / Shortcuts / Safari 方案对比为主轴，多图合并只短提
 
 ---
 
@@ -27,7 +32,7 @@
 |------|------|
 | **URL** | `/blog/heic-to-pdf-iphone` |
 | **H1** | How to Convert HEIC to PDF on iPhone |
-| **Meta title** | How to Convert HEIC to PDF on iPhone (2026 Guide) |
+| **Meta title** | Convert HEIC to PDF on iPhone (2026 Guide) |
 | **Meta description** | Learn how to convert HEIC photos to PDF on iPhone — using Files App, Shortcuts, or browser-based tools. No app install needed. |
 | **主关键词** | `heic to pdf iphone` |
 | **次关键词** | `convert heic to pdf on iphone`, `heic to pdf ios`, `turn heic into pdf iphone`, `iphone heic to pdf` |
@@ -43,7 +48,11 @@
 **要点：**
 - 用户痛点：iPhone 拍照默认 HEIC 格式，想转成 PDF 发邮件、提交文档、打印归档
 - 问题：iPhone 没有直接的"转 PDF"按钮，用户不知道怎么操作
-- 本文给出几种方法：Files App、快捷指令、浏览器工具
+- 本文给出几种方法：Files App、Shortcuts、Safari 浏览器工具
+
+**平台语义要求（必须自然出现）：**
+- `iPhone` / `iOS` / `Photos app` / `Files app` / `Safari`
+- 首句自然嵌入 `convert HEIC to PDF on iPhone`
 
 **关键词分布：**
 - 首句自然嵌入 `convert HEIC to PDF on iPhone`
@@ -56,12 +65,16 @@
 ### Section 2 — Option 1: Use Files App (系统自带)
 
 **要点（只写方法概览，不写编号步骤）：**
-- 如果照片已保存到 Files App，可以选中文件 → 创建 PDF
+- 如果照片已保存到 Files App，可以选中单张或多张 → 创建 PDF
 - 优点：无需安装任何 App，iOS 自带
 - 局限：
-  - 只能操作 Files 里的文件，不能直接从照片库选
-  - 一次只能处理单张，不适合批量
+  - 不能直接从 Photos library 选择，需要先保存到 Files
+  - 批量支持有限：排序、页面设置、边距、方向、质量控制不够灵活
   - HEIC 支持取决于 iOS 版本
+
+**多图合并提示：**
+- 如果需要把多张 HEIC 合并成一个 PDF，可以参考 [combine 文章]
+- 不要展开详细步骤，只短提一句
 
 **写法要求：** 2-3 句概览，重点解释"是否适合日常使用"，不教用户完成每个点击
 
@@ -92,7 +105,7 @@
 
 ---
 
-### Section 4 — Option 3: Browser-Based Tools (无需安装)
+### Section 4 — Option 3: Browser-Based Tools in Safari (无需安装)
 
 **要点：**
 - Safari 访问在线转换工具，无需安装任何 App
@@ -102,11 +115,15 @@
   - 隐私友好：选择本地处理的工具（如 HEICPDF.TO）
 - 局限：需要网络连接
 
+**多图合并提示：**
+- 如果需要把多张 HEIC 合并成一个 PDF，可以参考 [combine 文章]
+- 不要展开详细步骤，只短提一句
+
 **关键词分布：**
 - `convert heic to pdf online iphone`
 - `browser heic converter ios`
 
-**CTA：** 本节结尾 1 处，锚文本用自然短语，如 `convert HEIC to PDF in Safari`
+**CTA：** 本节结尾 1 处，锚文本用自然短语
 
 ---
 
@@ -114,9 +131,11 @@
 
 | 方案 | 需要安装 | 批量支持 | 隐私 | 学习成本 | 推荐度 |
 |------|:-------:|:-------:|:----:|:-------:|:-----:|
-| Files App | ❌ | ❌ 单张 | ✅ 本地 | 低 | ⭐⭐ |
+| Files App | ❌ | ⚠️ Limited | ✅ 本地 | 低 | ⭐⭐ |
 | Shortcuts | ❌ | ✅ | ✅ 本地 | 中-高 | ⭐⭐ |
 | 浏览器工具 | ❌ | ✅ | ⚠️ 看工具 | 低 | ⭐⭐⭐ |
+
+**Files App 批量支持说明：** 可以选中多张创建 PDF，但排序、页面设置、边距、方向、质量控制不够灵活
 
 ---
 
@@ -124,12 +143,14 @@
 
 | 位置 | 链接到 | 锚文本 |
 |------|-------|--------|
-| Section 4 | 首页 `/` | `convert HEIC to PDF in Safari` |
-| 全文不超过 2 次 | — | 第二个可选在 Section 1 或 2 |
+| Section 2 或 4 | `/blog/combine-heic-to-pdf` | `combine multiple HEIC photos into one PDF` |
+| Section 4 | 首页 `/` | `convert HEIC to PDF in Safari` 或 `use a browser-based iPhone workflow` |
 
 **写法要求：**
 - 英文正文可以自然提到 `HEICPDF.TO`，但不要写成硬广
-- 不使用 `HEIC to PDF`、`convert HEIC to PDF` 这类首页核心词作为反复锚文本
+- 首页内链锚文本不要使用泛泛的 `HEIC to PDF` 或 `convert HEIC to PDF`
+- 不使用首页核心词作为反复锚文本
+- combine 文章内链只放 1 次
 
 ---
 
@@ -171,10 +192,11 @@ Future candidate（待发布后加入 related）：
    - `turn HEIC photos into PDF on iOS`
    - `make PDF from HEIC on iPhone`
    - `HEIC to PDF conversion on iPhone`
-6. **全文 800-1200 词**
-   - 800 词是最低建议，适合保持简洁
-   - 1000-1200 词更理想，可以给每个方案留出足够解释空间
-   - 不建议低于 800 词，否则内容过于单薄
+6. **字数建议：**
+   - 推荐全文：1200-1600 英文词
+   - 建议目标：约 1400 英文词
+   - 最低不要低于 1000 英文词
+   - 不建议超过 1800 词，避免和 combine 文章重叠、内容发散
 7. **不用 HowTo Schema**，用 BlogPosting
 
 ---
@@ -182,9 +204,26 @@ Future candidate（待发布后加入 related）：
 ## 法语版本
 
 - URL: 与英文共用 slug `/blog/heic-to-pdf-iphone`（项目路由策略：英法共用 slug，通过 locale 区分）
-- H1: Comment convertir HEIC en PDF sur iPhone
-- 关键词: `convertir heic en pdf iphone`, `heic en pdf ios`, `transformer heic en pdf iphone`
-- 正文建议混用 `convertir` 和 `transformer`，避免重复
+- H1: `Comment convertir des photos HEIC en PDF sur iPhone`
+- 主关键词: `convertir HEIC en PDF sur iPhone`
+- 次关键词:
+  - `HEIC en PDF iPhone`
+  - `convertir une photo HEIC en PDF sur iPhone`
+  - `transformer des photos HEIC en PDF sur iPhone`
+  - `HEIC en PDF sur iOS`
+  - `fichier HEIC en PDF sur iPhone`
+
+**正文写法建议：**
+- 混用 `convertir`, `transformer`, `créer un PDF à partir de photos HEIC`
+- 不要把 `convertir heic en pdf iphone` 这种搜索词原样写进正文句子
+- 使用 `HEIC en PDF`，不要主推 `HEIC vers PDF`
+
+**术语翻译：**
+- Files App → `l'app Fichiers` 或 `l'application Fichiers`
+- Shortcuts → `l'app Raccourcis`
+- browser-based tool → `un outil dans le navigateur` / `un outil en ligne dans Safari`
+- no app install needed → `sans installer d'application`
+- local processing → `traitement local dans le navigateur`
 
 ---
 
@@ -193,7 +232,7 @@ Future candidate（待发布后加入 related）：
 **建议 FAQ 内容：**
 - Can I convert HEIC to PDF without an app on iPhone?
 - Does iPhone have a built-in HEIC to PDF converter?
-- How do I convert multiple HEIC photos to one PDF on iPhone?
+- How do I convert multiple HEIC photos to one PDF on iPhone?（只短答，指向 combine 文章）
 - Why are my iPhone photos in HEIC format?
 
 ---
@@ -202,11 +241,46 @@ Future candidate（待发布后加入 related）：
 
 交给 OpenCode 落地时，同步处理：
 
-- `messages/en.json` / `messages/fr.json` 新增文章内容与 SEO metadata
-- `/blog` index posts 增加这篇文章，sidebar topics/counts 同步更新
-- 新文章 sidebar mostRead 至少包含已发布的 `HEIC vs JPEG` 和 `Combine HEIC to PDF`
-- `/blog/heic-vs-jpeg` 和 `/blog/combine-heic-to-pdf` 的 related 可反链到新文章
-- `src/app/sitemap.ts` 新增 `/blog/heic-to-pdf-iphone`，并包含 en/fr alternates
-- `src/app/llms.txt/route.ts` Useful Links 新增这篇文章
-- 生成文章 cover 图和专属 OG 图；BlogPosting.image 使用 1200x630 OG 图
-- 文章使用 `BlogPosting` schema，不使用 `HowTo` schema
+### 文件创建
+- [ ] 新建 `src/app/[locale]/blog/heic-to-pdf-iphone/page.tsx`
+- [ ] 新建 `src/app/[locale]/blog/heic-to-pdf-iphone/page.test.tsx`
+
+### 类型扩展
+- [ ] 扩展 `src/components/blog/createBlogArticlePage.tsx` 中的 namespace/path 类型：
+  - `blog.heicToPdfIphone`
+  - `/blog/heic-to-pdf-iphone`
+
+### 国际化文件
+- [ ] `messages/en.json` 新增 `blog.heicToPdfIphone` 命名空间（SEO title ≤46 chars + brand = ≤60，description ~155 chars）
+- [ ] `messages/fr.json` 新增 `blog.heicToPdfIphone` 命名空间（完整翻译）
+- [ ] `messages/en.json` + `fr.json` 更新 `blog.index.posts` 和 `sidebar.mostRead`
+
+### 博客列表
+- [ ] `/blog` index posts 增加这篇文章
+- [ ] blog index 的 tests 同步更新
+
+### Related 反链
+- [ ] `/blog/heic-vs-jpeg` 的 related 增加新文章
+- [ ] `/blog/combine-heic-to-pdf` 的 related 增加新文章
+
+### SEO 配置
+- [ ] `src/app/sitemap.ts` 新增 `/blog/heic-to-pdf-iphone`，包含 en/fr alternates，设置 `lastMod`
+- [ ] `src/app/llms.txt/route.ts` Useful Links 新增这篇文章
+
+### 图片生成
+- [ ] 生成文章 cover 图
+- [ ] 生成 1200x630 OG 图
+- [ ] BlogPosting schema image 使用 1200x630 OG 图
+
+### Schema
+- [ ] 文章使用 `BlogPosting` schema，不使用 `HowTo` schema
+
+### 测试验证
+- [ ] 测试 metadata（title、description、OG、twitter）
+- [ ] 测试 canonical URL
+- [ ] 测试 hreflang（en、fr、x-default）
+- [ ] 测试 JSON-LD（BlogPosting schema）
+- [ ] 测试法语链接本地化（`buildUrl(locale, "/path")`）
+
+### 侧边栏
+- [ ] 新文章 sidebar mostRead 至少包含已发布的 `HEIC vs JPEG` 和 `Combine HEIC to PDF`
