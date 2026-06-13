@@ -52,6 +52,7 @@
       "subtitle": "or click the button below to browse",
       "hint": "Batch upload supported · Up to 20 images · 50MB max per file",
       "browseBtn": "SELECT HEIC FILE(S)",
+      "openSourceMenu": "Choose where to select HEIC files from",
       "fromDevice": "Device",
       "fromDropbox": "Dropbox",
       "fromGoogleDrive": "Google Drive",
@@ -62,6 +63,7 @@
   "editor": {
     "back": "Back",
     "addPhotos": "Add photos",
+    "openAddSourceMenu": "Choose where to add photos from",
     "fromDevice": "Device",
     "fromDropbox": "Dropbox",
     "fromGoogleDrive": "Google Drive",
@@ -114,6 +116,7 @@
     "complete": {
       "title": "Conversion Complete!",
       "download": "Download",
+      "openDownloadMenu": "Choose where to save the converted file",
       "toDevice": "Device",
       "toDropbox": "Dropbox",
       "toGoogleDrive": "Google Drive",

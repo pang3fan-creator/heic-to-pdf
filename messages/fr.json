@@ -228,6 +228,7 @@
       "subtitle": "ou cliquez sur le bouton ci-dessous pour parcourir vos fichiers",
       "hint": "Conversion HEIC en PDF par lot · Jusqu'à 20 images · 50 Mo max par fichier",
       "browseBtn": "SÉLECTIONNER DES FICHIERS HEIC",
+      "openSourceMenu": "Choisir d'où sélectionner les fichiers HEIC",
       "fromDevice": "Appareil",
       "fromDropbox": "Dropbox",
       "fromGoogleDrive": "Google Drive",
@@ -238,6 +239,7 @@
   "editor": {
     "back": "Retour",
     "addPhotos": "Ajouter des photos",
+    "openAddSourceMenu": "Choisir d'où ajouter des photos",
     "fromDevice": "Appareil",
     "fromDropbox": "Dropbox",
     "fromGoogleDrive": "Google Drive",
@@ -290,6 +292,7 @@
     "complete": {
       "title": "Conversion terminée !",
       "download": "Télécharger",
+      "openDownloadMenu": "Choisir où enregistrer le fichier converti",
       "toDevice": "Appareil",
       "toDropbox": "Dropbox",
       "toGoogleDrive": "Google Drive",

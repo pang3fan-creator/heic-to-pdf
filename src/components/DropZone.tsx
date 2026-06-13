@@ -9,6 +9,7 @@ import { HiOutlineComputerDesktop } from "react-icons/hi2";
 import { saveToDropbox } from "@/lib/dropbox-utils";
 import { saveToGoogleDrive } from "@/lib/cloud/google-drive/utils";
 import type { ConversionFile } from "@/lib/conversion-types";
+import SplitButton from "./SplitButton";
 
 interface Props {
   onFilesSelected: (files: FileList | File[]) => void;
@@ -37,28 +38,8 @@ export default function DropZone({
 }: Props) {
   const t = useTranslations("hero.dropzone");
   const inputRef = useRef<HTMLInputElement>(null);
-  const [browseHover, setBrowseHover] = useState(false);
-  const browseRef = useRef<HTMLDivElement>(null);
-  const browseCloseTimer = useRef<number | undefined>(undefined);
-  const browseOpen = browseHover;
-
-  const scheduleBrowseClose = () => {
-    if (browseCloseTimer.current !== undefined) clearTimeout(browseCloseTimer.current);
-    browseCloseTimer.current = window.setTimeout(() => {
-      setBrowseHover(false);
-    }, 150);
-  };
-
-  const cancelBrowseClose = () => {
-    if (browseCloseTimer.current !== undefined) {
-      clearTimeout(browseCloseTimer.current);
-      browseCloseTimer.current = undefined;
-    }
-  };
 
   const handleFromDropbox = useCallback(async () => {
-    cancelBrowseClose();
-    setBrowseHover(false);
     try {
       const { pickFromDropbox } = await import("@/lib/dropbox-utils");
       const files = await pickFromDropbox();
@@ -71,8 +52,6 @@ export default function DropZone({
   }, [onFilesSelected]);
 
   const handleFromGoogleDrive = useCallback(async () => {
-    cancelBrowseClose();
-    setBrowseHover(false);
     try {
       const { pickFromGoogleDrive } = await import("@/lib/cloud/google-drive/utils");
       const files = await pickFromGoogleDrive();
@@ -96,25 +75,6 @@ export default function DropZone({
   const tConverter = useTranslations("converter");
 
   // ── Complete state ──
-  const [downloadHover, setDownloadHover] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const downloadCloseTimer = useRef<number | undefined>(undefined);
-  const downloadOpen = downloadHover;
-
-  const scheduleDownloadClose = () => {
-    if (downloadCloseTimer.current !== undefined) clearTimeout(downloadCloseTimer.current);
-    downloadCloseTimer.current = window.setTimeout(() => {
-      setDownloadHover(false);
-    }, 150);
-  };
-
-  const cancelDownloadClose = () => {
-    if (downloadCloseTimer.current !== undefined) {
-      clearTimeout(downloadCloseTimer.current);
-      downloadCloseTimer.current = undefined;
-    }
-  };
-
   type CloudStatus = {
     provider: "dropbox" | "google-drive" | null;
     status: "idle" | "authorizing" | "uploading" | "success" | "error";
@@ -128,8 +88,6 @@ export default function DropZone({
 
   const handleDownloadToDevice = useCallback(() => {
     if (!blob) return;
-    cancelDownloadClose();
-    setDownloadHover(false);
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -138,13 +96,10 @@ export default function DropZone({
     a.click();
     document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    setDownloadHover(false);
   }, [blob, completeFilename]);
 
   const handleSaveToDropbox = useCallback(async () => {
     if (!blob) return;
-    cancelDownloadClose();
-    setDownloadHover(false);
     setCloudStatus({ provider: "dropbox", status: "authorizing" });
     const ok = await saveToDropbox(blob, completeFilename);
     setCloudStatus({ provider: "dropbox", status: ok ? "success" : "error" });
@@ -153,8 +108,6 @@ export default function DropZone({
 
   const handleSaveToGoogleDrive = useCallback(async () => {
     if (!blob) return;
-    cancelDownloadClose();
-    setDownloadHover(false);
     setCloudStatus({ provider: "google-drive", status: "authorizing" });
     const ok = await saveToGoogleDrive(blob, completeFilename);
     setCloudStatus({ provider: "google-drive", status: ok ? "success" : "error" });
@@ -252,38 +205,31 @@ export default function DropZone({
 
           {/* Actions */}
           <div className="complete-actions">
-            <div
-              className="split-btn-wrap"
-              ref={dropdownRef}
-              onMouseEnter={() => { cancelDownloadClose(); setDownloadHover(true); }}
-              onMouseLeave={scheduleDownloadClose}
-            >
-              <button
-                className="split-btn-main"
-                onClick={handleDownloadToDevice}
-                type="button"
-              >
-                {tComplete("download")}
-              </button>
-              {downloadOpen && (
-                <div className="split-btn-dropdown">
-                  <button onClick={handleDownloadToDevice} type="button">
-                    <HiOutlineComputerDesktop size={28} aria-hidden="true" />
-                    {tComplete("toDevice")}
-                  </button>
-                  <hr aria-hidden="true" />
-                  <button onClick={handleSaveToDropbox} type="button">
-                    <FaDropbox size={28} aria-hidden="true" />
-                    {tComplete("toDropbox")}
-                  </button>
-                  <hr aria-hidden="true" />
-                  <button onClick={handleSaveToGoogleDrive} type="button">
-                    <SiGoogledrive size={28} aria-hidden="true" />
-                    {tComplete("toGoogleDrive")}
-                  </button>
-                </div>
-              )}
-            </div>
+            <SplitButton
+              label={tComplete("download")}
+              menuLabel={tComplete("openDownloadMenu")}
+              onMainClick={handleDownloadToDevice}
+              items={[
+                {
+                  key: "device",
+                  label: tComplete("toDevice"),
+                  icon: <HiOutlineComputerDesktop size={28} aria-hidden="true" />,
+                  onSelect: handleDownloadToDevice,
+                },
+                {
+                  key: "dropbox",
+                  label: tComplete("toDropbox"),
+                  icon: <FaDropbox size={28} aria-hidden="true" />,
+                  onSelect: handleSaveToDropbox,
+                },
+                {
+                  key: "google-drive",
+                  label: tComplete("toGoogleDrive"),
+                  icon: <SiGoogledrive size={28} aria-hidden="true" />,
+                  onSelect: handleSaveToGoogleDrive,
+                },
+              ]}
+            />
 
             {onReset && (
               <button className="complete-start-over" onClick={onReset} type="button">
@@ -387,38 +333,37 @@ export default function DropZone({
           <h2>{t("title")}</h2>
           <p>{t("subtitle")}</p>
           <div style={{ textAlign: "center" }}>
-          <div
-            className="split-btn-wrap"
-            ref={browseRef}
-            onMouseEnter={() => { cancelBrowseClose(); setBrowseHover(true); }}
-            onMouseLeave={scheduleBrowseClose}
-          >
-            <button className="split-btn-main" onClick={onBrowse} type="button">
+          <SplitButton
+            label={t("browseBtn")}
+            menuLabel={t("openSourceMenu")}
+            onMainClick={onBrowse}
+            icon={(
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" aria-hidden="true">
-                <line x1="12" y1="5" x2="12" y2="19"/>
-                <line x1="5" y1="12" x2="19" y2="12"/>
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
               </svg>
-              {t("browseBtn")}
-            </button>
-            {browseOpen && (
-              <div className="split-btn-dropdown">
-                <button onClick={() => { setBrowseHover(false); onBrowse(); }} type="button">
-                  <HiOutlineComputerDesktop size={28} aria-hidden="true" />
-                  {t("fromDevice")}
-                </button>
-                <hr aria-hidden="true" />
-                <button onClick={handleFromDropbox} type="button">
-                  <FaDropbox size={28} aria-hidden="true" />
-                  {t("fromDropbox")}
-                </button>
-                <hr aria-hidden="true" />
-                <button onClick={handleFromGoogleDrive} type="button">
-                  <SiGoogledrive size={28} aria-hidden="true" />
-                  {t("fromGoogleDrive")}
-                </button>
-              </div>
             )}
-          </div>
+            items={[
+              {
+                key: "device",
+                label: t("fromDevice"),
+                icon: <HiOutlineComputerDesktop size={28} aria-hidden="true" />,
+                onSelect: onBrowse,
+              },
+              {
+                key: "dropbox",
+                label: t("fromDropbox"),
+                icon: <FaDropbox size={28} aria-hidden="true" />,
+                onSelect: handleFromDropbox,
+              },
+              {
+                key: "google-drive",
+                label: t("fromGoogleDrive"),
+                icon: <SiGoogledrive size={28} aria-hidden="true" />,
+                onSelect: handleFromGoogleDrive,
+              },
+            ]}
+          />
           <div className="hint">{t("hint")}</div>
           </div>
         </>

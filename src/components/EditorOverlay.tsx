@@ -15,6 +15,7 @@ import PreviewModal from "./PreviewModal";
 import { FaDropbox } from "react-icons/fa";
 import { SiGoogledrive } from "react-icons/si";
 import { HiOutlineComputerDesktop } from "react-icons/hi2";
+import SplitButton from "./SplitButton";
 
 interface Props {
   files: ConversionFile[];
@@ -459,28 +460,7 @@ export default function EditorOverlay({
     [onAddFiles],
   );
 
-  const [addHover, setAddHover] = useState(false);
-  const addRef = useRef<HTMLDivElement>(null);
-  const addCloseTimer = useRef<number | undefined>(undefined);
-  const addOpen = addHover;
-
-  const scheduleAddClose = () => {
-    if (addCloseTimer.current !== undefined) clearTimeout(addCloseTimer.current);
-    addCloseTimer.current = window.setTimeout(() => {
-      setAddHover(false);
-    }, 150);
-  };
-
-  const cancelAddClose = () => {
-    if (addCloseTimer.current !== undefined) {
-      clearTimeout(addCloseTimer.current);
-      addCloseTimer.current = undefined;
-    }
-  };
-
   const handleAddFromDropbox = useCallback(async () => {
-    cancelAddClose();
-    setAddHover(false);
     setPickerOpen(true);
     try {
       const { pickFromDropbox } = await import("@/lib/dropbox-utils");
@@ -496,8 +476,6 @@ export default function EditorOverlay({
   }, [onAddFiles]);
 
   const handleAddFromGoogleDrive = useCallback(async () => {
-    cancelAddClose();
-    setAddHover(false);
     setPickerOpen(true);
     try {
       const { pickFromGoogleDrive } = await import("@/lib/cloud/google-drive/utils");
@@ -574,38 +552,38 @@ export default function EditorOverlay({
           </button>
         </div>
         <div className="editor-header-right">
-          <div
-            className="split-btn-wrap"
-            ref={addRef}
-            onMouseEnter={() => { cancelAddClose(); setAddHover(true); }}
-            onMouseLeave={scheduleAddClose}
-          >
-            <button className="editor-add-btn split-btn-editor" onClick={handleAddClick} type="button">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+          <SplitButton
+            label={t("addPhotos")}
+            menuLabel={t("openAddSourceMenu")}
+            variant="editor"
+            onMainClick={handleAddClick}
+            icon={(
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
                 <path d="M12 5v14" />
                 <path d="M5 12h14" />
               </svg>
-              {t("addPhotos")}
-            </button>
-            {addOpen && (
-              <div className="split-btn-dropdown">
-                <button onClick={() => { setAddHover(false); handleAddClick(); }} type="button">
-                  <HiOutlineComputerDesktop size={28} aria-hidden="true" />
-                  {t("fromDevice")}
-                </button>
-                <hr aria-hidden="true" />
-                <button onClick={handleAddFromDropbox} type="button">
-                  <FaDropbox size={28} aria-hidden="true" />
-                  {t("fromDropbox")}
-                </button>
-                <hr aria-hidden="true" />
-                <button onClick={handleAddFromGoogleDrive} type="button">
-                  <SiGoogledrive size={28} aria-hidden="true" />
-                  {t("fromGoogleDrive")}
-                </button>
-              </div>
             )}
-          </div>
+            items={[
+              {
+                key: "device",
+                label: t("fromDevice"),
+                icon: <HiOutlineComputerDesktop size={28} aria-hidden="true" />,
+                onSelect: handleAddClick,
+              },
+              {
+                key: "dropbox",
+                label: t("fromDropbox"),
+                icon: <FaDropbox size={28} aria-hidden="true" />,
+                onSelect: handleAddFromDropbox,
+              },
+              {
+                key: "google-drive",
+                label: t("fromGoogleDrive"),
+                icon: <SiGoogledrive size={28} aria-hidden="true" />,
+                onSelect: handleAddFromGoogleDrive,
+              },
+            ]}
+          />
           <button className="editor-convert-btn" onClick={handleConvert} type="button">
             {t("convertBtn")}
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
