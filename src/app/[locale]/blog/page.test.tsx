@@ -190,11 +190,14 @@ describe("Blog index page", () => {
 
     expect(collectionPage.name).toBe("Image Format Guides & Insights");
     expect(collectionPage.inLanguage).toBe("en");
-    expect(collectionPage.hasPart).toHaveLength(2);
+    expect(collectionPage.hasPart).toHaveLength(3);
     expect(collectionPage.hasPart[0].image.url).toBe(
-      "https://heicpdf.to/images/blog/heic-vs-jpeg-cover.png",
+      "https://heicpdf.to/images/blog/heic-to-pdf-iphone-cover.png",
     );
     expect(collectionPage.hasPart[1].image.url).toBe(
+      "https://heicpdf.to/images/blog/heic-vs-jpeg-cover.png",
+    );
+    expect(collectionPage.hasPart[2].image.url).toBe(
       "https://heicpdf.to/images/blog/combine-heic-to-pdf-cover.png",
     );
 

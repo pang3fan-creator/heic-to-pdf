@@ -47,7 +47,7 @@
 
 **要点：**
 - 用户痛点：iPhone 拍照默认 HEIC 格式，想转成 PDF 发邮件、提交文档、打印归档
-- 问题：iPhone 没有直接的"转 PDF"按钮，用户不知道怎么操作
+- 问题：Photos app 里没有明显的一键 HEIC-to-PDF 转换入口，系统能力分散在 Files、Share、Print、Shortcuts 等流程里
 - 本文给出几种方法：Files App、Shortcuts、Safari 浏览器工具
 
 **平台语义要求（必须自然出现）：**
@@ -70,7 +70,7 @@
 - 局限：
   - 不能直接从 Photos library 选择，需要先保存到 Files
   - 批量支持有限：排序、页面设置、边距、方向、质量控制不够灵活
-  - HEIC 支持取决于 iOS 版本
+  - 极旧 iOS 版本或受管理设备的文件操作表现可能不同
 
 **多图合并提示：**
 - 如果需要把多张 HEIC 合并成一个 PDF，可以参考 [combine 文章]
@@ -108,7 +108,7 @@
 ### Section 4 — Option 3: Browser-Based Tools in Safari (无需安装)
 
 **要点：**
-- Safari 访问在线转换工具，无需安装任何 App
+- Safari 访问 browser-based local converter，无需安装任何 App
 - 优点：
   - 跨平台，任何设备都能用
   - 支持多张照片，可合并为一个 PDF

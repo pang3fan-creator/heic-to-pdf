@@ -29,6 +29,8 @@ export type BlogArticleData = {
     ctaHeading: string;
     ctaText: string;
     ctaLabel: string;
+    topicsHeading: string;
+    topics: string[];
   };
   relatedHeading: string;
   readingProgressLabel: string;

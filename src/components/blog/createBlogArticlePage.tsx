@@ -12,20 +12,20 @@ const WORDS_PER_MINUTE = 200;
 const SITE_URL = "https://heicpdf.to";
 
 type BlogArticlePageConfig = {
-  namespace: "blog.heicVsJpeg" | "blog.combineHeicToPdf";
-  blogPath: "/blog/heic-vs-jpeg" | "/blog/combine-heic-to-pdf";
+  namespace: "blog.heicVsJpeg" | "blog.combineHeicToPdf" | "blog.heicToPdfIphone";
+  blogPath: "/blog/heic-vs-jpeg" | "/blog/combine-heic-to-pdf" | "/blog/heic-to-pdf-iphone";
   ogImageUrl: string;
   ogImageWidth: 1200;
   ogImageHeight: 630;
 };
 
-function calculateReadingTime(sections: Array<{ body: string }>, format: string): string {
+function calculateReadingTime(sections: Array<{ body: string }>, format: string): { readingTime: string; wordCount: number } {
   const text = sections
     .map((s) => s.body.replace(/<[^>]*>/g, "").replace(/\s+/g, " "))
     .join(" ");
   const words = text.trim().split(/\s+/).length;
   const minutes = Math.max(1, Math.ceil(words / WORDS_PER_MINUTE));
-  return format.replace("{minutes}", String(minutes));
+  return { readingTime: format.replace("{minutes}", String(minutes)), wordCount: words };
 }
 
 function getLocalizedPath(locale: string, path: string) {
@@ -91,8 +91,8 @@ export function createBlogArticlePage(config: BlogArticlePageConfig) {
     const articleHref = getLocalizedPath(locale, config.blogPath);
     const combineHeicToPdfHref = getLocalizedPath(locale, "/blog/combine-heic-to-pdf");
     const readingTimeFormat = t.raw("readingTimeFormat") as string;
-    const readingTime = calculateReadingTime(rawArticle.sections, readingTimeFormat);
-    const article = {
+    const { readingTime, wordCount } = calculateReadingTime(rawArticle.sections, readingTimeFormat);
+    const article: BlogArticleData = {
       ...rawArticle,
       publishedAtIso: t("publishedAtIso"),
       readingTime,
@@ -113,6 +113,32 @@ export function createBlogArticlePage(config: BlogArticlePageConfig) {
       })),
     };
     const articleUrl = getArticleUrl(locale, config.blogPath);
+
+    const faqSection = rawArticle.sections.find((s) => s.id === "faq");
+    const faqItems: Array<{
+      "@type": string;
+      name: string;
+      acceptedAnswer: { "@type": string; text: string };
+    }> = [];
+
+    if (faqSection) {
+      const faqBody = faqSection.body
+        .replace(/\{converterHref\}/g, converterHref)
+        .replace(/\{combineHeicToPdfHref\}/g, combineHeicToPdfHref);
+      const qaRegex = /<h3>(.*?)<\/h3>\s*<p>(.*?)<\/p>/g;
+      let match;
+      while ((match = qaRegex.exec(faqBody)) !== null) {
+        faqItems.push({
+          "@type": "Question",
+          name: match[1].replace(/<[^>]*>/g, "").trim(),
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: match[2].replace(/<[^>]*>/g, "").trim(),
+          },
+        });
+      }
+    }
+
     const structuredData = {
       "@context": "https://schema.org",
       "@graph": [
@@ -150,7 +176,22 @@ export function createBlogArticlePage(config: BlogArticlePageConfig) {
             "@id": articleUrl,
           },
           inLanguage: t("language"),
+          wordCount,
+          about: rawArticle.sidebar.topics.map((topic) => ({
+            "@type": "Thing",
+            name: topic,
+          })),
         },
+        ...(faqItems.length > 0
+          ? [
+              {
+                "@type": "FAQPage",
+                "@id": `${articleUrl}#faq`,
+                inLanguage: t("language"),
+                mainEntity: faqItems,
+              },
+            ]
+          : []),
         {
           "@type": "BreadcrumbList",
           "@id": `${articleUrl}#breadcrumb`,

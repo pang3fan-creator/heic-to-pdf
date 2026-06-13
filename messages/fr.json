@@ -495,6 +495,26 @@
       ],
       "posts": [
         {
+          "eyebrow": "Guide iOS",
+          "title": "Comment convertir des photos HEIC en PDF sur iPhone",
+          "excerpt": "Découvrez trois façons de convertir des photos HEIC en PDF sur votre iPhone : app Fichiers, Raccourcis ou un outil dans le navigateur avec traitement local.",
+          "date": "13 juin 2026",
+          "publishedAtIso": "2026-06-13T00:00:00+00:00",
+          "readTime": "7 min de lecture",
+          "href": "/blog/heic-to-pdf-iphone",
+          "categorySlugs": [
+            "heic",
+            "pdf",
+            "ios"
+          ],
+          "image": {
+            "src": "/images/blog/heic-to-pdf-iphone-cover.png",
+            "alt": "Image de couverture pour convertir des photos HEIC en PDF sur iPhone",
+            "width": 1200,
+            "height": 675
+          }
+        },
+        {
           "eyebrow": "Comparatif de formats",
           "title": "HEIC vs JPEG : quel format d'image choisir en 2026 ?",
           "excerpt": "Comparez le poids, la qualité, la compatibilité et les fonctionnalités des formats HEIC et JPEG pour choisir celui qui correspond à vos besoins.",
@@ -544,6 +564,11 @@
         "ctaText": "Convertissez vos images HEIC en PDF instantanément avec un traitement local dans le navigateur.",
         "ctaLabel": "Essayer HEIC en PDF",
         "mostRead": [
+          {
+            "title": "Comment convertir des photos HEIC en PDF sur iPhone",
+            "meta": "7 min de lecture",
+            "href": "/blog/heic-to-pdf-iphone"
+          },
           {
             "title": "HEIC vs JPEG : quel format d'image choisir en 2026 ?",
             "meta": "8 min de lecture",
@@ -605,6 +630,19 @@
         },
         "relatedHeading": "Articles similaires",
         "related": [
+          {
+            "eyebrow": "Guide iOS",
+            "title": "Comment convertir des photos HEIC en PDF sur iPhone",
+            "excerpt": "Découvrez trois façons de convertir des photos HEIC en PDF sur votre iPhone — app Fichiers, Raccourcis ou un outil dans le navigateur — et choisissez la bonne méthode.",
+            "date": "13 juin 2026",
+            "href": "/blog/heic-to-pdf-iphone",
+            "image": {
+              "src": "/images/blog/heic-to-pdf-iphone-cover.png",
+              "alt": "Image de couverture pour convertir des photos HEIC en PDF sur iPhone",
+              "width": 1200,
+              "height": 675
+            }
+          },
           {
             "eyebrow": "Guide pratique",
             "title": "Fusionner des photos HEIC en un seul PDF",
@@ -735,6 +773,19 @@
         "relatedHeading": "Articles similaires",
         "related": [
           {
+            "eyebrow": "Guide iOS",
+            "title": "Comment convertir des photos HEIC en PDF sur iPhone",
+            "excerpt": "Découvrez trois façons de convertir des photos HEIC en PDF sur votre iPhone — app Fichiers, Raccourcis ou un outil dans le navigateur — et choisissez la bonne méthode.",
+            "date": "13 juin 2026",
+            "href": "/blog/heic-to-pdf-iphone",
+            "image": {
+              "src": "/images/blog/heic-to-pdf-iphone-cover.png",
+              "alt": "Image de couverture pour convertir des photos HEIC en PDF sur iPhone",
+              "width": 1200,
+              "height": 675
+            }
+          },
+          {
             "eyebrow": "Comparatif de formats",
             "title": "HEIC vs JPEG : quel format d'image choisir en 2026 ?",
             "excerpt": "Comparez les formats HEIC et JPEG sur le poids, la qualité, la compatibilité et les usages concrets.",
@@ -743,6 +794,114 @@
             "image": {
               "src": "/images/blog/heic-vs-jpeg-cover.png",
               "alt": "Image de couverture comparant les formats HEIC et JPEG",
+              "width": 1200,
+              "height": 675
+            }
+          }
+        ]
+      }
+    },
+    "heicToPdfIphone": {
+      "language": "fr",
+      "title": "Convertir des photos HEIC en PDF sur iPhone",
+      "description": "Convertissez des photos HEIC en PDF sur iPhone avec l'app Fichiers, Raccourcis ou Safari. Options intégrées, navigateur et traitement local.",
+      "publishedAtIso": "2026-06-13T00:00:00+00:00",
+      "modifiedAtIso": "2026-06-13T00:00:00+00:00",
+      "readingTimeFormat": "{minutes} min de lecture",
+      "author": {
+        "name": "Stefan"
+      },
+      "article": {
+        "eyebrow": "Guide iOS",
+        "title": "Comment convertir des photos HEIC en PDF sur iPhone",
+        "description": "Un guide pratique qui couvre l'app Fichiers, les automatisations Raccourcis et les outils dans le navigateur, avec une comparaison pour vous aider à choisir la bonne méthode.",
+        "publishedAtLabel": "13 juin 2026",
+        "backToTop": "Retour en haut",
+        "readingProgressLabel": "Progression de lecture",
+        "sidebarLabel": "Barre latérale",
+        "authorLabel": "Auteur",
+        "author": {
+          "name": "Stefan",
+          "role": "Ingénierie & Design",
+          "initials": "S",
+          "bio": "Ingénierie et design chez HEICPDF.TO. Développe des outils respectueux de la vie privée pour une conversion de fichiers rapide et sous le contrôle de l'utilisateur."
+        },
+        "sections": [
+          {
+            "id": "introduction",
+            "heading": "Pourquoi convertir des photos HEIC en PDF sur iPhone ?",
+            "body": "<p>Vous venez de prendre en photo un contrat signé avec votre iPhone. Vous avez numérisé trois tickets de caisse pour une note de frais. Vous devez envoyer un justificatif par e-mail ou le déposer sur un portail administratif. Dans tous ces cas, le format qu'on attend de vous, c'est le PDF — pas le HEIC que votre iPhone peut produire par défaut en mode Haute efficacité.</p><p>Le problème, c'est que l'app Photos ne propose pas de bouton visible pour transformer un HEIC en PDF sur iPhone. Les capacités existent, mais elles sont éparpillées entre l'app Fichiers, la feuille de partage, le menu Imprimer et l'app Raccourcis — et aucune n'est clairement identifiée comme une fonction de conversion HEIC en PDF. Il faut soit savoir où chercher, soit utiliser un outil conçu pour ça.</p><p>Cet article passe en revue les principales options pour créer un PDF à partir de photos HEIC sur iOS : utiliser l'app Fichiers, configurer une automatisation avec Raccourcis, ou ouvrir un convertisseur dans Safari. Chaque méthode a ses points forts, et le bon choix dépend de votre situation : une conversion ponctuelle ou des traitements réguliers.</p>"
+          },
+          {
+            "id": "files-app",
+            "heading": "Option 1 : utiliser l'app Fichiers (intégrée à iOS)",
+            "body": "<p>Si vos photos HEIC sont déjà enregistrées dans l'application Fichiers — par exemple après les avoir téléchargées depuis un service cloud ou transférées depuis une carte SD — iOS propose un moyen direct d'en faire un PDF. Sélectionnez une ou plusieurs images, appuyez sur l'icône de partage, puis choisissez <strong>Créer un PDF</strong>. Le système génère un seul document PDF à partir des photos sélectionnées, dans l'ordre où vous les avez choisies. Aucune application à installer, aucune étape supplémentaire — la fonction est intégrée à iOS, <a href=\"https://support.apple.com/guide/iphone/create-a-pdf-iph1f3a49e1a/ios\" target=\"_blank\" rel=\"noopener\">comme décrit dans le guide Fichiers d'Apple</a>.</p><p>Cette méthode convient pour un usage rapide et occasionnel, mais elle a des limites concrètes. Vous ne pouvez pas sélectionner les photos directement depuis la photothèque : elles doivent déjà se trouver dans l'app Fichiers. Si vos images sont uniquement dans Photos, vous devez d'abord les enregistrer dans Fichiers, ce qui ajoute une étape avant de pouvoir lancer la conversion. La fusion par lot existe — sélectionner plusieurs photos crée un seul PDF de plusieurs pages — mais vous ne trouverez aucun réglage pour le format de papier, les marges, l'orientation ou la qualité de sortie. L'ordre des pages est figé dans l'ordre de sélection, et réorganiser les pages après coup se limite à un glisser-déposer basique dans l'aperçu.</p><p>Sur les anciennes versions d'iOS ou les appareils gérés par une organisation, le comportement des opérations sur les fichiers peut varier, et l'option Créer un PDF peut ne pas apparaître dans tous les contextes. Pour quelqu'un qui a besoin, de temps en temps, de transformer une photo HEIC isolée en PDF et qui travaille déjà dans l'app Fichiers, cette méthode fait le travail. Pour aller au-delà — notamment si vous devez fusionner plusieurs photos en un seul document avec un vrai contrôle sur la mise en page — cela peut vite devenir frustrant. Si la fusion est votre objectif principal, vous pouvez <a href=\"{combineHeicToPdfHref}\">regrouper plusieurs photos HEIC dans un même PDF</a> avec un outil qui vous donne la main sur tous les paramètres de page.</p>"
+          },
+          {
+            "id": "shortcuts",
+            "heading": "Option 2 : utiliser l'app Raccourcis (automatisation iOS)",
+            "body": "<p>L'app Raccourcis d'iOS vous permet de construire une automatisation sur mesure qui sélectionne des photos depuis votre photothèque, les convertit et enregistre le résultat en PDF — le tout déclenché depuis la feuille de partage ou directement depuis l'app. Une fois configuré, le raccourci peut traiter plusieurs photos en un seul passage, ce qui en fait une option intéressante si vous devez régulièrement transformer des photos HEIC en PDF sur votre iPhone sans répéter les mêmes gestes à chaque fois.</p><p>Le compromis, c'est la mise en place. Raccourcis est un outil d'automatisation puissant, mais créer un flux de conversion HEIC en PDF de toutes pièces demande une bonne familiarité avec sa bibliothèque d'actions et son éditeur de logique. Il faut enchaîner les actions de sélection de photos, de conversion de format et d'enregistrement du fichier — puis tester que l'ensemble fonctionne de manière fiable avec différents nombres d'images et des tailles de fichiers variées. Un raccourci classique commence par sélectionner les photos, applique une action de création de PDF ou de conversion de fichier, puis enregistre ou partage le document obtenu. Pour qui n'a jamais utilisé Raccourcis auparavant, la courbe d'apprentissage peut être raide.</p><p>Cette approche est surtout adaptée aux utilisateurs qui utilisent déjà Raccourcis pour d'autres tâches, ou qui convertissent des photos HEIC en PDF assez fréquemment pour que l'automatisation représente un vrai gain de temps. Pour une conversion ponctuelle, l'effort de configuration peut dépasser le bénéfice. Si vous préférez une solution plus directe qui gère aussi bien les conversions individuelles que par lot sans configuration, un outil dans le navigateur est une alternative plus simple.</p>"
+          },
+          {
+            "id": "browser-tools",
+            "heading": "Option 3 : les outils dans Safari (sans installation)",
+            "body": "<p>La troisième option consiste à ouvrir Safari et à utiliser un outil de conversion qui fonctionne directement dans le navigateur, en traitant les fichiers localement sur votre iPhone. Ces outils n'ont besoin de rien d'autre que le navigateur : ouvrez une page, sélectionnez vos photos HEIC, réglez les paramètres et téléchargez le PDF. Aucune application à installer, aucun compte à créer et — quand l'outil utilise un traitement côté client — aucun fichier ne quitte votre appareil.</p><p>Les convertisseurs locaux dans le navigateur offrent l'ensemble de fonctionnalités le plus complet des trois approches. Vous pouvez sélectionner plusieurs photos HEIC d'un coup, les fusionner en un seul PDF de plusieurs pages et réorganiser l'ordre des pages en faisant glisser les vignettes. Les réglages de format de papier (A4 ou Lettre), de marges et d'orientation sont disponibles avant la conversion, et un curseur de qualité permet de trouver le bon équilibre entre poids du fichier et fidélité du rendu — assez léger pour un e-mail, ou en haute résolution pour l'archivage et l'impression. Tout le traitement s'exécute localement dans le navigateur via WebAssembly et JavaScript côté client : vos photos restent sur votre appareil pendant toute la conversion.</p><p>Voici comment les trois méthodes se comparent :</p><table class=\"blog-comparison-table\"><thead><tr><th>Méthode</th><th>Installation</th><th>Fusion par lot</th><th>Confidentialité</th><th>Effort de mise en place</th><th>Recommandé</th></tr></thead><tbody><tr><td>App Fichiers</td><td>Non</td><td>Limitée</td><td>Locale</td><td>Aucun</td><td>⭐⭐</td></tr><tr><td>Raccourcis</td><td>Non</td><td>Oui</td><td>Locale</td><td>Moyen à élevé</td><td>⭐⭐</td></tr><tr><td>Outil dans le navigateur</td><td>Non</td><td>Oui</td><td>Dépend de l'outil</td><td>Aucun</td><td>⭐⭐⭐</td></tr></tbody></table><p>La fusion par lot de l'app Fichiers permet de sélectionner plusieurs photos et de créer un seul PDF, mais le tri des pages, le format, les marges, l'orientation et les réglages de qualité ne sont pas accessibles — vous obtenez le résultat qu'iOS produit par défaut, sans pouvoir l'ajuster.</p><p>La principale limite des outils dans le navigateur, c'est qu'il faut une connexion internet pour charger la page au départ. Une fois la page chargée, la conversion elle-même s'exécute localement et ne nécessite plus de connexion. Pour la plupart des utilisateurs qui disposent d'un forfait data ou d'un accès Wi-Fi, c'est une contrainte mineure au regard de la flexibilité obtenue.</p><p>Quand vous êtes prêt à essayer l'approche navigateur, <a href=\"{converterHref}\">ouvrez le convertisseur dans Safari</a> — sélectionnez vos photos, ajustez les réglages et téléchargez votre PDF en quelques secondes.</p>"
+          },
+          {
+            "id": "faq",
+            "heading": "Questions fréquentes",
+            "body": "<h3>Peut-on convertir un HEIC en PDF sans installer d'application sur iPhone ?</h3><p>Oui. Vous pouvez utiliser l'app Fichiers (intégrée à iOS), créer une automatisation avec Raccourcis, ou ouvrir un outil de conversion dans Safari. Ces trois méthodes fonctionnent sans rien installer depuis l'App Store.</p><h3>L'iPhone a-t-il un convertisseur HEIC en PDF intégré ?</h3><p>Pas sous la forme d'une fonction unique et clairement identifiée, mais iOS intègre cette capacité via l'app Fichiers. Sélectionnez des photos HEIC dans Fichiers, appuyez sur l'icône de partage et choisissez Créer un PDF. Le menu Imprimer offre aussi un chemin détourné : ouvrez la photo dans Photos, appuyez sur Partager, choisissez Imprimer, puis écartez deux doigts sur l'aperçu pour l'ouvrir comme un PDF et l'enregistrer dans Fichiers. Ces chemins intégrés fonctionnent, même s'ils ne sont pas présentés comme des convertisseurs HEIC en PDF.</p><h3>Comment regrouper plusieurs photos HEIC dans un seul PDF sur iPhone ?</h3><p>Sélectionnez plusieurs photos HEIC dans l'app Fichiers et choisissez Créer un PDF pour les fusionner en un seul document. Pour plus de contrôle sur l'ordre des pages, le format de papier et les marges, un outil dans le navigateur vous offre une interface où vous pouvez réorganiser les pages par glisser-déposer avant d'exporter. Si votre besoin principal est de fusionner plusieurs photos HEIC en un seul fichier PDF, le <a href=\"{combineHeicToPdfHref}\">guide pour regrouper des photos HEIC dans un même PDF</a> détaille ce flux de travail.</p><h3>Pourquoi mes photos iPhone sont-elles au format HEIC ?</h3><p>Apple a introduit le HEIC comme <a href=\"https://support.apple.com/116944\" target=\"_blank\" rel=\"noopener\">format Haute efficacité par défaut sur les iPhone compatibles</a> à partir d'iOS 11. Le HEIC (High Efficiency Image Container) stocke les photos dans un fichier environ deux fois plus léger qu'un JPEG de qualité équivalente, tout en conservant un rendu visuel comparable, voire meilleur. Cela permet d'économiser de l'espace de stockage sur votre appareil et dans iCloud. Vous pouvez modifier ce réglage dans Réglages > Appareil photo > Formats et passer sur \"Le plus compatible\" si vous préférez le JPEG, mais chaque photo occupera alors davantage d'espace.</p>"
+          }
+        ],
+        "sidebar": {
+          "mostReadHeading": "Les plus lus",
+          "mostRead": [
+            {
+              "title": "HEIC vs JPEG : quel format d'image choisir en 2026 ?",
+              "meta": "8 min de lecture",
+              "href": "/blog/heic-vs-jpeg"
+            },
+            {
+              "title": "Fusionner des photos HEIC en un seul PDF",
+              "meta": "7 min de lecture",
+              "href": "/blog/combine-heic-to-pdf"
+            }
+          ],
+          "ctaHeading": "Besoin de convertir ?",
+          "ctaText": "Convertissez vos images HEIC en PDF instantanément avec un traitement local dans le navigateur.",
+          "ctaLabel": "Essayer HEIC en PDF",
+          "topicsHeading": "Sujets",
+          "topics": [
+            "HEIC",
+            "PDF",
+            "iPhone",
+            "iOS"
+          ]
+        },
+        "relatedHeading": "Articles similaires",
+        "related": [
+          {
+            "eyebrow": "Comparatif",
+            "title": "HEIC vs JPEG : quel format d'image choisir en 2026 ?",
+            "excerpt": "Comparez les formats HEIC et JPEG sur le poids, la qualité, la compatibilité et les usages concrets.",
+            "date": "26 mai 2026",
+            "href": "/blog/heic-vs-jpeg",
+            "image": {
+              "src": "/images/blog/heic-vs-jpeg-cover.png",
+              "alt": "Image de couverture comparant les formats HEIC et JPEG",
+              "width": 1200,
+              "height": 675
+            }
+          },
+          {
+            "eyebrow": "Guide pratique",
+            "title": "Fusionner des photos HEIC en un seul PDF",
+            "excerpt": "Apprenez à regrouper plusieurs photos HEIC dans un PDF organisé pour reçus, contrats et notes — avec une méthode entièrement locale dans le navigateur.",
+            "date": "4 juin 2026",
+            "href": "/blog/combine-heic-to-pdf",
+            "image": {
+              "src": "/images/blog/combine-heic-to-pdf-cover.png",
+              "alt": "Fusionner plusieurs photos HEIC en un seul PDF",
               "width": 1200,
               "height": 675
             }
