@@ -14,7 +14,7 @@ const BASE_URL = "https://heicpdf.to";
 const ALL_TOPIC_SLUG = "all";
 
 function getLocalizedPath(locale: string, path: string) {
-  return locale === routing.defaultLocale ? path : `/${locale}${path}`;
+  return locale === routing.defaultLocale ? path : `/${locale}${path === "/" ? "" : path}`;
 }
 
 function getBlogUrl(locale: string) {

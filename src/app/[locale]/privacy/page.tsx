@@ -32,8 +32,9 @@ export default function PrivacyPage() {
   const t = useTranslations("privacy");
   const tnav = useTranslations("nav");
   const sections = t.raw("sections") as Section[];
+  const homeHref = locale === "en" ? "/" : `/${locale}`;
   const breadcrumbItems = [
-    { label: tnav("breadcrumbHome"), href: "/" },
+    { label: tnav("breadcrumbHome"), href: homeHref },
     { label: t("pageTitle") },
   ];
   const { canonical } = buildAlternates(locale, "/privacy");

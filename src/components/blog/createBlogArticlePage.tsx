@@ -29,7 +29,7 @@ function calculateReadingTime(sections: Array<{ body: string }>, format: string)
 }
 
 function getLocalizedPath(locale: string, path: string) {
-  return locale === routing.defaultLocale ? path : `/${locale}${path}`;
+  return locale === routing.defaultLocale ? path : `/${locale}${path === "/" ? "" : path}`;
 }
 
 function getArticleUrl(locale: string, blogPath: string) {
