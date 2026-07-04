@@ -55,7 +55,7 @@ next-env.d.ts
 .ccb/
 
 /docs/
-/2-gitignore/
+/1-gitignore/
 
 opencode.json
 

@@ -38,6 +38,16 @@ const nextConfig: NextConfig = {
         destination: "/favicon-32x32.png",
         permanent: true,
       },
+      {
+        source: "/blog/how-to-convert-heic-to-pdf",
+        destination: "/blog",
+        permanent: true,
+      },
+      {
+        source: "/fr/blog/how-to-convert-heic-to-pdf",
+        destination: "/fr/blog",
+        permanent: true,
+      },
     ];
   },
   async headers() {

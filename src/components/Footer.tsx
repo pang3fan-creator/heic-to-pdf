@@ -68,34 +68,34 @@ export default function Footer() {
         </div>
         <div className="footer-badges">
           <a href="https://dang.ai/" target="_blank" rel="noopener noreferrer nofollow" className="footer-badge">
-            <img src="https://cdn.prod.website-files.com/63d8afd87da01fb58ea3fbcb/6487e2868c6c8f93b4828827_dang-badge.png" alt="Dang.ai" width="150" height="54" />
+            <img loading="lazy" src="https://cdn.prod.website-files.com/63d8afd87da01fb58ea3fbcb/6487e2868c6c8f93b4828827_dang-badge.png" alt="Dang.ai" width="150" height="54" />
           </a>
           <a href="https://submitaitools.org" target="_blank" rel="noopener noreferrer nofollow" className="footer-badge">
-            <img src="https://submitaitools.org/static_submitaitools/images/submitaitools.png" alt="Submit AI Tools" style={{ borderRadius: 10, width: 200, height: 60 }} />
+            <img loading="lazy" src="https://submitaitools.org/static_submitaitools/images/submitaitools.png" alt="Submit AI Tools" style={{ borderRadius: 10, width: 200, height: 60 }} />
           </a>
           <a href="https://aiagentsdirectory.com/agent/heicpdfto?utm_source=badge&utm_medium=referral&utm_campaign=free_listing&utm_content=heicpdfto" target="_blank" rel="noopener noreferrer nofollow" className="footer-badge">
-            <img src="https://aiagentsdirectory.com/featured-badge.svg?v=2024" alt="HEICPDF.TO - Featured AI Agent on AI Agents Directory" width="200" height="50" />
+            <img loading="lazy" src="https://aiagentsdirectory.com/featured-badge.svg?v=2024" alt="HEICPDF.TO - Featured AI Agent on AI Agents Directory" width="200" height="50" />
           </a>
           <a href="https://sellwithboost.com" target="_blank" rel="noopener noreferrer nofollow" className="footer-badge">
-            <img src="https://sellwithboost.com/badge/listing.svg" alt="Listed on Sell With Boost" style={{ height: 40, width: 'auto' }} />
+            <img loading="lazy" src="https://sellwithboost.com/badge/listing.svg" alt="Listed on Sell With Boost" style={{ height: 40, width: 'auto' }} />
           </a>
           <a href="https://www.toolpilot.ai" target="_blank" rel="noopener noreferrer nofollow" className="footer-badge">
-            <img src="https://www.toolpilot.ai/cdn/shop/files/f-w_690x151_crop_center.png" alt="ToolPilot.ai" style={{ height: 40, width: 'auto' }} />
+            <img loading="lazy" src="https://www.toolpilot.ai/cdn/shop/files/f-w_690x151_crop_center.png" alt="ToolPilot.ai" style={{ height: 40, width: 'auto' }} />
           </a>
           <a href="https://dofollow.tools" target="_blank" rel="noopener noreferrer nofollow" className="footer-badge">
-            <img src="https://dofollow.tools/badge/badge_dark.svg" alt="Featured on Dofollow.Tools" width="200" height="54" />
+            <img loading="lazy" src="https://dofollow.tools/badge/badge_dark.svg" alt="Featured on Dofollow.Tools" width="200" height="54" />
           </a>
           <a href="https://pitchwall.co/product/heicpdf?utm_source=badge" target="_blank" rel="noopener noreferrer nofollow" className="footer-badge" style={{ display: 'inline-flex' }}>
-            <img src="https://pitchwall.co/images/featured/pitchwall-dark.png" width="180" height="60" alt="Featured on PitchWall" />
+            <img loading="lazy" src="https://pitchwall.co/images/featured/pitchwall-dark.png" width="180" height="60" alt="Featured on PitchWall" />
           </a>
           <a href="https://tooldirs.com" target="_blank" rel="noopener noreferrer" className="footer-badge">
-            <img src="https://tooldirs.com/badge/badge_dark.svg" alt="Featured on ToolDirs" width="200" height="54" />
+            <img loading="lazy" src="https://tooldirs.com/badge/badge_dark.svg" alt="Featured on ToolDirs" width="200" height="54" />
           </a>
           <a href="https://aidirs.best/item/heic-to-pdf" target="_blank" rel="noopener" className="footer-badge">
-            <img src="https://aidirs.best/light.svg" alt="HEIC to PDF - Browser-Based HEIC to PDF Conversion | Aidirs" width="200" height="56" />
+            <img loading="lazy" src="https://aidirs.best/light.svg" alt="HEIC to PDF - Browser-Based HEIC to PDF Conversion | Aidirs" width="200" height="56" />
           </a>
           <a href="https://uno.directory" target="_blank" rel="noopener nofollow" className="footer-badge">
-            <img src="https://uno.directory/uno-directory.svg" alt="Listed on Uno Directory" width="120" height="30" />
+            <img loading="lazy" src="https://uno.directory/uno-directory.svg" alt="Listed on Uno Directory" width="120" height="30" />
           </a>
         </div>
       </div>
